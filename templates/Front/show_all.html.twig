@@ -1,0 +1,62 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="content-title">Toutes les annonces</h1>
+        <p class="filter-text">Filtres</p>
+        <div style="
+            width: 100%;
+            display: flex;
+            justify-content:left;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        ">
+            <div class="advert-card">
+                <div class="header">
+                    <span class="type">Echange</span>
+                    <div class="dates-wrap">
+                        <i class="fas fa-calendar"></i>
+                        <div class="dates">
+                            <p>Du 26 Decembre</p>
+                            <p>Au 05 Janvier</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="game">
+                        <span>Possède</span>
+                        <div class="game-wrap">
+                            <img src="{{ asset('build/images/items/spiderman.jpg') }}" alt="">
+                            <div class="infos">
+                                <p class="name">Spiderman</p>
+                                <p class="platform">PS4</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game">
+                        <span>Souhaite</span>
+                        <div class="game-wrap">
+                            <img src="{{ asset('build/images/items/rdr2.jpeg') }}" alt="">
+                            <div class="infos">
+                                <p class="name">Red Dead Redemption 2</p>
+                                <p class="platform">PS4</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer trade">
+                    <div class="profile">
+                        <img src="{{ asset('build/images/profile/pikachu.png') }}" alt="">
+                        <div class="infos">
+                            <p>Alex</p>
+                            <p>Pontault-Combault</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary">
+                        Faire une offre
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

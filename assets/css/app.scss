@@ -1,3 +1,167 @@
-body {
-    background-color: lightgray;
+@import "variables";
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
+body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    height: 70px;
+    img{
+        margin-left: 33px;
+        width: 178px;
+        height: 46px;
+        object-fit: cover;
+    }
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+    background-color: $main-bg;
+    padding-top: 20px;
+    padding-left: 96px;
+    padding-right: 96px;
+    min-height: 100vh;
+}
+
+.content-title{
+    font-size: 20px;
+    color: $dark-text;
+    margin: 0;
+    border-left: 3px solid $primary;
+    padding-left: 7px;
+}
+
+.filter-text{
+    font-size: 16px;
+    color: $medium-text;
+    font-weight: 700;
+}
+
+.adverts{
+    width: 100%;
+}
+.advert-card {
+    width: 399px;
+    height: 206px;
+    background: #fff;
+    border-radius: 4px;
+    margin: 5px auto 5px auto;
+    .header{
+        height: 41px;
+        color: $secondary;
+        font-weight: 700;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 15px 15px 0;
+
+        .type{
+            font-size: 18px;
+        }
+        .dates-wrap{
+            display: flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            .dates{
+                padding-left: 5px;
+            }
+        }
+    }
+    .content{
+        height: 109px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .game{
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: min-content;
+            span{
+                padding-bottom: 8px;
+                color: $light-text;
+                font-size: 12px;
+                font-weight: 600;
+            }
+            .game-wrap{
+                display: flex;
+                img {
+                    width: 50px;
+                    height: 60px;
+                    object-fit: scale-down;
+                }
+                .infos{
+                    font-weight: 700;
+                    font-size: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    padding-left: 7px;
+                    overflow-wrap: break-word;
+                }
+            }
+        }
+
+    }
+    .footer {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        height: 57px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .profile {
+            display: flex;
+            img{
+                margin-left: 8px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+            .infos {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                padding-left: 8px;
+                font-weight: 600;
+                font-size: 10px;
+                color: $secondary-dark;
+            }
+        }
+        .btn {
+            border-radius: 50px;
+            width: 95px;
+            height: 28px;
+            color: $secondary-light;
+            font-weight: 700;
+            font-size: 10px;
+            margin: 0 8px;
+            border: none;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+        }
+        .btn-secondary{
+            background-color: $secondary;
+        }
+    }
+    .trade {
+        background-color: $secondary-light;
+    }
+}
+
+
+
+
+
