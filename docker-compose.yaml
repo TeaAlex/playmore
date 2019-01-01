@@ -5,6 +5,10 @@ services:
         build: docker/php/
         volumes:
             - './:/usr/share/nginx/html'
+    composer:
+        image: 'composer:latest'
+        volumes:
+            - './:/app'
     db:
         expose: 
             - 3306
