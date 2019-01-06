@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,10 @@ class AdvertController extends AbstractController
      */
     public function showAll(Request $request): Response
     {
-        return $this->render('Front/show_all.html.twig', []);
+    	dump($request->request->all());
+    	$em = $this->getDoctrine()->getManager();
+    	$adverts = $em->getRepository(Advert::class)->findAll();
+        return $this->render('Front/adverts/show_all.html.twig', []);
     }
 
 }
