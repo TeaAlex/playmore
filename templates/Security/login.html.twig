@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey }}
+        </div>
+    {% endif %}
+
+
+    <div class="container">
+        <div class="col s6 offset-s3">
+            <form action="{{ path('app_security_login') }}" method="post">
+                <h4><i class="fa fa-lock" aria-hidden="true"></i>Connexion</h4>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}"/>
+                </div>
+                <div>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="_password" />
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+                <button type="submit" class="btn">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> Connexion
+                </button>
+                <br>
+                <div>
+                    <p >Vous n'avez pas de compte ?  <a href="{{ path('app_security_registration') }}">S'inscrire</a>
+                    </p>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
