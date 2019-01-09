@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block content %}
     {% if error %}
         <div class="alert alert-danger">
             {{ error.messageKey }}
@@ -8,30 +8,19 @@
     {% endif %}
 
 
-    <div class="container">
-        <div class="col s6 offset-s3">
-            <form action="{{ path('app_security_login') }}" method="post">
-                <h4><i class="fa fa-lock" aria-hidden="true"></i>Connexion</h4>
-                <div>
-                    <label for="email">Email</label>
-                    <input type="text" id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}"/>
-                </div>
-                <div>
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" name="_password" />
-                </div>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-                <button type="submit" class="btn">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i> Connexion
-                </button>
-                <br>
-                <div>
-                    <p >Vous n'avez pas de compte ?  <a href="{{ path('app_security_registration') }}">S'inscrire</a>
-                    </p>
-
-
-                </div>
-            </form>
+    <div class="left-part">
+        <div class="logo">
+            <img src="{{ asset('build/img/playmoreheader.png') }}" alt="">
         </div>
+    </div>
+    <div class="right-part">
+        <form class="login" action="{{ path('app_security_login') }}" method="post">
+            <h1 class="login-title">Connexion</h1>
+            <input type="text" class="login-input" placeholder="Adresse email" autofocus id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}">
+            <input type="password" id="password" name="_password" class="login-input" placeholder="Mot de passe">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+            <input type="submit" value="Se connecter" class="login-button">
+            <p class="login-lost">Vous n'avez pas de compte ? <a href="{{ path('app_security_registration') }}">S'inscrire</a></p>
+        </form>
     </div>
 {% endblock %}
