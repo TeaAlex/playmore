@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr">
+    {% include 'Partials/_head.html.twig' %}
+    <body>
+        {% include 'Partials/_header.html.twig' %}
+        {% block content %}
+        {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

@@ -39,7 +39,11 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     // enables Sass/SCSS support
-    .enableSassLoader()
+    .enableSassLoader(function (options) {}, {
+        resolveUrlLoader: false
+    })
+    .enablePostCssLoader()
+
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

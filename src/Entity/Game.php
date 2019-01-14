@@ -94,7 +94,7 @@ class Game extends Item
         return $this;
     }
 
-    public function getEditor(): Editor
+    public function getEditor(): ?Editor
     {
         return $this->editor;
     }

@@ -55,12 +55,19 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="createdTo")
      */
     private $commentsReceived;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Item")
+     */
+    private $items;
+
     public function __construct()
     {
         $this->adverts = new ArrayCollection();
         $this->offers = new ArrayCollection();
         $this->commentsCreated = new ArrayCollection();
         $this->commentsReceived = new ArrayCollection();
+        $this->items = new ArrayCollection();
         $this->rating = 0;
         $this->coins = 0;
     }
@@ -267,6 +274,32 @@ class User implements UserInterface
                 $commentsReceived->setCreatedTo(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
+        }
+
         return $this;
     }
 }

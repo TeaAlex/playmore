@@ -5,9 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
+ * @Vich\Uploadable()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"game" = "Game", "accesory" = "Accessory"})
@@ -28,10 +32,18 @@ abstract class Item
      */
     protected $name;
 
+
+	/**
+	 * @var File|null
+	 * @Vich\UploadableField(mapping="item_image", fileNameProperty="imgName")
+	 */
+    protected $imgFile;
+
     /**
+     * @var string|null
      * @ORM\Column(type="string", length=255)
      */
-    protected $imgUrl;
+    protected $imgName;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Platform", inversedBy="items")
@@ -47,6 +59,12 @@ abstract class Item
      * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="item")
      */
     private $offers;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     # endregion
 
@@ -76,17 +94,6 @@ abstract class Item
         return $this;
     }
 
-    public function getImgUrl(): ?string
-    {
-        return $this->imgUrl;
-    }
-
-    public function setImgUrl(string $imgUrl): self
-    {
-        $this->imgUrl = $imgUrl;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Platform[]
@@ -175,6 +182,58 @@ abstract class Item
 
         return $this;
     }
+
+	/**
+	 * @return File|null
+	 */
+	public function getImgFile(): ?File {
+        return $this->imgFile;
+    }
+
+	/**
+	 * @param File|null $imgFile
+	 *
+	 * @return Item
+	 * @throws \Exception
+	 */
+	public function setImgFile( ?File $imgFile ): Item {
+        $this->imgFile = $imgFile;
+		if($this->imgFile instanceof UploadedFile){
+			$this->updatedAt = new \DateTime('now');
+		}
+        return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getImgName(): ?string {
+         		return $this->imgName;
+         	}
+
+	/**
+	 * @param string|null $imgName
+	 *
+	 * @return Item
+	 */
+	public function setImgName( ?string $imgName ): Item {
+	    $this->imgName = $imgName;
+	    return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
 
     #endregion
 }
