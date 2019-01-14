@@ -259,7 +259,7 @@ textarea{
 
     .login {
       margin: 20px auto;
-      width: 300px;
+      width: 40%;
       padding: 30px 25px;
       background: white;
       border-radius:5px;
@@ -267,12 +267,9 @@ textarea{
     }
 
     h1.login-title {
-      margin: -28px -25px 25px;
-      padding: 15px 25px;
       line-height: 30px;
       font-size: 25px;
-      font-weight: 300;
-      color: #black;
+      color: black;
       text-align:center;
       background: #fff;
       font-weight: 700;
@@ -286,7 +283,6 @@ textarea{
     }
 
     .login-input {
-      width: 285px;
       height: 50px;
       margin-bottom: 25px;
       padding-left:10px;
