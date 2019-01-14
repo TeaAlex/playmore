@@ -4,7 +4,7 @@
 
     <div class="left-part">
         <div class="logo">
-            <img src="{{ asset('build/img/playmoreheader.png') }}" alt="">
+            <img src="{{ asset('images/playmoreheader.png') }}" alt="">
         </div>
     </div>
     <div class="right-part">
@@ -17,20 +17,11 @@
     {{ form_row(form.password.first) }}
     {{ form_row(form.password.second) }}
 
-    <button type="submit" class="login-button">S'inscrire !</button>
-            <p class="login-lost">Vous avez déjà compte ? <a href="{{ path('app_security_login') }}">Se connecter</a></p>
+            <p class="login-lost">Déjà inscrit ? <a href="{{ path('app_security_login') }}">Connecte toi !</a></p>
+    <button type="submit" class="login-button">S'inscrire </button>
+
     {{ form_end(form) }}
         </div>
-        {#<form  action="{{ path('app_security_registration') }}" method="post">#}
-
-            {#<input type="text" class="login-input" placeholder="Nom d'utilisateur" autofocus id="username" name="username" />#}
-            {#<input type="text" class="login-input" placeholder="Adresse email" id="email" name="email">#}
-            {#<input type="password" id="password.first" name="_password_first" class="login-input" placeholder="Mot de passe">#}
-            {#<input type="password" id="password.second" name="_password_second" class="login-input" placeholder="Répeter le mot de passe">#}
-            {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>#}
-            {#<input type="submit" value="S'inscrire" class="login-button">#}
-
-        {#</form>#}
     </div>
 
 {% endblock %}
