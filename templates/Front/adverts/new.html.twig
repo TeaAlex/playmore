@@ -1,0 +1,46 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+    <div class="w-full min-h-screen bg-grey-lightest">
+        <div class="w-2/3 pt-16 m-auto">
+            {{ form_start(form) }}
+            {{ form_row(form.advertKind) }}
+            {{ form_row(form.startDate) }}
+            {{ form_row(form.endDate) }}
+            {{ form_row(form.itemOwned) }}
+            <div class="hidden price-input">
+                {{ form_row(form.price) }}
+            </div>
+            <div class="hidden item-wanted-input">
+                {{ form_row(form.itemWanted) }}
+            </div>
+            <button type="submit" class="btn btn-secondary">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+
+      const advertKindInput = document.querySelector('#advert_advertKind');
+      advertKindInput.addEventListener('change', (e) => {
+        const value = e.target.value;
+        const priceInput = document.querySelector('.price-input');
+        const itemWantedInput = document.querySelector('.item-wanted-input');
+        if (value == 1) {
+          priceInput.classList.add('hidden');
+          itemWantedInput.classList.remove('hidden');
+        } else if (value == 2) {
+          itemWantedInput.classList.add('hidden');
+          priceInput.classList.remove('hidden');
+        } else {
+          itemWantedInput.classList.add('hidden');
+          priceInput.classList.add('hidden');
+        }
+      })
+
+
+    </script>
+{% endblock %}

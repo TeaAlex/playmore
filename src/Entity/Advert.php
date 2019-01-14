@@ -50,9 +50,9 @@ class Advert
     private $advertStatus;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\AdvertType")
+     * @ORM\ManyToOne(targetEntity="AdvertKind")
      */
-    private $advertType;
+    private $advertKind;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts")
@@ -147,14 +147,14 @@ class Advert
         return $this;
     }
 
-    public function getAdvertType(): ?AdvertType
+    public function getAdvertKind(): ?AdvertKind
     {
-        return $this->advertType;
+        return $this->advertKind;
     }
 
-    public function setAdvertType(?AdvertType $advertType): self
+    public function setAdvertKind(?AdvertKind $advertKind): self
     {
-        $this->advertType = $advertType;
+        $this->advertKind = $advertKind;
 
         return $this;
     }

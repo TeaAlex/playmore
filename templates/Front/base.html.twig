@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-            <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-        {% endblock %}
-    </head>
+    {% include 'Partials/_head.html.twig' %}
     <body>
-        <header>
-            <img src="{{ asset('build/images/logo.png') }}" alt="">
-        </header>
+        {% include 'Partials/_header.html.twig' %}
         {% block content %}
         {% endblock %}
         {% block javascripts %}

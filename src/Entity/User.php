@@ -35,12 +35,12 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="integer", length=255)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $rating;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $coins;
 
@@ -69,12 +69,18 @@ class User implements UserInterface
      */
     private $commentsReceived;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Item")
+     */
+    private $items;
+
     public function __construct()
     {
         $this->adverts = new ArrayCollection();
         $this->offers = new ArrayCollection();
         $this->commentsCreated = new ArrayCollection();
         $this->commentsReceived = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -316,6 +322,32 @@ class User implements UserInterface
             if ($commentsReceived->getCreatedTo() === $this) {
                 $commentsReceived->setCreatedTo(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
         }
 
         return $this;

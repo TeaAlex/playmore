@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Game;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +18,37 @@ class GameRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Game::class);
+    }
+
+	public function all(): array {
+		$rsm = new ResultSetMapping();
+		$rsm->addScalarResult('id','id');
+		$rsm->addScalarResult('name','name');
+		$rsm->addScalarResult('release_date','release_date');
+		$rsm->addScalarResult('editor','editor');
+		$rsm->addScalarResult('classification','classification');
+		$rsm->addScalarResult('category','category');
+		$rsm->addScalarResult('developper','developper');
+		$rsm->addScalarResult('platforms','platforms');
+		$sql = <<<SQL
+			SELECT i.id, i.name, g.release_date, e.name editor, c.name classification, c2.name category, d.name developper, plat.platforms
+			FROM game g
+			JOIN item i ON g.id = i.id AND i.type = 'game'
+			JOIN editor e ON g.editor_id = e.id
+			JOIN classification c ON g.classification_id = c.id
+			JOIN category c2 ON g.category_id = c2.id
+			JOIN developper d ON g.developper_id = d.id
+			JOIN
+			(
+			  SELECT GROUP_CONCAT(p.name SEPARATOR ' ') platforms, ip.item_id
+			  FROM item_platform ip
+			  JOIN platform p ON ip.platform_id = p.id
+			  GROUP BY ip.item_id
+			) plat ON plat.item_id = i.id
+			ORDER BY i.id
+SQL;
+		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->getResult();
+
     }
 
     // /**

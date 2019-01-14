@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AdvertTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AdvertKindRepository")
  */
-class AdvertType
+class AdvertKind
 {
     /**
      * @ORM\Id()

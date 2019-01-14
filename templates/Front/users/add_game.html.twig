@@ -1,0 +1,8 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_row(form.items) }}
+    <button type="submit" class="btn btn-secondary">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}

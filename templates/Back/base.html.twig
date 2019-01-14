@@ -1,12 +1,27 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
+<html lang="fr">
+    {% include 'Partials/_head.html.twig' %}
     <body>
-        {% block body %}{% endblock %}
+        {% include 'Partials/_header.html.twig' %}
+        <div class="w-full flex">
+            <aside class="w-260px bg-white border-t border-grey-light">
+                <ul class="mt-16">
+                    <li class="sidebar-item sidebar-item-active"><a href="">Jeux</a></li>
+                    <li class="sidebar-item"><a href="">Accessoires</a></li>
+                    <li class="sidebar-item"><a href="">Utilisateurs</a></li>
+                    <li class="sidebar-item"><a href="">Plateformes</a></li>
+                    <li class="sidebar-item"><a href="">Editeur</a></li>
+                    <li class="sidebar-item"><a href="">Développeurs</a></li>
+                    <li class="sidebar-item"><a href="">Categories</a></li>
+                    <li class="sidebar-item"><a href="">Classification</a></li>
+                    <li class="sidebar-item"><a href="">Annonces</a></li>
+                </ul>
+            </aside>
+            <div class="w-full h-screen bg-grey-lighter">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
