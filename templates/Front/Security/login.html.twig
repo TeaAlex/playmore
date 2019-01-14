@@ -17,7 +17,7 @@
         <form class="login" action="{{ path('app_security_login') }}" method="post">
             <h1 class="login-title">Connexion</h1>
             <div class="flex flex-col">
-                <label>Nom d'utilisateur</label>
+                <label>Email</label>
                 <input type="text" class="login-input" autofocus id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}">
             </div>
             <div class="flex flex-col">
