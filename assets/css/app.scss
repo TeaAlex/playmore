@@ -7,7 +7,7 @@ body {
   div.left-part {
 
     width:50%;
-    height: 1000px;
+    height: 100vh;
     float:left;
     background-color: #e5f1ff;
 
@@ -22,8 +22,11 @@ body {
 
     width: 50%;
     float:right;
-    height: 1000px;
+    height: 100vh;
     background-color: #eff2f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 
     .login {
@@ -32,7 +35,7 @@ body {
       padding: 30px 25px;
       background: white;
       border-radius:5px;
-      margin-top:30px;
+
     }
 
     h1.login-title {
