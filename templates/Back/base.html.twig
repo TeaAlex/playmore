@@ -2,7 +2,11 @@
 <html lang="fr">
     {% include 'Partials/_head.html.twig' %}
     <body>
-        {% include 'Partials/_header.html.twig' %}
+    <header>
+        <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
+
+        <a class="return-button" href="{{ path('app_security_home') }}">Retour</a>
+    </header>
         <div class="w-full flex">
             <aside class="w-260px bg-white border-t border-grey-light">
                 <ul class="mt-16">
