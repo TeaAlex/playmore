@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey }}
+        </div>
+    {% endif %}
+
+
+    <div class="left-part">
+        <div class="logo">
+            <img src="{{ asset('build/img/playmoreheader.png') }}" alt="">
+        </div>
+    </div>
+    <div class="right-part">
+        <form class="login" action="{{ path('app_security_login') }}" method="post">
+            <h1 class="login-title">Connexion</h1>
+            <input type="text" class="login-input" placeholder="Adresse email" autofocus id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}">
+            <input type="password" id="password" name="_password" class="login-input" placeholder="Mot de passe">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+            <input type="submit" value="Se connecter" class="login-button">
+            <p class="login-lost">Vous n'avez pas de compte ? <a href="{{ path('app_security_registration') }}">S'inscrire</a></p>
+        </form>
+    </div>
+{% endblock %}
