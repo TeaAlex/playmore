@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Front;
 use App\Form\UserType;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,7 +20,7 @@ class SecurityController extends Controller
      */
     public function login(AuthenticationUtils $helper): Response
     {
-        return $this->render('Security/login.html.twig', [
+        return $this->render('Front/Security/login.html.twig', [
             'error' => $helper->getLastAuthenticationError(),
         ]);
     }
@@ -58,7 +58,7 @@ class SecurityController extends Controller
             return $this->redirectToRoute('app_security_login');
         }
         return $this->render(
-            'Security/register.html.twig', [
+            'Front/Security/register.html.twig', [
                 'form' => $form->createView()
             ]
         );
