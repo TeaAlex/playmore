@@ -12,8 +12,13 @@ class DevelopperType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('logo')
+            ->add('name', TextType::class, [
+                "label" => "Nom",
+            ])
+            ->add('imgFile', FileType::class, [
+                "label" => "Jaquette",
+                "required" => false
+            ])
         ;
     }
 
