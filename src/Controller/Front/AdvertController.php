@@ -41,7 +41,7 @@ class AdvertController extends AbstractController
 	 */
 	public function new(Request $request, ObjectManager $em) {
         $advert = new Advert();
-        $user = $em->getRepository(User::class)->find(1);
+        $user = $this->getUser();
         $advert->setCreatedBy($user);
         $form = $this->createForm(AdvertType::class, $advert);
 		$form->handleRequest($request);
