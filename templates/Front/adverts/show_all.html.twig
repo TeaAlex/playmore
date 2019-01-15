@@ -46,105 +46,9 @@
             {#</div>#}
             {#<input type="submit" value="Envoyer">#}
         {#</form>#}
-        <div class="w-full flex justify-start flex-wrap items-start">
-            {#{% for advert in adverts %}#}
-                {#{% if advert.advertKind.name == 'Echange' %}#}
-                {#<div class="advert-card">#}
-                    {#<div class="header">#}
-                        {#<span class="type">Echange</span>#}
-                        {#<div class="dates-wrap">#}
-                            {#<i class="fas fa-calendar"></i>#}
-                            {#<div class="dates">#}
-                                {#<p>Du {{ advert.startDate | date("d F") }}</p>#}
-                                {#<p>Au {{ advert.endDate | date("d F") }}</p>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="content">#}
-                        {#<div class="game">#}
-                            {#<span>Possède</span>#}
-                            {#<div class="game-wrap">#}
-                                {#<img src="{{ vich_uploader_asset(advert.itemOwned, 'imgFile') | imagine_filter('item_advert') }}" alt="{{ advert.itemOwned.name }}" >#}
-                                {#<div class="infos">#}
-                                    {#<p class="name">{{ advert.itemOwned.name }}</p>#}
-                                    {#<p class="platform">PS4</p>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<div class="game">#}
-                            {#<span>Souhaite</span>#}
-                            {#<div class="game-wrap">#}
-                                {#<img src="{{ vich_uploader_asset(advert.itemWanted, 'imgFile') | imagine_filter('item_advert') }}" alt="{{ advert.itemOwned.name }}">#}
-                                {#<div class="infos">#}
-                                    {#<p class="name">{{ advert.itemWanted.name }}</p>#}
-                                    {#<p class="platform">PS4</p>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="footer trade">#}
-                        {#<div class="profile">#}
-                            {#<img src="{{ asset('build/images/profile/pikachu.png') }}" alt="">#}
-                            {#<div class="infos">#}
-                                {#<p>Alex</p>#}
-                                {#<p>Pontault-Combault</p>#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<button class="btn btn-secondary">#}
-                            {#Faire une offre#}
-                        {#</button>#}
-                    {#</div>#}
-                {#</div>#}
-
-                {#{% elseif advert.advertKind.name == 'Location' %}#}
-                {#{% endif %}#}
-            {#{% endfor %}#}
-            {#<div class="w-400px h-210px rounded">#}
-                {#<div class="w-full h-10 bg-grey-light text-blue rounded-t-sm flex justify-between items-center px-4 ">#}
-                    {#<span class="font-bold text">Echange</span>#}
-                    {#<div class="flex items-center text-xs font-bold">#}
-                        {#<i class="fas fa-calendar pr-2"></i>#}
-                        {#<div class="flex flex-col items-center">#}
-                            {#<p>Du 25 Janvier</p>#}
-                            {#<p>Au 17 Fevrier</p>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-                {#<div class="w-full bg-white h-32 flex items-center">#}
-                    {#<div class="flex-col max-w-1/2 justify-center items-center px-3">#}
-                        {#<p class="mb-2 text-xs">Possède</p>#}
-                        {#<div class="flex justify-start items-center text-xs">#}
-                            {#<img style="width: 50px; height: 60px;" src="{{ asset('images/items/5c39c91defdb6123803935.jpg') }}" alt="">#}
-                            {#<div class="flex-col font-bold ml-3">#}
-                                {#<p>Red Dead Redemption</p>#}
-                                {#<p>PS4</p>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="flex-col max-w-1/2 justify-center items-center px-3">#}
-                        {#<p class="mb-2 text-xs">Possède</p>#}
-                        {#<div class="flex justify-start items-center text-xs">#}
-                            {#<img style="width: 50px; height: 60px;" src="{{ asset('images/items/5c39c91defdb6123803935.jpg') }}" alt="">#}
-                            {#<div class="flex-col font-bold ml-3">#}
-                                {#<p>Red Dead Redemption</p>#}
-                                {#<p>PS4</p>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-                {#<div class="w-full h-12 bg-blue-lighter flex justify-between items-center">#}
-                    {#<div class="flex">#}
-                        {#<img style="width: 40px; height: 40px;" class="rounded ml-3" src="" alt="">#}
-                        {#<div class="flex flex-col justify-center text-xs font-bold">#}
-                            {#<p>Alex</p>#}
-                            {#<p>Pontault-Combault</p>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<a href="#" class="btn btn-secondary text-xs">Faire une offre</a>#}
-                {#</div>#}
-            {#</div>#}
-
-            <div style="width: 480px" class="ml-10">
+        <div class="w-full flex flex-wrap justify-around items-start min-h-screen p-12 ">
+            {% for i in 0..2 %}
+            <div style="width: 480px; margin-bottom: 50px">
                 {# HEADER #}
                 <div style="height: 60px;" class="w-full flex items-center justify-between font-bold text-playmore-blue-darkest bg-playmore-blud-light rounded-t px-4">
                     <p class="text-base">Echange</p>
@@ -160,7 +64,7 @@
                 <div style="height: 180px;" class="bg-white px-4 flex flex-col">
                     <div class="h-1/2 flex justify-between items-center border-b-2 border-playmore-blue-lightest">
                         <div class="flex">
-                            <img style="width: 48px; height: 60px;" src="{{ asset('images/items/5c39c91defdb6123803935.jpg') }}" alt="">
+                            <img style="width: 48px; height: 60px;" src="{{ asset('images/items/5c39cc4212a36615166028.jpg') }}" alt="">
                             <div class="flex flex-col justify-center ml-3">
                                 <p class="font-bold text-black">Red Dead Redemption</p>
                                 <p class="font-semibold text-grey-dark">XBOX ONE</p>
@@ -192,7 +96,7 @@
                 </div>
 
             </div>
-
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
