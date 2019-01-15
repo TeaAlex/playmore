@@ -1,13 +1,8 @@
-{% extends 'back/base.html.twig' %}
-
-{% block title %}Edit Editor{% endblock %}
+{% extends 'Back/base.html.twig' %}
 
 {% block body %}
-    <h1>Edit Editor</h1>
-
-    {{ include('editor/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('editor_index') }}">back to list</a>
-
-    {{ include('editor/_delete_form.html.twig') }}
+    <div class="w-2/3 h-auto mx-auto px-8 py-16 bg-grey-lighter">
+        <h1 class="text-primary mb-6">Editer {{ editor.name }} #{{ editor.id }}</h1>
+        {{ include('editor/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
 {% endblock %}
