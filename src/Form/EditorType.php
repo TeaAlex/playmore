@@ -15,7 +15,7 @@ class EditorType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('logo', FileType::class, [
+            ->add('imgFile', FileType::class, [
                 "label" => "Logo",
                 "required" => false
             ])

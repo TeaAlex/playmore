@@ -5,9 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EditorRepository")
+ *  * @Vich\Uploadable()
+
  */
 class Editor
 {
@@ -24,9 +29,16 @@ class Editor
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var File|null
+     * @Vich\UploadableField(mapping="editor_image", fileNameProperty="imgName")
      */
-    private $logo;
+    protected $imgFile;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $imgName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="editor")
@@ -94,6 +106,43 @@ class Editor
             $game->removeEditor($this);
         }
 
+        return $this;
+    }
+    /**
+     * @return File|null
+     */
+    public function getImgFile(): ?File {
+        return $this->imgFile;
+    }
+
+    /**
+     * @param File|null $imgFile
+     *
+     * @return Editor
+     * @throws \Exception
+     */
+    public function setImgFile( ?File $imgFile ): Editor {
+        $this->imgFile = $imgFile;
+        if($this->imgFile instanceof UploadedFile){
+            $this->updatedAt = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImgName(): ?string {
+        return $this->imgName;
+    }
+
+    /**
+     * @param string|null $imgName
+     *
+     * @return Editor
+     */
+    public function setImgName( ?string $imgName ): Editor {
+        $this->imgName = $imgName;
         return $this;
     }
 }
