@@ -1,36 +1,31 @@
 {% extends 'Back/base.html.twig' %}
 
 {% block body %}
-<div class="w-5/6 h-auto mx-auto px-8 py-16 bg-grey-lighter">
-    <div class="flex justify-between items-center">
-        <h1 class="text-4xl text-primary font-bold inline-block">Liste des developpeur</h1>
-        <button class="btn btn-secondary"><a href="{{ path('developper_new') }}">Ajouter</a></button>
-    </div>
-
-    <table class="table-auto border-collapse w-full mt-12 rounded bg-white" cellpadding="0" cellspacing="0">
-        <thead class="font-bold bg-blue-darker text-white">
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Logo</th>
-                <th>Editer</th>
-                <th>Supprimer</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for developper in developpers %}
-            <tr>
-                <td>{{ developper.id }}</td>
-                <td>{{ developper.name }}</td>
-                <td>{{ developper.logo }}</td>
-                <td>
-                    <a href="{{ path('developper_show', {'id': developper.id}) }}">show</a>
-                    <a href="{{ path('developper_edit', {'id': developper.id}) }}">edit</a>
-                </td>
-                <td><a href="{{ path('developper_edit', {'id' : developper.id}) }}" class="font-bold text-primary">Editer</a></td>
-                <td>{{ include('Back/developper/_delete_form.html.twig') }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="w-5/6 h-auto mx-auto px-8 py-16 bg-grey-lighter">
+        <div class="flex justify-between items-center">
+            <h1 class="text-4xl text-primary font-bold inline-block">Liste des developpeurs</h1>
+            <button class="btn btn-secondary"><a href="{{ path('developper_new') }}">Ajouter</a></button>
+        </div>
+        <table class="table-auto border-collapse w-full mt-12 rounded bg-white" cellpadding="0" cellspacing="0">
+            <thead class="font-bold bg-blue-darker text-white">
+                <tr>
+                    <td>Id</td>
+                    <td>Nom</td>
+                    <td>Logo</td>
+                    <td>Editer</td>
+                    <td>Supprimer</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for developper in developpers %}
+                <tr>
+                    <td>{{ developper.id }}</td>
+                    <td>{{ developper.name }}</td>
+                    <td>{{ developper.imgName }}</td>
+                    <td><a href="{{ path('developper_edit', {'id' : developper.id}) }}" class="font-bold text-primary">Editer</a></td>
+                    <td>{{ include('Back/developper/_delete_form.html.twig') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 {% endblock %}

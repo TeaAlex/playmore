@@ -6,6 +6,8 @@ use App\Entity\Developper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class DevelopperType extends AbstractType
 {
@@ -13,10 +15,10 @@ class DevelopperType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                "label" => "Nom",
-            ])
+               "label" => "Nom"
+                ])
             ->add('imgFile', FileType::class, [
-                "label" => "Jaquette",
+                "label" => "Logo",
                 "required" => false
             ])
         ;

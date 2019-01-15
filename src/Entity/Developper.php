@@ -5,9 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DevelopperRepository")
+ * @Vich\Uploadable()
  */
 class Developper
 {
@@ -23,11 +27,18 @@ class Developper
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $logo;
 
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="dev_image", fileNameProperty="imgName")
+     */
+    protected $imgFile;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $imgName;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="developper")
      */
@@ -57,17 +68,47 @@ class Developper
         return $this;
     }
 
-    public function getLogo(): ?string
-    {
-        return $this->logo;
+    /**
+     * @return File|null
+     */
+    public function getImgFile(): ?File {
+        return $this->imgFile;
     }
 
-    public function setLogo(?string $logo): self
-    {
-        $this->logo = $logo;
-
+    /**
+     * @param File|null $imgFile
+     *
+     * @return Developper
+     * @throws \Exception
+     */
+    public function setImgFile( ?File $imgFile ): Developper {
+        $this->imgFile = $imgFile;
+        if($this->imgFile instanceof UploadedFile){
+            $this->updatedAt = new \DateTime('now');
+        }
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getImgName(): ?string {
+        return $this->imgName;
+    }
+
+    /**
+     * @param string|null $imgName
+     *
+     * @return Developper
+     */
+    public function setImgName( ?string $imgName ): Developper {
+        $this->imgName = $imgName;
+        return $this;
+    }
+
+
+
+
 
     /**
      * @return Collection|Game[]
