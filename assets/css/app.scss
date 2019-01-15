@@ -32,12 +32,22 @@ header{
   align-items: center;
   background-color: #fff;
   height: 70px;
+  justify-content: space-between;
   img{
     margin-left: 33px;
-    width: 178px;
     height: 46px;
     object-fit: cover;
+    width: initial;
   }
+  .return-button {
+    background-color: $secondary;
+    margin-right: 15px;
+    padding: 10px;
+    color:white;
+    border-radius: 10px;
+
+  }
+
 }
 
 .sidebar{
