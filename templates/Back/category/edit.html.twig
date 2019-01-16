@@ -3,6 +3,6 @@
 {% block body %}
     <div class="w-2/3 h-auto mx-auto px-8 py-16 bg-grey-lighter">
         <h1 class="text-primary mb-6">Editer {{ category.name }} #{{ category.id }}</h1>
-        {{ include('editor/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('Back/category/_form.html.twig', {'button_label': 'Update'}) }}
     </div>
 {% endblock %}
