@@ -20,9 +20,8 @@
                 <tr>
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
-                    <td></td>
                     <td><a href="{{ path('category_edit', {'id' : category.id}) }}" class="font-bold text-primary">Editer</a></td>
-                    <td>{{ include('category/_delete_form.html.twig') }}</td>
+                    <td>{{ include('Back/category/_delete_form.html.twig') }}</td>
                 </tr>
             {% endfor %}
 

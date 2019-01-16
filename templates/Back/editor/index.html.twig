@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<title>Editor index</title>
+
+{% block body %}
+    <h1>Editor index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Logo</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for editor in editors %}
+            <tr>
+                  <td>{{ editor.id }}</td>
+                <td>{{ editor.name }}</td>
+                <td><img style="width: 50px; height: 60px;" src="{{ asset('images/editor/' ~ editor.imgName) }}" alt=""></td>
+
+                <td>
+                    <a href="{{ path('editor_show', {'id': editor.id}) }}">show</a>
+                    <a href="{{ path('editor_edit', {'id': editor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('editor_new') }}">Create new</a>
+{% endblock %}

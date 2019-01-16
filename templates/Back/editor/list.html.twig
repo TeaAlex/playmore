@@ -12,7 +12,6 @@
                 <td>Id</td>
                 <td>Name</td>
                 <td>Logo</td>
-                <td>Actions</td>
                 <td>Editer</td>
                 <td>Supprimer</td>
             </tr>
@@ -23,9 +22,8 @@
                     <td>{{ editor.id }}</td>
                     <td>{{ editor.name }}</td>
                     <td><img style="width: 50px; height: 60px;" src="{{ asset('images/editor/' ~ editor.imgName) }}" alt=""></td>
-                    <td></td>
                     <td><a href="{{ path('editor_edit', {'id' : editor.id}) }}" class="font-bold text-primary">Editer</a></td>
-                    <td>{{ include('editor/_delete_form.html.twig') }}</td>
+                    <td>{{ include('Back/editor/_delete_form.html.twig') }}</td>
                 </tr>
             {% endfor %}
 

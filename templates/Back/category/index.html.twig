@@ -1,17 +1,16 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
 
-{% block title %}Category index{% endblock %}
+<title>Category index</title>
 
 {% block body %}
     <h1>Category index</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
         </thead>
         <tbody>
         {% for category in categories %}
@@ -25,7 +24,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
