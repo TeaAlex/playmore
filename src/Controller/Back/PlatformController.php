@@ -91,6 +91,6 @@ class PlatformController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('Back/platform_index');
+        return $this->redirectToRoute('platform_index');
     }
 }
