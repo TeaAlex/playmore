@@ -12,16 +12,16 @@
        <div class="filters">
            <div class="filter-container">
                <select id="filter-select">
-                   <option>Plateforme</option>
-                   <option>PS4</option>
-                   <option>XBOX</option>
+                   {% for platform in platforms %}
+                   <option>{{ platform.name }}</option>
+                   {% endfor %}
                </select>
            </div>
            <div class="filter-container">
                <select id="filter-select">
-                   <option>Catégorie</option>
-                   <option>Action</option>
-                   <option>Aventure</option>
+                   {% for category in categories %}
+                       <option>{{ category.name }}</option>
+                   {% endfor %}
                </select>
            </div>
            <div class="filter-container">
