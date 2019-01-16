@@ -11,9 +11,10 @@
     <table class="table-auto border-collapse w-full mt-12 rounded bg-white" cellpadding="0" cellspacing="0">
         <thead class="font-bold bg-blue-darker text-white">
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
+                <td>Id</td>
+                <td>Nom</td>
+                <td>Modifier</td>
+                <td>Supprimer</td>
             </tr>
         </thead>
         <tbody>
@@ -21,10 +22,8 @@
             <tr>
                 <td>{{ platform.id }}</td>
                 <td>{{ platform.name }}</td>
-                <td>
-                    <a href="{{ path('platform_show', {'id': platform.id}) }}">show</a>
-                    <a href="{{ path('platform_edit', {'id': platform.id}) }}">edit</a>
-                </td>
+                <td><a href="{{ path('platform_edit', {'id': platform.id}) }}" class="font-bold text-primary">Editer</a></td>
+                <td>{{ include('Back/platform/_delete_form.html.twig') }}</td>
             </tr>
         {% else %}
             <tr>
