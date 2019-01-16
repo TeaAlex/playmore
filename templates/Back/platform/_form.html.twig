@@ -3,7 +3,6 @@
         <div class="flex w-full">
             <div class="w-1/2 p-8">
                 {{ form_row(form.name) }}
-                {{ form_row(form.imgFile) }}
             </div>
             <div class="w-1/2 p-8">
                 {{ form_rest(form) }}
@@ -11,7 +10,7 @@
         </div>
         <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
             <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
-            <a class="btn btn-secondary" chref="{{ path('developper_index') }}">Retour</a>
+            <a class="btn btn-secondary" href="{{ path('platform_index') }}">Retour</a>
         </div>
     </div>
 {{ form_end(form) }}

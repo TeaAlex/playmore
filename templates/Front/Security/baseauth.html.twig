@@ -11,14 +11,6 @@
     {% endblock %}
 </head>
 <body>
-<header>
-    <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
-   <div>
-       <a class="return-button" href="{{ path('game_index') }}">Admin</a>
-       <a class="return-button" href="{{ path('app_security_logout') }}">Se déconnecter</a>
-   </div>
-
-</header>
 {% block content %}
 {% endblock %}
 {% block javascripts %}

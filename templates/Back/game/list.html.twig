@@ -11,6 +11,7 @@
                 <tr>
                     <td>Id</td>
                     <td>Titre</td>
+                    <td>Cover</td>
                     <td>Développeur</td>
                     <td>Editeur</td>
                     <td>Genre</td>
@@ -26,6 +27,7 @@
                 <tr>
                     <td>{{ game.id }}</td>
                     <td>{{ game.name }}</td>
+                    <td><img style="width: 50px; height: 60px;" src="{{ asset('/images/items/' ~ game.file_name) }}" alt=""></td>
                     <td>{{ game.developper}}</td>
                     <td>{{ game.editor}}</td>
                     <td>{{ game.category }}</td>
@@ -36,7 +38,6 @@
                     <td>{{ include('Back/game/_delete_form.html.twig') }}</td>
                 </tr>
             {% endfor %}
-
             </tbody>
         </table>
     </div>

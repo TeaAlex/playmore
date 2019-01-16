@@ -2,21 +2,34 @@
 
 {% block content %}
     <div class="w-full min-h-screen bg-grey-lightest">
-        <div class="w-2/3 pt-16 m-auto">
+        <div class="w-2/3 h-auto mx-auto px-8 py-16 bg-grey-lighter">
+            <h1 class="text-primary mb-6">Ajouter une annonce</h1>
             {{ form_start(form) }}
-            {{ form_row(form.advertKind) }}
-            {{ form_row(form.startDate) }}
-            {{ form_row(form.endDate) }}
-            {{ form_row(form.itemOwned) }}
-            <div class="hidden price-input">
-                {{ form_row(form.price) }}
+            <div class="flex-col rounded bg-white shadow-md">
+                <div class="flex w-full">
+                    <div class="w-1/2 p-8">
+                        {{ form_row(form.advertKind) }}
+                        {{ form_row(form.itemOwned) }}
+                        <div class="hidden price-input">
+                            {{ form_row(form.price) }}
+                        </div>
+                        <div class="hidden item-wanted-input">
+                            {{ form_row(form.itemWanted) }}
+                        </div>
+                    </div>
+                    <div class="w-1/2 p-8">
+                        {{ form_row(form.startDate) }}
+                        {{ form_row(form.endDate) }}
+                    </div>
+                </div>
+                <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
+                    <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
+                    <a class="btn btn-secondary" href="{{ path('advert_list') }}">Retour</a>
+                </div>
             </div>
-            <div class="hidden item-wanted-input">
-                {{ form_row(form.itemWanted) }}
-            </div>
-            <button type="submit" class="btn btn-secondary">Enregistrer</button>
             {{ form_end(form) }}
         </div>
+
     </div>
 {% endblock %}
 

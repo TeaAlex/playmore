@@ -4,8 +4,37 @@
 {% block title %}PlayMore{% endblock %}
 
 {% block content %}
-    <div class="connection-info" style="position:absolute;right:5px;top:5px">Bonjour {{ app.user.email }}, <a href="{{ path('app_security_logout') }}">Se déconnecter</a></div>
-    <img src="{{ asset('build/img/playmoreheader.png') }}" alt="">
 
+    <div class="home-content">
+
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Quel jeu souhaitez vous échanger?">
+        </div>
+       <div class="filters">
+           <div class="filter-container">
+               <select id="filter-select">
+                   {% for platform in platforms %}
+                   <option>{{ platform.name }}</option>
+                   {% endfor %}
+               </select>
+           </div>
+           <div class="filter-container">
+               <select id="filter-select">
+                   {% for category in categories %}
+                       <option>{{ category.name }}</option>
+                   {% endfor %}
+               </select>
+           </div>
+           <div class="filter-container">
+               <select id="filter-select">
+                   <option>Localisation</option>
+                   <option>Ile-de-France</option>
+                   <option>Haut-de-France</option>
+                   <option>Haut-Bas-France</option>
+               </select>
+           </div>
+       </div>
+
+    </div>
 
 {% endblock %}

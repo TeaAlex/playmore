@@ -2,7 +2,10 @@
 <html lang="fr">
     {% include 'Partials/_head.html.twig' %}
     <body>
-        {% include 'Partials/_header.html.twig' %}
+    <header>
+        <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
+
+    </header>
         {% block content %}
         {% endblock %}
         {% block javascripts %}

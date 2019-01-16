@@ -20,7 +20,7 @@ class DevelopperController extends AbstractController
      */
     public function index(DevelopperRepository $developperRepository): Response
     {
-        return $this->render('Back/developper/index.html.twig', ['developpers' => $developperRepository->findAll()]);
+        return $this->render('Back/developper/list.html.twig', ['developpers' => $developperRepository->findAll()]);
     }
 
     /**
