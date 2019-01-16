@@ -47,16 +47,17 @@
             {#<input type="submit" value="Envoyer">#}
         {#</form>#}
         <div class="w-full flex flex-wrap justify-around items-start min-h-screen p-12 ">
-            {% for i in 0..2 %}
-            <div style="width: 480px; margin-bottom: 50px">
+            {% for advert in adverts %}
+                {% if advert.advert_kind_id == 1 %}
+                <div style="width: 480px; margin-bottom: 50px">
                 {# HEADER #}
                 <div style="height: 60px;" class="w-full flex items-center justify-between font-bold text-playmore-blue-darkest bg-playmore-blud-light rounded-t px-4">
                     <p class="text-base">Echange</p>
                     <div class="flex items-center">
                         <i class="fas fa-calendar"></i>
                         <div class="flex flex-col ml-2 text-sm">
-                            <p>Du 26 Décembre</p>
-                            <p>Au 05 Janvier</p>
+                            <p>Du {{ advert.start_date | date('l F') }}</p>
+                            <p>Au {{ advert.end_date | date('l F') }}</p>
                         </div>
                     </div>
                 </div>
@@ -64,9 +65,9 @@
                 <div style="height: 180px;" class="bg-white px-4 flex flex-col">
                     <div class="h-1/2 flex justify-between items-center border-b-2 border-playmore-blue-lightest">
                         <div class="flex">
-                            <img style="width: 48px; height: 60px;" src="{{ asset('images/items/5c39cc4212a36615166028.jpg') }}" alt="">
+                            <img style="width: 48px; height: 60px;" src="{{ asset('images/items/' ~  advert.item_owned_img_name  ) }}" alt="">
                             <div class="flex flex-col justify-center ml-3">
-                                <p class="font-bold text-black">Red Dead Redemption</p>
+                                <p class="font-bold text-black">{{ advert.item_owned_name }}</p>
                                 <p class="font-semibold text-grey-dark">XBOX ONE</p>
                             </div>
                         </div>
@@ -74,9 +75,9 @@
                     </div>
                     <div class="h-1/2 flex justify-between items-center">
                         <div class="flex">
-                            <img style="width: 48px; height: 60px;" src="{{ asset('images/items/5c39c91defdb6123803935.jpg') }}" alt="">
+                            <img style="width: 48px; height: 60px;" src="{{ asset('images/items/' ~ advert.item_wanted_img_name ) }}" alt="">
                             <div class="flex flex-col justify-center ml-3">
-                                <p class="font-bold text-black">Marvel's Spiderman</p>
+                                <p class="font-bold text-black">{{ advert.item_wanted_name }}</p>
                                 <p class="font-semibold text-grey-dark">PS4</p>
                             </div>
                         </div>
@@ -88,7 +89,7 @@
                     <div class="flex items-center justify-between">
                         <img style="height: 40px; width: 40px;" src="" alt="" class="rounded-full bg-grey">
                         <div class="flex flex-col text-xs text-playmore-blue-darkest font-semibold ml-2">
-                            <p>Alex</p>
+                            <p>{{ advert.username | capitalize }}</p>
                             <p>Pontault-Combault</p>
                         </div>
                     </div>
@@ -96,6 +97,7 @@
                 </div>
 
             </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

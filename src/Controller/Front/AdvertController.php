@@ -27,7 +27,7 @@ class AdvertController extends AbstractController
     public function showAll(Request $request): Response
     {
     	$em = $this->getDoctrine()->getManager();
-    	$adverts = $em->getRepository(Advert::class)->findAll();
+    	$adverts = $em->getRepository(Advert::class)->all();
         return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
     }
 
