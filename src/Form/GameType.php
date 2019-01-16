@@ -27,7 +27,7 @@ class GameType extends AbstractType
 	            "label" => "Nom",
 	            ])
             ->add('imgFile', FileType::class, [
-	            "label" => "Jaquette",
+	            "label" => "Cover",
 	            "required" => false
             ])
             ->add('releaseDate', DateType::class, [
