@@ -1,0 +1,45 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Ajouter un éditeur{% endblock %}
+
+{% block body %}
+<div class="w-5/6 h-auto mx-auto px-8 py-16 bg-grey-lighter">
+    <div class="flex justify-between items-center">
+        <h1 class="text-4xl text-primary font-bold inline-block">Liste des éditeurs</h1>
+        <button class="btn btn-secondary"><a href="{{ path('editor_new') }}">Ajouter</a></button>
+    </div>
+    <table class="table-auto border-collapse w-full mt-12 rounded bg-white" cellpadding="0" cellspacing="0">
+        <thead class="font-bold bg-blue-darker text-white">
+        <tr>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Logo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for editor in editors %}
+            <tr>
+                <td>{{ editor.id }}</td>
+                <td>{{ editor.name }}</td>
+                <td>{{ editor.logo }}</td>
+                <td>
+                    <a href="{{ path('editor_show', {'id': editor.id}) }}">show</a>
+                    <a href="{{ path('editor_edit', {'id': editor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('editor_new') }}">Create new</a>
+{% endblock %}
