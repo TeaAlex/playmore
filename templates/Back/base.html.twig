@@ -9,16 +9,17 @@
     </header>
         <div class="w-full flex">
             <aside class="w-260px bg-white border-t border-grey-light">
+                {% set route_prefix = app.request.attributes.get('_route')|split('_')[0] %}
                 <ul class="mt-16">
-                    <li class="sidebar-item sidebar-item-active"><a href="{{ path('game_index') }}">Jeux</a></li>
-                    <li class="sidebar-item"><a href="">Accessoires</a></li>
-                    <li class="sidebar-item"><a href="">Utilisateurs</a></li>
-                    <li class="sidebar-item"><a href="{{ path('platform_index') }}">Plateformes</a></li>
-                    <li class="sidebar-item"><a href="{{ path('editor_index') }}">Editeur</a></li>
-                    <li class="sidebar-item"><a href="{{ path('developper_index') }}">Développeurs</a></li>
-                    <li class="sidebar-item"><a href="{{ path('category_index') }}">Categories</a></li>
-                    <li class="sidebar-item"><a href="{{ path('classification_index') }}">Classification</a></li>
-                    <li class="sidebar-item"><a href="">Annonces</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'game' %} sidebar-item-active {% endif %}"><a href="{{ path('game_index') }}">Jeux</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'accessory' %} sidebar-item-active {% endif %}"><a href="">Accessoires</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'user' %} sidebar-item-active {% endif %}"><a href="">Utilisateurs</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'platform' %} sidebar-item-active {% endif %}"><a href="{{ path('platform_index') }}">Plateformes</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'editor' %} sidebar-item-active {% endif %}"><a href="{{ path('editor_index') }}">Editeur</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'developper' %} sidebar-item-active {% endif %}"><a href="{{ path('developper_index') }}">Développeurs</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'category' %} sidebar-item-active {% endif %}"><a href="{{ path('category_index') }}">Categories</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'classification' %} sidebar-item-active {% endif %}"><a href="{{ path('classification_index') }}">Classification</a></li>
+                    <li class="sidebar-item {% if route_prefix == 'advert' %} sidebar-item-active {% endif %}"><a href="">Annonces</a></li>
                 </ul>
             </aside>
             <div class="w-full min-h-screen bg-grey-lighter">
