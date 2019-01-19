@@ -19,15 +19,15 @@ class Advert
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="adverts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $itemOwned;
+    private $gameOwned;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="adverts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game")
      */
-    private $itemWanted;
+    private $gameWanted;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -75,26 +75,26 @@ class Advert
         return $this->id;
     }
 
-    public function getItemOwned(): ?Item
+    public function getGameOwned(): ?Game
     {
-        return $this->itemOwned;
+        return $this->gameOwned;
     }
 
-    public function setItemOwned(?Item $itemOwned): self
+    public function setGameOwned(?Game $gameOwned): self
     {
-        $this->itemOwned = $itemOwned;
+        $this->gameOwned = $gameOwned;
 
         return $this;
     }
 
-    public function getItemWanted(): ?Item
+    public function getGameWanted(): ?Game
     {
-        return $this->itemWanted;
+        return $this->gameWanted;
     }
 
-    public function setItemWanted(?Item $itemWanted): self
+    public function setGameWanted(?Game $gameWanted): self
     {
-        $this->itemWanted = $itemWanted;
+        $this->gameWanted = $gameWanted;
 
         return $this;
     }
