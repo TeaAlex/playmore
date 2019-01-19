@@ -36,7 +36,7 @@ class Developper
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $imgName;
     /**

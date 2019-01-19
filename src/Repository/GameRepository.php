@@ -32,21 +32,20 @@ class GameRepository extends ServiceEntityRepository
 		$rsm->addScalarResult('platforms','platforms');
 		$rsm->addScalarResult('file_name','file_name');
 		$sql = <<<SQL
-			SELECT i.id, i.name, g.release_date, e.name editor, c.name classification, c2.name category, d.name developper, plat.platforms, i.img_name file_name
+			SELECT g.id, g.name, g.release_date, e.name editor, c.name classification, c2.name category, d.name developper, plat.platforms, g.img_name file_name
 			FROM game g
-			JOIN item i ON g.id = i.id AND i.type = 'game'
 			JOIN editor e ON g.editor_id = e.id
 			JOIN classification c ON g.classification_id = c.id
 			JOIN category c2 ON g.category_id = c2.id
 			JOIN developper d ON g.developper_id = d.id
 			JOIN
 			(
-			  SELECT GROUP_CONCAT(p.name SEPARATOR ' ') platforms, ip.item_id
-			  FROM item_platform ip
-			  JOIN platform p ON ip.platform_id = p.id
-			  GROUP BY ip.item_id
-			) plat ON plat.item_id = i.id
-			ORDER BY i.id
+			  SELECT GROUP_CONCAT(p.name SEPARATOR ' ') platforms, gp.game_id
+			  FROM game_platform gp
+			  JOIN platform p ON gp.platform_id = p.id
+			  GROUP BY gp.game_id
+			) plat ON plat.game_id = g.id
+			ORDER BY g.id
 SQL;
 		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->getResult();
 

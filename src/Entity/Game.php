@@ -3,29 +3,73 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
+ * @Vich\Uploadable()
+
  */
-class Game extends Item
+class Game
 {
     #region Props
+
+	/**
+	 * @ORM\Id()
+	 * @ORM\GeneratedValue()
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $name;
+
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime", name="updated_at")
+	 */
+	private $updatedAt;
+
+	/**
+	 * @var File|null
+	 * @Vich\UploadableField(mapping="game_image", fileNameProperty="imgName")
+	 */
+	private $imgFile;
+
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", length=255)
+	 */
+	private $imgName;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Platform", inversedBy="games")
+	 */
+	private $platform;
+	
 
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $releaseDate;
+    private $releaseDate;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $multiplayer;
+    private $multiplayer;
 
     /**
      * @ORM\Column(type="text")
      */
-    protected $description;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Editor", inversedBy="games")
@@ -53,7 +97,8 @@ class Game extends Item
 
     public function __construct()
     {
-        parent::__construct();
+	    $this->platform = new ArrayCollection();
+	    $this->adverts = new ArrayCollection();
     }
 
     # region Getters & Setters
@@ -141,6 +186,101 @@ class Game extends Item
 
         return $this;
     }
+
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
+
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
+
+	public function setName(string $name): self
+	{
+		$this->name = $name;
+
+		return $this;
+	}
+
+
+	/**
+	 * @return Collection|Platform[]
+	 */
+	public function getPlatform(): Collection
+	{
+		return $this->platform;
+	}
+
+	public function addPlatform(Platform $platform): self
+	{
+		if (!$this->platform->contains($platform)) {
+			$this->platform[] = $platform;
+		}
+
+		return $this;
+	}
+
+	public function removePlatform(Platform $platform): self
+	{
+		if ($this->platform->contains($platform)) {
+			$this->platform->removeElement($platform);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * @return File|null
+	 */
+	public function getImgFile(): ?File {
+		return $this->imgFile;
+	}
+
+	/**
+	 * @param File|null $imgFile
+	 *
+	 * @return Game
+	 * @throws \Exception
+	 */
+	public function setImgFile( ?File $imgFile ): Game {
+		$this->imgFile = $imgFile;
+		if($this->imgFile instanceof UploadedFile){
+			$this->updatedAt = new \DateTime('now');
+		}
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getImgName(): ?string {
+		return $this->imgName;
+	}
+
+	/**
+	 * @param string|null $imgName
+	 *
+	 * @return Game
+	 */
+	public function setImgName( ?string $imgName ): Game {
+		$this->imgName = $imgName;
+		return $this;
+	}
+
+	public function getUpdatedAt(): ?\DateTimeInterface
+	{
+		return $this->updatedAt;
+	}
+
+	public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+	{
+		$this->updatedAt = $updatedAt;
+
+		return $this;
+	}
 
     #endregion
 }

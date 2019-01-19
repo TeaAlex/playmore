@@ -24,13 +24,13 @@ class Platform
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Item", mappedBy="platform")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="platform")
      */
-    private $items;
+    private $games;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,28 +51,28 @@ class Platform
     }
 
     /**
-     * @return Collection|Item[]
+     * @return Collection|Game[]
      */
-    public function getItems(): Collection
+    public function getGames(): Collection
     {
-        return $this->items;
+        return $this->games;
     }
 
-    public function addItem(Item $item): self
+    public function addItem(Game $game): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->addPlatform($this);
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->addPlatform($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): self
+    public function removeItem(Game $game): self
     {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
-            $item->removePlatform($this);
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
+            $game->removePlatform($this);
         }
 
         return $this;

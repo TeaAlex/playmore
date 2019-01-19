@@ -28,11 +28,6 @@ class Offer
      */
     private $createdBy;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="offers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $item;
 
     /**
      * @ORM\Column(type="integer")
@@ -78,17 +73,6 @@ class Offer
         return $this;
     }
 
-    public function getItem(): ?Item
-    {
-        return $this->item;
-    }
-
-    public function setItem(?Item $item): self
-    {
-        $this->item = $item;
-
-        return $this;
-    }
 
     public function getPrice(): ?int
     {

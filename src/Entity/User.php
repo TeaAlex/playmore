@@ -57,19 +57,19 @@ class User implements UserInterface
     private $commentsReceived;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Item")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game")
      */
-    private $items;
+    private $games;
 
     public function __construct()
     {
-        $this->adverts = new ArrayCollection();
-        $this->offers = new ArrayCollection();
-        $this->commentsCreated = new ArrayCollection();
+        $this->adverts          = new ArrayCollection();
+        $this->offers           = new ArrayCollection();
+        $this->commentsCreated  = new ArrayCollection();
         $this->commentsReceived = new ArrayCollection();
-        $this->items = new ArrayCollection();
-        $this->rating = 0;
-        $this->coins = 0;
+        $this->games            = new ArrayCollection();
+        $this->rating           = 0;
+        $this->coins            = 0;
     }
 
 
@@ -278,26 +278,26 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Item[]
+     * @return Collection|Game[]
      */
-    public function getItems(): Collection
+    public function getGames(): Collection
     {
-        return $this->items;
+        return $this->games;
     }
 
-    public function addItem(Item $item): self
+    public function addGame(Game $game): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): self
+    public function removeGame(Game $game): self
     {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
         }
 
         return $this;
