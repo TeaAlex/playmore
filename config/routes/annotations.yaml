@@ -4,3 +4,12 @@ controllers:
 
 logout:
     path: /logout
+
+controllers_back:
+  resource: ../../src/Controller/Back
+  type: annotation
+  prefix: /admin
+
+controllers_front:
+  resource: ../../src/Controller/Front
+  type: annotation

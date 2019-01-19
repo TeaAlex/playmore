@@ -11,7 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EditorRepository")
- *  * @Vich\Uploadable()
+ * @Vich\Uploadable()
 
  */
 class Editor
@@ -44,6 +44,11 @@ class Editor
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="editor")
      */
     private $games;
+
+	/**
+	 * @ORM\Column(type="datetime", name="updated_at", options={"default": "CURRENT_TIMESTAMP"})
+	 */
+    private $updatedAt;
 
 
 
@@ -145,4 +150,24 @@ class Editor
         $this->imgName = $imgName;
         return $this;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param mixed $updatedAt
+	 *
+	 * @return Editor
+	 */
+	public function setUpdatedAt( $updatedAt ) {
+		$this->updatedAt = $updatedAt;
+
+		return $this;
+	}
+
+
 }

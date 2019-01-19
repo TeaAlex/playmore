@@ -44,6 +44,11 @@ class Developper
      */
     private $games;
 
+	/**
+	 * @ORM\Column(type="datetime", name="updated_at", options={"default": "CURRENT_TIMESTAMP"})
+	 */
+	private $updatedAt;
+
 
 
     public function __construct()
@@ -140,6 +145,24 @@ class Developper
 
         return $this;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param mixed $updatedAt
+	 *
+	 * @return Developper
+	 */
+	public function setUpdatedAt( $updatedAt ) {
+		$this->updatedAt = $updatedAt;
+
+		return $this;
+	}
 
 
 }
