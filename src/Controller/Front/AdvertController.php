@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Advert;
+use App\Entity\Game;
 use App\Entity\User;
 use App\Form\AdvertType;
 use Doctrine\Common\Persistence\ObjectManager;

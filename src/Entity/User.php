@@ -57,7 +57,7 @@ class User implements UserInterface
     private $commentsReceived;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Game")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game", fetch="EAGER")
      */
     private $games;
 

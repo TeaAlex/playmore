@@ -4,18 +4,31 @@ namespace App\Form;
 
 use App\Entity\Advert;
 use App\Entity\AdvertKind;
-use App\Entity\Item;
+use App\Entity\Game;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AdvertType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+
+	/**
+	 * @var TokenStorageInterface
+	 */
+	private $tokenStorage;
+
+	public function __construct(TokenStorageInterface $tokenStorage) {
+
+		$this->tokenStorage = $tokenStorage;
+	}
+
+	public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    	$user = $this->tokenStorage->getToken()->getUser();
         $builder
             ->add('advertKind', EntityType::class, [
             	'class' => AdvertKind::class,
@@ -34,20 +47,21 @@ class AdvertType extends AbstractType
 	            'label' => 'Date de fin',
 	            'data' => new \DateTime('now')
             ])
-            ->add('itemOwned', EntityType::class, [
-            	'class' => Item::class,
+            ->add('gameOwned', EntityType::class, [
+            	'class' => Game::class,
 	            'choice_label' => 'name',
-	            'label' => 'Objet possédé',
-	            'placeholder' => ''
+	            'label' => 'Jeu possédé',
+	            'placeholder' => '',
+	            'choices' => $user->getGames()
             ])
             ->add('price', IntegerType::class, [
             	'label' => 'Prix',
 	            'required' => false
             ])
-            ->add('itemWanted', EntityType::class, [
-            	'class' => Item::class,
+            ->add('gameWanted', EntityType::class, [
+            	'class' => Game::class,
 	            'choice_label' => 'name',
-	            'label' => 'Objet voulu',
+	            'label' => 'Jeu voulu',
 	            'placeholder' => '',
 	            'required' => false
             ])

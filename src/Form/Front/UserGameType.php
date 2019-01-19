@@ -3,7 +3,7 @@
 namespace App\Form\Front;
 
 
-use App\Entity\Item;
+use App\Entity\Game;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -13,8 +13,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserGameType extends AbstractType {
 
 	public function buildForm( FormBuilderInterface $builder, array $options ) {
-		$builder->add('items', EntityType::class, [
-			'class' => Item::class,
+		$builder->add('games', EntityType::class, [
+			'class' => Game::class,
 			'choice_label' => 'name',
 			'multiple' => true,
 			'expanded' => true

@@ -58,7 +58,7 @@ class Platform
         return $this->games;
     }
 
-    public function addItem(Game $game): self
+    public function addGame(Game $game): self
     {
         if (!$this->games->contains($game)) {
             $this->games[] = $game;
@@ -68,7 +68,7 @@ class Platform
         return $this;
     }
 
-    public function removeItem(Game $game): self
+    public function removeGame(Game $game): self
     {
         if ($this->games->contains($game)) {
             $this->games->removeElement($game);

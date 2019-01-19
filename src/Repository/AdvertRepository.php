@@ -27,21 +27,21 @@ class AdvertRepository extends ServiceEntityRepository
     	$rsm->addScalarResult('start_date','start_date');
     	$rsm->addScalarResult('end_date','end_date');
     	$rsm->addScalarResult('price','price');
-    	$rsm->addScalarResult('item_owned_id','item_owned_id');
-    	$rsm->addScalarResult('item_owned_name','item_owned_name');
-    	$rsm->addScalarResult('item_owned_img_name','item_owned_img_name');
-    	$rsm->addScalarResult('item_wanted_id','item_wanted_id');
-    	$rsm->addScalarResult('item_wanted_name','item_wanted_name');
-    	$rsm->addScalarResult('item_wanted_img_name','item_wanted_img_name');
+    	$rsm->addScalarResult('game_owned_id','game_owned_id');
+    	$rsm->addScalarResult('game_owned_name','game_owned_name');
+    	$rsm->addScalarResult('game_owned_img_name','game_owned_img_name');
+    	$rsm->addScalarResult('game_wanted_id','game_wanted_id');
+    	$rsm->addScalarResult('game_wanted_name','game_wanted_name');
+    	$rsm->addScalarResult('game_wanted_img_name','game_wanted_img_name');
     	$rsm->addScalarResult('username','username');
 		$sql = <<<SQL
-			SELECT a.id advert_id, ak.id advert_kind_id, a.start_date, a.end_date, a.price, i.id item_owned_id,  i.name item_owned_name, i.img_name item_owned_img_name,
-       		a.item_wanted_id item_wanted_id, i2.name item_wanted_name, i2.img_name item_wanted_img_name, u.username
+			SELECT a.id advert_id, ak.id advert_kind_id, a.start_date, a.end_date, a.price, g.id game_owned_id,  g.name game_owned_name, g.img_name game_owned_img_name,
+       		a.game_wanted_id game_wanted_id, i2.name game_wanted_name, i2.img_name game_wanted_img_name, u.username
 			FROM advert a
 			JOIN advert_kind ak ON a.advert_kind_id = ak.id
-			JOIN item i ON a.item_owned_id = i.id
+			JOIN game g ON a.game_owned_id = g.id
 			JOIN user u ON a.created_by_id = u.id
-			LEFT JOIN item i2 ON a.item_wanted_id = i2.id
+			LEFT JOIN game i2 ON a.game_wanted_id = i2.id
 SQL;
 		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->getResult();
 

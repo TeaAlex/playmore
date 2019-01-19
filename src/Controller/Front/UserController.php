@@ -29,20 +29,20 @@ class UserController extends AbstractController {
 	}
 
 	/**
-	 * @Route(path="/item/add", name="item_add", methods={"POST", "GET"})
+	 * @Route(path="/game/add", name="game_add", methods={"POST", "GET"})
 	 * @param Request $request
 	 * @param ObjectManager $em
 	 *
 	 * @return Response
 	 */
 	public function addGame(Request $request, ObjectManager $em): Response {
-		$user = $em->getRepository(User::class)->find(1);
+		$user = $this->getUser();
 		$form = $this->createForm(UserGameType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 			$em->persist($user);
 			$em->flush();
-			return $this->redirectToRoute('user_item_add');
+			return $this->redirectToRoute('user_game_add');
 		}
 
 		return $this->render('Front/users/add_game.html.twig', [

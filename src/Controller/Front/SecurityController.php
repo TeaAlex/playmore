@@ -2,7 +2,7 @@
 namespace App\Controller\Front;
 use App\Form\UserType;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  * @package App\Controller
  * @Route(name="app_security_")
  */
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="login")

@@ -9,12 +9,12 @@
                 <div class="flex w-full">
                     <div class="w-1/2 p-8">
                         {{ form_row(form.advertKind) }}
-                        {{ form_row(form.itemOwned) }}
+                        {{ form_row(form.gameOwned) }}
                         <div class="hidden price-input">
                             {{ form_row(form.price) }}
                         </div>
-                        <div class="hidden item-wanted-input">
-                            {{ form_row(form.itemWanted) }}
+                        <div class="hidden game-wanted-input">
+                            {{ form_row(form.gameWanted) }}
                         </div>
                     </div>
                     <div class="w-1/2 p-8">
@@ -41,15 +41,15 @@
       advertKindInput.addEventListener('change', (e) => {
         const value = e.target.value;
         const priceInput = document.querySelector('.price-input');
-        const itemWantedInput = document.querySelector('.item-wanted-input');
+        const gameWantedInput = document.querySelector('.game-wanted-input');
         if (value == 1) {
           priceInput.classList.add('hidden');
-          itemWantedInput.classList.remove('hidden');
+          gameWantedInput.classList.remove('hidden');
         } else if (value == 2) {
-          itemWantedInput.classList.add('hidden');
+          gameWantedInput.classList.add('hidden');
           priceInput.classList.remove('hidden');
         } else {
-          itemWantedInput.classList.add('hidden');
+          gameWantedInput.classList.add('hidden');
           priceInput.classList.add('hidden');
         }
       })
