@@ -4,11 +4,12 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Advert;
-use App\Entity\Game;
-use App\Entity\User;
-use App\Form\AdvertType;
+use App\Entity\GamePlatform;
+use App\Form\Front\AdvertType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,7 +47,11 @@ class AdvertController extends AbstractController
         $advert->setCreatedBy($user);
         $form = $this->createForm(AdvertType::class, $advert);
 		$form->handleRequest($request);
+		if($request->isXmlHttpRequest()){
+			return $this->render('Front/adverts/new.html.twig', ['form' => $form->createView()]);
+		}
 		if($form->isSubmitted() && $form->isValid()){
+			$this->saveGamePlatform($em, $form, $advert);
 			$em->persist($advert);
 			$em->flush();
 			return $this->redirectToRoute('advert_new');
@@ -54,7 +59,16 @@ class AdvertController extends AbstractController
 		return $this->render('Front/adverts/new.html.twig', [
 			'form' => $form->createView()
 		]);
+	}
 
+	private function saveGamePlatform(ObjectManager &$em, FormInterface &$form, Advert &$advert) {
+		if($form->get('advertKind')->getViewData() == 1 && $form->get('gameWanted') && $form->get('platform')){
+			$repo = $em->getRepository( GamePlatform::class );
+			$gameOwned = $repo->findOneByGameAndUser($form->get('gameOwned')->getData(), $this->getUser());
+			$gameWanted = $repo->findOneBy(['game' => $form->get('gameWanted')->getData(), 'platform' => $form->get('platform')->getData()]);
+			$advert->setGameOwned($gameOwned);
+			$advert->setGameWanted($gameWanted);
+		}
 	}
 
 }

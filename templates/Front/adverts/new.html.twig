@@ -7,7 +7,7 @@
             {{ form_start(form) }}
             <div class="flex-col rounded bg-white shadow-md">
                 <div class="flex w-full">
-                    <div class="w-1/2 p-8">
+                    <div class="w-1/2 p-8 advert-infos">
                         {{ form_row(form.advertKind) }}
                         {{ form_row(form.gameOwned) }}
                         <div class="hidden price-input">
@@ -35,25 +35,5 @@
 
 
 {% block javascripts %}
-    <script>
-
-      const advertKindInput = document.querySelector('#advert_advertKind');
-      advertKindInput.addEventListener('change', (e) => {
-        const value = e.target.value;
-        const priceInput = document.querySelector('.price-input');
-        const gameWantedInput = document.querySelector('.game-wanted-input');
-        if (value == 1) {
-          priceInput.classList.add('hidden');
-          gameWantedInput.classList.remove('hidden');
-        } else if (value == 2) {
-          gameWantedInput.classList.add('hidden');
-          priceInput.classList.remove('hidden');
-        } else {
-          gameWantedInput.classList.add('hidden');
-          priceInput.classList.add('hidden');
-        }
-      })
-
-
-    </script>
+    {{ encore_entry_script_tags('advert_new') }}
 {% endblock %}

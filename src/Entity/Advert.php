@@ -19,13 +19,13 @@ class Advert
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GamePlatform")
      * @ORM\JoinColumn(nullable=false)
      */
     private $gameOwned;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GamePlatform")
      */
     private $gameWanted;
 
@@ -80,7 +80,7 @@ class Advert
         return $this->gameOwned;
     }
 
-    public function setGameOwned(?Game $gameOwned): self
+    public function setGameOwned(?GamePlatform $gameOwned): self
     {
         $this->gameOwned = $gameOwned;
 
@@ -92,7 +92,7 @@ class Advert
         return $this->gameWanted;
     }
 
-    public function setGameWanted(?Game $gameWanted): self
+    public function setGameWanted(?GamePlatform $gameWanted): self
     {
         $this->gameWanted = $gameWanted;
 

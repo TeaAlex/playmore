@@ -24,13 +24,14 @@ class Platform
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="platform")
+     * @ORM\OneToMany(targetEntity="App\Entity\GamePlatform", mappedBy="platform")
      */
-    private $games;
+    private $gamePlatforms;
+
 
     public function __construct()
     {
-        $this->games = new ArrayCollection();
+        $this->gamePlatforms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,32 +52,38 @@ class Platform
     }
 
     /**
-     * @return Collection|Game[]
+     * @return Collection|GamePlatform[]
      */
-    public function getGames(): Collection
+    public function getGamePlatforms(): Collection
     {
-        return $this->games;
+        return $this->gamePlatforms;
     }
 
-    public function addGame(Game $game): self
+    public function addGamePlatform(GamePlatform $gamePlatform): self
     {
-        if (!$this->games->contains($game)) {
-            $this->games[] = $game;
-            $game->addPlatform($this);
+        if (!$this->gamePlatforms->contains($gamePlatform)) {
+            $this->gamePlatforms[] = $gamePlatform;
+            $gamePlatform->setPlatform($this);
         }
 
         return $this;
     }
 
-    public function removeGame(Game $game): self
+    public function removeGamePlatform(GamePlatform $gamePlatform): self
     {
-        if ($this->games->contains($game)) {
-            $this->games->removeElement($game);
-            $game->removePlatform($this);
+        if ($this->gamePlatforms->contains($gamePlatform)) {
+            $this->gamePlatforms->removeElement($gamePlatform);
+            // set the owning side to null (unless already changed)
+            if ($gamePlatform->getPlatform() === $this) {
+                $gamePlatform->setPlatform(null);
+            }
         }
 
         return $this;
     }
+
+
+
 
 
 }

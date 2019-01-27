@@ -3,6 +3,7 @@
 namespace App\Controller\Back;
 
 use App\Entity\Game;
+use App\Entity\GamePlatform;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,13 @@ class GameController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+        	$platforms = $form->get('gamePlatforms')->getData();
+	        foreach ( $platforms as $platform ) {
+		        $gamePlatform = new GamePlatform();
+		        $gamePlatform->setGame($game);
+		        $gamePlatform->setPlatform($platform);
+		        $entityManager->persist($gamePlatform);
+        	}
             $entityManager->persist($game);
             $entityManager->flush();
 

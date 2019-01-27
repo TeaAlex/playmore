@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Front;
 
 use App\Entity\Advert;
 use App\Entity\AdvertKind;
 use App\Entity\Game;
+use App\Form\Front\EventListener\AddPlatformSubscriber;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -52,7 +53,8 @@ class AdvertType extends AbstractType
 	            'choice_label' => 'name',
 	            'label' => 'Jeu possédé',
 	            'placeholder' => '',
-	            'choices' => $user->getGames()
+	            'choices' => $user->getGames(),
+	            'mapped' => false
             ])
             ->add('price', IntegerType::class, [
             	'label' => 'Prix',
@@ -63,9 +65,11 @@ class AdvertType extends AbstractType
 	            'choice_label' => 'name',
 	            'label' => 'Jeu voulu',
 	            'placeholder' => '',
-	            'required' => false
+	            'required' => false,
+	            'mapped' => false,
             ])
         ;
+        $builder->get('gameWanted')->addEventSubscriber(new AddPlatformSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

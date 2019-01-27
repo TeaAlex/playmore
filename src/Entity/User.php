@@ -57,9 +57,9 @@ class User implements UserInterface
     private $commentsReceived;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Game", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="App\Entity\GamePlatform", mappedBy="user")
      */
-    private $games;
+    private $gamePlatforms;
 
     public function __construct()
     {
@@ -67,9 +67,9 @@ class User implements UserInterface
         $this->offers           = new ArrayCollection();
         $this->commentsCreated  = new ArrayCollection();
         $this->commentsReceived = new ArrayCollection();
-        $this->games            = new ArrayCollection();
         $this->rating           = 0;
         $this->coins            = 0;
+        $this->gamePlatforms = new ArrayCollection();
     }
 
 
@@ -278,28 +278,37 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Game[]
+     * @return Collection|GamePlatform[]
      */
-    public function getGames(): Collection
+    public function getGamePlatforms(): Collection
     {
-        return $this->games;
+        return $this->gamePlatforms;
     }
 
-    public function addGame(Game $game): self
+    public function addGamePlatform(GamePlatform $gamePlatform): self
     {
-        if (!$this->games->contains($game)) {
-            $this->games[] = $game;
+        if (!$this->gamePlatforms->contains($gamePlatform)) {
+            $this->gamePlatforms[] = $gamePlatform;
+            $gamePlatform->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeGame(Game $game): self
+    public function removeGamePlatform(GamePlatform $gamePlatform): self
     {
-        if ($this->games->contains($game)) {
-            $this->games->removeElement($game);
+        if ($this->gamePlatforms->contains($gamePlatform)) {
+            $this->gamePlatforms->removeElement($gamePlatform);
+            $gamePlatform->removeUser($this);
         }
 
         return $this;
     }
+
+	public function getGames(): array {
+		return array_map(function(GamePlatform $gamePlatform) {
+			return $gamePlatform->getGame();
+		}, $this->gamePlatforms->toArray());
+    }
+
 }
