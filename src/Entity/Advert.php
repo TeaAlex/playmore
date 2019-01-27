@@ -26,6 +26,7 @@ class Advert
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GamePlatform")
+     * @ORM\JoinColumn(name="game_wanted_id", referencedColumnName="id", nullable=true)
      */
     private $gameWanted;
 

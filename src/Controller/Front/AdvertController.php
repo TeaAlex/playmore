@@ -62,11 +62,11 @@ class AdvertController extends AbstractController
 	}
 
 	private function saveGamePlatform(ObjectManager &$em, FormInterface &$form, Advert &$advert) {
+		$repo = $em->getRepository( GamePlatform::class );
+		$gameOwned = $repo->findOneByGameAndUser($form->get('gameOwned')->getData(), $this->getUser());
+		$advert->setGameOwned($gameOwned);
 		if($form->get('advertKind')->getViewData() == 1 && $form->get('gameWanted') && $form->get('platform')){
-			$repo = $em->getRepository( GamePlatform::class );
-			$gameOwned = $repo->findOneByGameAndUser($form->get('gameOwned')->getData(), $this->getUser());
 			$gameWanted = $repo->findOneBy(['game' => $form->get('gameWanted')->getData(), 'platform' => $form->get('platform')->getData()]);
-			$advert->setGameOwned($gameOwned);
 			$advert->setGameWanted($gameWanted);
 		}
 	}
