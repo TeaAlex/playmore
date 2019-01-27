@@ -56,8 +56,8 @@
                     <div class="flex items-center">
                         <i class="fas fa-calendar"></i>
                         <div class="flex flex-col ml-2 text-sm">
-                            <p>Du {{ advert.start_date | date('l F') }}</p>
-                            <p>Au {{ advert.end_date | date('l F') }}</p>
+                            <p>Du {{ advert.start_date | date('d l F') }}</p>
+                            <p>Au {{ advert.end_date | date('d l F') }}</p>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                             <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                             <div class="flex flex-col justify-center ml-3">
                                 <p class="font-bold text-black">{{ advert.game_owned_name }}</p>
-                                <p class="font-semibold text-grey-dark">XBOX ONE</p>
+                                <p class="font-semibold text-grey-dark">{{ advert.game_owned_platform }}</p>
                             </div>
                         </div>
                         <p class="text-playmore-blue font-semibold">Possède</p>
@@ -78,7 +78,7 @@
                             <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~ advert.game_wanted_img_name ) }}" alt="">
                             <div class="flex flex-col justify-center ml-3">
                                 <p class="font-bold text-black">{{ advert.game_wanted_name }}</p>
-                                <p class="font-semibold text-grey-dark">PS4</p>
+                                <p class="font-semibold text-grey-dark">{{ advert.game_wanted_platform }}</p>
                             </div>
                         </div>
                         <p class="text-playmore-blue font-semibold">Recherche</p>
