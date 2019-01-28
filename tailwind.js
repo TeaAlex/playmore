@@ -47,7 +47,7 @@ let colors = {
 
   'playmore-blue-darkest': '#0A407E',
   'playmore-blue': '#2A8EFF',
-  'playmore-blud-light': '#78B8FF',
+  'playmore-blue-light': '#78B8FF',
   'playmore-blue-lightest': '#F6F9FF',
 
 
@@ -55,6 +55,8 @@ let colors = {
 
   'primary': '#1F7777',
   'primary-light': '#459B9B',
+  'primary-lighter': '#81cece',
+  'primary-lightest': '#faffff',
 
   'black': '#22292f',
   'grey-darkest': '#4D4D4D',
