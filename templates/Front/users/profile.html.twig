@@ -3,7 +3,12 @@
 {% block content %}
     <div class="w-full min-h-screen bg-grey-lightest">
         <div class="w-2/3 h-screen m-auto">
-            Mes jeux
+            <a href="">Mes jeux</a>
+            <ul>
+                {% for gamePlatform in user.gamePlatforms %}
+                <li><a href="{{ path('user_game_edit', {'gamePlatformId' : gamePlatform.id}) }}">{{ gamePlatform.game.name }}</a></li>
+                {% endfor %}
+            </ul>
             <a href="">Ajouter des jeux</a>
         </div>
     </div>

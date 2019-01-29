@@ -2,6 +2,7 @@
 
 namespace App\Form\Front\EventListener;
 
+use App\Entity\Game;
 use App\Entity\Platform;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,7 +14,10 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 
 
 	public static function getSubscribedEvents() {
-		return [FormEvents::POST_SUBMIT => 'postSubmit'];
+		return [
+			FormEvents::POST_SUBMIT => 'postSubmit',
+			FormEvents::PRE_SET_DATA => 'preSetData',
+		];
 	}
 
 	public function postSubmit( FormEvent $event ) {
@@ -21,11 +25,8 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 		if($form->getData() == null){
 			return;
 		}
-		$gamePlatforms = $form->getData()->getGamePlatforms();
-		$platforms = new ArrayCollection();
-		foreach ( $gamePlatforms as $gamePlatform ) {
-			$platforms->add($gamePlatform->getPlatform());
-		}
+		$game = $form->getData();
+		$platforms = $this->getPlatforms($game);
 		$form->getParent()->add('platform', EntityType::class, [
 			'class' => Platform::class,
 			'label' => 'Plateforme',
@@ -37,4 +38,39 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 			'error_bubbling' => true
 		]);
 	}
+
+	public function preSetData(FormEvent $event) {
+		$form = $event->getForm();
+		$platform = $event->getForm()->getParent()->getData()->getPlatform();
+		if($event->getData() == null){
+			return;
+		}
+		$platforms = $this->getPlatforms($event->getData());
+		$form->getParent()->add('platform', EntityType::class, [
+			'class' => Platform::class,
+			'label' => 'Plateforme',
+			'choice_label' => 'name',
+			'choices' => $platforms,
+			'data' => $platform,
+			'mapped' => false,
+			'required' => false,
+			'error_bubbling' => true
+		]);
+
+	}
+
+	/**
+	 * @param Game $game
+	 *
+	 * @return ArrayCollection
+	 */
+	private function getPlatforms(Game $game): ArrayCollection {
+		$gamePlatforms = $game->getGamePlatforms();
+		$platforms = new ArrayCollection();
+		foreach ($gamePlatforms as $gamePlatform) {
+			$platforms->add($gamePlatform->getPlatform());
+		}
+
+		return $platforms;
+}
 }

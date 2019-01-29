@@ -29,7 +29,7 @@ class UserController extends AbstractController {
 	 */
 	public function profile(): Response {
 		
-		return $this->render('Front/users/profile.html.twig', []);
+		return $this->render('Front/users/profile.html.twig', ['user' => $this->getUser()]);
 	}
 
 	/**
@@ -40,8 +40,8 @@ class UserController extends AbstractController {
 	 * @return Response
 	 */
 	public function addGame(Request $request, ObjectManager $em): Response {
-		$user = $this->getUser();
-		$form = $this->createForm(UserGameType::class, $user);
+		$gamePlatform = new GamePlatform();
+		$form = $this->createForm(UserGameType::class, $gamePlatform);
 		$req = $request->request;
 		$p = $req->get('user_game')['platform'] ?? false;
 		$form->handleRequest($request);
@@ -58,6 +58,24 @@ class UserController extends AbstractController {
 			'form' => $form->createView()
 		]);
 	}
+
+	/**
+	 * @Route(path="/game/edit/{gamePlatform}", name="game_edit", methods={"POST", "GET"})
+	 * @param GamePlatform $gamePlatform
+	 *
+	 * @return Response
+	 */
+	public function editGame(Request $request, GamePlatform $gamePlatform) {
+		$form = $this->createForm(UserGameType::class, $gamePlatform );
+		dump($form);
+		$form->handleRequest($request);
+		if($form->isSubmitted() && $form->isValid()){
+
+		}
+		return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
+	}
+
+
 
 
 

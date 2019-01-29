@@ -4,6 +4,7 @@ namespace App\Form\Front;
 
 
 use App\Entity\Game;
+use App\Entity\GamePlatform;
 use App\Entity\Platform;
 use App\Entity\User;
 use App\Form\Front\EventListener\AddPlatformSubscriber;
@@ -19,12 +20,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class UserGameType extends AbstractType {
 
 	public function buildForm( FormBuilderInterface $builder, array $options ) {
-
+		/** @var $gamePlatform GamePlatform  **/
+		$gamePlatform = $builder->getData();
+//		dd($gamePlatform);
 		$builder->add('game', EntityType::class, [
 			'class' => Game::class,
 			'choice_label' => 'name',
 			'mapped' => false,
-			'required' => false
+			'required' => false,
+			'data' => $gamePlatform->getGame()
 		]);
 
 		$builder->get('game')->addEventSubscriber(new AddPlatformSubscriber());
@@ -32,7 +36,7 @@ class UserGameType extends AbstractType {
 
 	public function configureOptions( OptionsResolver $resolver ) {
 		$resolver->setDefaults([
-			'data_class' => User::class
+			'data_class' => GamePlatform::class
 		]);
 	}
 
