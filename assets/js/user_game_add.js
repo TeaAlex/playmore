@@ -1,5 +1,6 @@
 const axios = require('axios');
 const game = document.querySelector('#user_game_game');
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 game.addEventListener('change', function (e) {
   const form = document.querySelector('form');
   const data = {};

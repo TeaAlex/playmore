@@ -8,12 +8,12 @@ use App\Entity\GamePlatform;
 use App\Entity\Platform;
 use App\Entity\User;
 use App\Form\Front\UserGameType;
+use App\Repository\GamePlatformRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 
 /**
  * Class UserController
@@ -28,7 +28,6 @@ class UserController extends AbstractController {
 	 * @return Response
 	 */
 	public function profile(): Response {
-		
 		return $this->render('Front/users/profile.html.twig', ['user' => $this->getUser()]);
 	}
 
@@ -40,6 +39,7 @@ class UserController extends AbstractController {
 	 * @return Response
 	 */
 	public function addGame(Request $request, ObjectManager $em): Response {
+		$user = $this->getUser();
 		$gamePlatform = new GamePlatform();
 		$form = $this->createForm(UserGameType::class, $gamePlatform);
 		$req = $request->request;
@@ -61,16 +61,31 @@ class UserController extends AbstractController {
 
 	/**
 	 * @Route(path="/game/edit/{gamePlatform}", name="game_edit", methods={"POST", "GET"})
+	 * @param Request $request
 	 * @param GamePlatform $gamePlatform
+	 *
+	 * @param GamePlatformRepository $repository
+	 *
+	 * @param ObjectManager $em
 	 *
 	 * @return Response
 	 */
-	public function editGame(Request $request, GamePlatform $gamePlatform) {
+	public function editGame(Request $request, GamePlatform $gamePlatform, GamePlatformRepository $repository, ObjectManager $em) {
+		/** @var $user User  **/
+		$user = $this->getUser();
 		$form = $this->createForm(UserGameType::class, $gamePlatform );
-		dump($form);
 		$form->handleRequest($request);
+		if($request->isXmlHttpRequest()){
+			return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
+		}
 		if($form->isSubmitted() && $form->isValid()){
-
+			$game = $form->get('game')->getData();
+			$platform = $form->get('platform')->getData();
+			$gp = $repository->findOneBy(['game' => $game, 'platform' => $platform]);
+			$user->addGamePlatform($gp);
+			$user->removeGamePlatform($gamePlatform);
+			$em->flush();
+			return $this->redirectToRoute('user_profile');
 		}
 		return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
 	}
