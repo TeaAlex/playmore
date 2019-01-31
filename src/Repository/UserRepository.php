@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +18,22 @@ class UserRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+	public function findInfosByUser($userId) {
+		$rsm = new ResultSetMapping();
+		$rsm->addScalarResult('cnt_games','cnt_games');
+		$rsm->addScalarResult('cnt_echange','cnt_echange');
+		$rsm->addScalarResult('cnt_location','cnt_location');
+		$sql = <<<SQL
+			SELECT game.cnt_games, echange.cnt_echange, location.cnt_location
+			FROM user u
+			JOIN (SELECT COUNT(*) cnt_games, user_id FROM game_platform_user) game ON game.user_id = u.id
+			JOIN (SELECT COUNT(*) cnt_echange, created_by_id FROM advert WHERE advert_kind_id = 1) echange ON echange.created_by_id = u.id
+			JOIN (SELECT COUNT(*) cnt_location, created_by_id FROM advert WHERE advert_kind_id = 2) location ON echange.created_by_id = u.id
+			WHERE u.id = :id		
+SQL;
+		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['id' => $userId])->getOneOrNullResult();
     }
 
     // /**

@@ -8,7 +8,9 @@ use App\Entity\GamePlatform;
 use App\Entity\Platform;
 use App\Entity\User;
 use App\Form\Front\UserGameType;
+use App\Repository\AdvertRepository;
 use App\Repository\GamePlatformRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +27,20 @@ class UserController extends AbstractController {
 
 	/**
 	 * @Route(path="/", name="profile")
+	 * @param AdvertRepository $advertRepository
+	 * @param UserRepository $userRepository
+	 *
 	 * @return Response
 	 */
-	public function profile(): Response {
-		return $this->render('Front/users/profile.html.twig', ['user' => $this->getUser()]);
+	public function profile(AdvertRepository $advertRepository, UserRepository $userRepository): Response {
+		$user = $this->getUser();
+		$adverts = $advertRepository->findAdvertsByUser($user->getId());
+		$infos = $userRepository->findInfosByUser($user->getId());
+		return $this->render('Front/users/profile.html.twig', [
+			'user' => $user,
+			'adverts' => $adverts,
+			'infos' => $infos
+		]);
 	}
 
 	/**
