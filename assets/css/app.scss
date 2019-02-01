@@ -456,3 +456,8 @@ textarea{
     @apply rounded-full bg-playmore-blue flex justify-center items-center absolute;
   }
 
+  .title-border {
+    @apply border-l-4 border-primary pl-2 my-4;
+  }
+
+
