@@ -15,14 +15,14 @@ class UserType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		// TODO FIX EDIT PWD IF BLANK
 		$builder
 			->add('username', TextType::class, [ 'label' => 'Nom d\'utilisateur', ])
 			->add('email', EmailType::class)
 			->add('imgFile', FileType::class, [
-				"label" => "Cover",
+				"label" => "Photo de profil",
 				"required" => false
 			])
+			// TODO : add event to check if user is admin then add roles
 //			->add('roles', ChoiceType::class, [
 //				'choices'  => [
 //					'User' => 'ROLE_USER',
