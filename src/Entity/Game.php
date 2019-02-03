@@ -189,38 +189,38 @@ class Game
     }
 
 	public function getId(): ?int
-               	{
-               		return $this->id;
-               	}
+	{
+		return $this->id;
+	}
 
 	public function getName(): ?string
-               	{
-               		return $this->name;
-               	}
+	{
+		return $this->name;
+	}
 
 	public function setName(string $name): self
-               	{
-               		$this->name = $name;
-               
-               		return $this;
-               	}
+	{
+		$this->name = $name;
+
+		return $this;
+	}
 
 
 	/**
 	 * @return Collection|Platform[]
 	 */
 	public function getPlatform(): Collection
-               	{
-               		return $this->platform;
-               	}
+	{
+		return $this->platform;
+	}
 
 
 	/**
 	 * @return File|null
 	 */
 	public function getImgFile(): ?File {
-               		return $this->imgFile;
-               	}
+		return $this->imgFile;
+	}
 
 	/**
 	 * @param File|null $imgFile
@@ -229,19 +229,19 @@ class Game
 	 * @throws \Exception
 	 */
 	public function setImgFile( ?File $imgFile ): Game {
-               		$this->imgFile = $imgFile;
-               		if($this->imgFile instanceof UploadedFile){
-               			$this->updatedAt = new \DateTime('now');
-               		}
-               		return $this;
-               	}
+		$this->imgFile = $imgFile;
+		if($this->imgFile instanceof UploadedFile){
+			$this->updatedAt = new \DateTime('now');
+		}
+		return $this;
+	}
 
 	/**
 	 * @return string|null
 	 */
 	public function getImgName(): ?string {
-               		return $this->imgName;
-               	}
+		return $this->imgName;
+	}
 
 	/**
 	 * @param string|null $imgName
@@ -249,21 +249,21 @@ class Game
 	 * @return Game
 	 */
 	public function setImgName( ?string $imgName ): Game {
-               		$this->imgName = $imgName;
-               		return $this;
-               	}
+		$this->imgName = $imgName;
+		return $this;
+	}
 
 	public function getUpdatedAt(): ?\DateTimeInterface
-               	{
-               		return $this->updatedAt;
-               	}
+	{
+		return $this->updatedAt;
+	}
 
 	public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-               	{
-               		$this->updatedAt = $updatedAt;
-               
-               		return $this;
-               	}
+	{
+		$this->updatedAt = $updatedAt;
+
+		return $this;
+	}
 
     /**
      * @return Collection|GamePlatform[]

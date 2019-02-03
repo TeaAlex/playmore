@@ -27,7 +27,7 @@ class GamePlatformRepository extends ServiceEntityRepository
 			WHERE gp.game = :game AND u.id = :user 
 DQL;
 
-		return $this->_em->createQuery($dql)->setParameters([':game' => $game, ':user' => $user])->getOneOrNullResult();
+		return $this->_em->createQuery($dql)->setParameters(['game' => $game, 'user' => $user])->getOneOrNullResult();
     }
 
 

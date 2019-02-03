@@ -9,6 +9,7 @@ use App\Entity\Editor;
 use App\Entity\Game;
 use App\Entity\GamePlatform;
 use App\Entity\Platform;
+use App\Repository\PlatformRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -42,13 +43,14 @@ class GameType extends AbstractType
             ->add('description', TextareaType::class, [
 	            "label" => "Description",
             ])
-            ->add('gamePlatforms', EntityType::class, [
+            ->add('platforms', EntityType::class, [
             	"label" => "Plateforme(s)",
             	"class" => Platform::class,
 	            "choice_label" => "name",
 	            "multiple" => true,
 	            "expanded" => true,
 	            "mapped" => false,
+	            "data" => $options['platforms']
             ])
 	        ->add('developper', EntityType::class, [
 		        "label" => "Développeur",
@@ -79,6 +81,7 @@ class GameType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Game::class,
+	        'platforms' => null
         ]);
     }
 }

@@ -19,6 +19,17 @@ class PlatformRepository extends ServiceEntityRepository
         parent::__construct($registry, Platform::class);
     }
 
+	public function findByGame ($game) {
+		$dql = <<<DQL
+			SELECT p
+			FROM App\Entity\Platform p
+			JOIN p.gamePlatforms gp
+			WHERE gp.game = :game
+DQL;
+
+		return $this->_em->createQuery($dql)->setParameters(['game' => $game])->getResult();
+    }
+
     // /**
     //  * @return Platform[] Returns an array of Platform objects
     //  */

@@ -43,6 +43,7 @@ class GameRepository extends ServiceEntityRepository
 			  SELECT GROUP_CONCAT(p.name SEPARATOR ' ') platforms, gp.game_id
 			  FROM game_platform gp
 			  JOIN platform p ON gp.platform_id = p.id
+			  WHERE gp.deleted_at IS NULL
 			  GROUP BY gp.game_id
 			) plat ON plat.game_id = g.id
 			ORDER BY g.id

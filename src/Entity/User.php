@@ -3,9 +3,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @Vich\Uploadable()
+
  */
 class User implements UserInterface
 {
@@ -35,6 +41,25 @@ class User implements UserInterface
      * @ORM\Column(type="integer", options={"default":0})
      */
     private $coins;
+
+	/**
+	 * @var File|null
+	 * @Vich\UploadableField(mapping="user_image", fileNameProperty="imgName")
+	 */
+	private $imgFile;
+
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+	private $imgName;
+
+	/**
+	 * @var $updatedAt \DateTime
+	 * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
+	 */
+	private $updatedAt;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="createdBy")
      */
@@ -61,6 +86,11 @@ class User implements UserInterface
      */
     private $gamePlatforms;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Platform")
+     */
+    private $platforms;
+
     public function __construct()
     {
         $this->adverts          = new ArrayCollection();
@@ -70,6 +100,7 @@ class User implements UserInterface
         $this->rating           = 0;
         $this->coins            = 0;
         $this->gamePlatforms = new ArrayCollection();
+        $this->platforms = new ArrayCollection();
     }
 
 
@@ -99,7 +130,7 @@ class User implements UserInterface
     {
         return (string) $this->password;
     }
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
         return $this;
@@ -309,6 +340,90 @@ class User implements UserInterface
 		return array_map(function(GamePlatform $gamePlatform) {
 			return $gamePlatform->getGame();
 		}, $this->gamePlatforms->toArray());
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt(): \DateTime {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param \DateTime $updatedAt
+	 *
+	 * @return User
+	 */
+	public function setUpdatedAt(\DateTime $updatedAt): User {
+		$this->updatedAt = $updatedAt;
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return File|null
+	 */
+	public function getImgFile(): ?File {
+		return $this->imgFile;
+	}
+
+	/**
+	 * @param File|null $imgFile
+	 *
+	 * @return User
+	 * @throws \Exception
+	 */
+	public function setImgFile( ?File $imgFile ): User {
+		$this->imgFile = $imgFile;
+		if($this->imgFile instanceof UploadedFile){
+			$this->updatedAt = new \DateTime('now');
+		}
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getImgName(): ?string {
+		return $this->imgName;
+	}
+
+	/**
+	 * @param string|null $imgName
+	 *
+	 * @return User
+	 */
+	public function setImgName( ?string $imgName ): User {
+		$this->imgName = $imgName;
+		return $this;
+	}
+
+    /**
+     * @return Collection|Platform[]
+     */
+    public function getPlatforms(): Collection
+    {
+        return $this->platforms;
+    }
+
+    public function addPlatform(Platform $platform): self
+    {
+        if (!$this->platforms->contains($platform)) {
+            $this->platforms[] = $platform;
+        }
+
+        return $this;
+    }
+
+    public function removePlatform(Platform $platform): self
+    {
+        if ($this->platforms->contains($platform)) {
+            $this->platforms->removeElement($platform);
+        }
+
+        return $this;
     }
 
 }

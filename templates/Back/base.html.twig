@@ -12,7 +12,6 @@
                 {% set route_prefix = app.request.attributes.get('_route')|split('_')[0] %}
                 <ul class="mt-16">
                     <li class="sidebar-item {% if route_prefix == 'game' %} sidebar-item-active {% endif %}"><a href="{{ path('game_index') }}">Jeux</a></li>
-                    <li class="sidebar-item {% if route_prefix == 'accessory' %} sidebar-item-active {% endif %}"><a href="">Accessoires</a></li>
                     <li class="sidebar-item {% if route_prefix == 'user' %} sidebar-item-active {% endif %}"><a href="">Utilisateurs</a></li>
                     <li class="sidebar-item {% if route_prefix == 'platform' %} sidebar-item-active {% endif %}"><a href="{{ path('platform_index') }}">Plateformes</a></li>
                     <li class="sidebar-item {% if route_prefix == 'editor' %} sidebar-item-active {% endif %}"><a href="{{ path('editor_index') }}">Editeur</a></li>

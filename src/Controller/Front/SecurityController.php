@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller\Front;
-use App\Form\UserType;
+use App\Form\RegisterType;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +45,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_default_home');
         }
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

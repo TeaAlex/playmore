@@ -54,6 +54,7 @@ class Developper
     public function __construct()
     {
         $this->games = new ArrayCollection();
+        $this->updatedAt = new \DateTime('now');
     }
 
     public function getId(): ?int

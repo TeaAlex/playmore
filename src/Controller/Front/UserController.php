@@ -8,14 +8,17 @@ use App\Entity\GamePlatform;
 use App\Entity\Platform;
 use App\Entity\User;
 use App\Form\Front\UserGameType;
+use App\Form\Front\UserType;
 use App\Repository\AdvertRepository;
 use App\Repository\GamePlatformRepository;
+use App\Repository\PlatformRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
@@ -42,6 +45,26 @@ class UserController extends AbstractController {
 			'infos' => $infos
 		]);
 	}
+
+	/**
+	 * @Route(path="/edit", name="edit")
+	 * @param Request $request
+	 * @param ObjectManager $em
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+	 */
+	public function edit(Request $request, ObjectManager $em, UserPasswordEncoderInterface $passwordEncoder) {
+		$user = $this->getUser();
+		$form = $this->createForm(UserType::class, $user);
+		$form->handleRequest($request);
+		if($form->isSubmitted() && $form->isValid()){
+			$em->flush();
+			return $this->redirectToRoute('user_edit');
+		}
+		return $this->render('Front/users/edit.html.twig', ['form' => $form->createView()]);
+	}
+
 
 	/**
 	 * @Route(path="/game/add", name="game_add", methods={"POST", "GET"})

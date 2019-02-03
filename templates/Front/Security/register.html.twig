@@ -11,12 +11,11 @@
 
         <div class="login">
             <h1 class="login-title">Inscription</h1>
-    {{ form_start(form) }}
-    {{ form_row(form.username) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password.first) }}
-    {{ form_row(form.password.second) }}
-
+                {{ form_start(form) }}
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.password.first) }}
+                {{ form_row(form.password.second) }}
             <p class="login-lost">Déjà inscrit ? <a href="{{ path('app_security_login') }}">Connecte toi !</a></p>
     <button type="submit" class="login-button">S'inscrire </button>
 
