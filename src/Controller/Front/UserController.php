@@ -45,21 +45,23 @@ class UserController extends AbstractController {
 	}
 
 	/**
-	 * @Route(path="/edit", name="edit")
+	 * @Route(path="/edit/{id}", name="edit")
 	 * @param Request $request
 	 * @param ObjectManager $em
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
-	public function edit(Request $request, ObjectManager $em) {
-		$user = $this->getUser();
+	public function edit(User $user, Request $request, ObjectManager $em) {
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 			$em->flush();
 			return $this->redirectToRoute('user_profile');
 		}
-		return $this->render('Front/users/edit.html.twig', ['form' => $form->createView()]);
+		return $this->render('Front/users/edit.html.twig', [
+			'form' => $form->createView(),
+			'user' => $user
+		]);
 	}
 
 
