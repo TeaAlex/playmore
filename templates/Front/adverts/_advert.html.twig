@@ -44,7 +44,9 @@
                         <p>Pontault-Combault</p>
                     </div>
                 </div>
+                {% if advert.user_id != app.user.id %}
                 <a href="#" class="btn btn-secondary">Faire une offre</a>
+                {% endif %}
             </div>
         </div>
     {% elseif advert.advert_kind_id == 2 %}
