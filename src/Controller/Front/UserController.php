@@ -116,9 +116,11 @@ class UserController extends AbstractController {
 			$game = $form->get('game')->getData();
 			$platform = $form->get('platform')->getData();
 			$gp = $repository->findOneBy(['game' => $game, 'platform' => $platform]);
-			$user->addGamePlatform($gp);
-			$user->removeGamePlatform($gamePlatform);
-			$em->flush();
+			if($gp !== $gamePlatform){
+				$user->addGamePlatform($gp);
+				$user->removeGamePlatform($gamePlatform);
+				$em->flush();
+			}
 			return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
 		}
 		return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
