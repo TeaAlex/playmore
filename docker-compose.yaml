@@ -15,6 +15,7 @@ services:
         image: 'mysql:5.7'
         ports:
             - '3306:3306'
+        command: mysqld --sql_mode=""
         volumes:
             - './docker/database:/var/lib/mysql'
         environment:
