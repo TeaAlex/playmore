@@ -289,6 +289,7 @@ header{
 }
 
 .btn {
+  max-width: max-content;
   @apply rounded-full h-8 font-bold text-xs border-none cursor-pointer text-white flex items-center justify-center px-3 min-w-6rem;
   &-secondary {
     @apply bg-blue;
@@ -441,11 +442,8 @@ textarea{
   }
 
   .profile-game-card{
-    width: 300px;
     height: 116px;
-    background: white;
-    margin-bottom: 16px;
-    border-radius: 4px;
+    @apply w-full bg-white mb-4 rounded;
   }
 
   .profile-edit-btn{
@@ -458,6 +456,30 @@ textarea{
 
   .title-border {
     @apply border-l-4 border-primary pl-2 my-4;
+  }
+
+
+  .platform-icon {
+    padding: 5px 12px;
+    border-radius: 4px;
+    color: white;
+    max-width: 42px;
+  }
+
+  .ps4{
+    background-color: #123b5e;
+  }
+
+  .xbox {
+    background-color: #209c20;
+  }
+
+  .switch {
+    background-color: #cd2b2b;
+  }
+
+  .pc {
+    background-color: black;
   }
 
 

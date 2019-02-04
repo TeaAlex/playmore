@@ -8,8 +8,6 @@ use App\Form\GameType;
 use App\Repository\GamePlatformRepository;
 use App\Repository\GameRepository;
 use App\Repository\PlatformRepository;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;

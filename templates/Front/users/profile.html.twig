@@ -22,9 +22,14 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="px-2 flex flex-col justify-center">
+                        <div class="px-2 flex flex-col justify-center" style="width: 56%">
                             <p class="text-primary font-bold">{{ user.username }}</p>
-                            <p class="text-sm">Pontault-Combault</p>
+                            <p class="text-sm pt-2">Pontault-Combault</p>
+                            <div class="flex justify-between pt-2 platform-icons-wrap">
+                            {% for platform in user.platforms %}
+                                {% include 'Partials/game_icon.html.twig' with {'name' : platform.name } %}
+                            {% endfor %}
+                            </div>
                         </div>
                     </div>
                     <div class="bg-primary flex justify-around items-center text-white rounded-b" style="height: 52px;">
@@ -40,19 +45,17 @@
                             <img src="{{ vich_uploader_asset(gamePlatform.game, 'imgFile') }}" alt="" width="50px" height="60px">
                         </div>
                         <div class="w-2/3 flex items-center">
-                            <ul class="list-reset">
-                                <li class="pb-1 "><a class="font-bold" href="{{ path('user_game_edit', {'gamePlatform' : gamePlatform.id}) }}">{{ gamePlatform.game.name }}</a></li>
-                                <li class="pb-1 text-sm text-grey-darker">{{ gamePlatform.game.editor.name }}</li>
-                                <li class="pb-1 text-sm text-grey-dark">{{ gamePlatform.game.releaseDate | localizeddate('medium', 'none') }}</li>
-                                <li>{{ gamePlatform.platform.name }}</li>
-                            </ul>
+                            <div class="flex flex-col">
+                                <div class="pb-1 "><a class="font-bold" href="{{ path('user_game_edit', {'gamePlatform' : gamePlatform.id}) }}">{{ gamePlatform.game.name }}</a></div>
+                                <div class="pb-1 text-sm  font-semibold text-grey-darker">{{ gamePlatform.game.editor.name }}</div>
+                                <div class="pb-1 text-sm  font-semibold text-grey-dark">{{ gamePlatform.game.releaseDate | localizeddate('medium', 'none') }}</div>
+                                {% include 'Partials/game_icon.html.twig' with { 'name' : gamePlatform.platform.name } %}
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
                 {% if user.id == app.user.id %}
-                    <button class="btn btn-secondary"> <a href="{{ path('user_game_add') }}">Ajouter un jeu</a></button>
-
-
+                    <a class="btn btn-secondary" href="{{ path('user_game_add') }}">Ajouter un jeu</a>
                 {% endif %}
             </div>
             <div class="h-full w-2/3">

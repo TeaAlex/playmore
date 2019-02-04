@@ -18,8 +18,8 @@
                     <div class="flex">
                         <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                         <div class="flex flex-col justify-center ml-3">
-                            <p class="font-bold text-black">{{ advert.game_owned_name }}</p>
-                            <p class="font-semibold text-grey-dark">{{ advert.game_owned_platform }}</p>
+                            <p class="font-bold text-black pb-1">{{ advert.game_owned_name }}</p>
+                            <p class="font-semibold text-grey-dark">{% include 'Partials/game_icon.html.twig' with { 'name' : advert.game_owned_platform } %}</p>
                         </div>
                     </div>
                     <p class="text-playmore-blue font-semibold">Possède</p>
@@ -28,8 +28,8 @@
                     <div class="flex">
                         <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~ advert.game_wanted_img_name ) }}" alt="">
                         <div class="flex flex-col justify-center ml-3">
-                            <p class="font-bold text-black">{{ advert.game_wanted_name }}</p>
-                            <p class="font-semibold text-grey-dark">{{ advert.game_wanted_platform }}</p>
+                            <p class="font-bold text-black pb-1">{{ advert.game_wanted_name }}</p>
+                            <p class="font-semibold text-grey-dark">{% include 'Partials/game_icon.html.twig' with { 'name' : advert.game_wanted_platform } %}</p>
                         </div>
                     </div>
                     <p class="text-playmore-blue font-semibold">Recherche</p>
@@ -68,8 +68,8 @@
                     <div class="flex">
                         <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                         <div class="flex flex-col justify-center ml-3">
-                            <p class="font-bold text-black">{{ advert.game_owned_name }}</p>
-                            <p class="font-semibold text-grey-dark">{{ advert.game_owned_platform }}</p>
+                            <p class="font-bold text-black pb-1">{{ advert.game_owned_name }}</p>
+                            <p class="font-semibold text-grey-dark">{% include 'Partials/game_icon.html.twig' with { 'name' : advert.game_owned_platform } %}</p>
                         </div>
                     </div>
                     <p class="text-primary font-semibold">{{ advert.price }} EUR</p>
