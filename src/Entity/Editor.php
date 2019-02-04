@@ -46,7 +46,7 @@ class Editor
     private $games;
 
 	/**
-	 * @ORM\Column(type="datetime", name="updated_at", options={"default": "CURRENT_TIMESTAMP"})
+	 * @ORM\Column(type="datetime", name="updated_at", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
 	 */
     private $updatedAt;
 

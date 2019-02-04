@@ -1,4 +1,5 @@
 // hide or show select based on advert kind value
+// TODO refactor value into something more reliable
 function triggerSelect() {
   const formWrap = document.querySelector('.advert-infos');
   const advertKindInput = document.querySelector('#advert_advertKind');

@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\AdvertKind;
 use App\Entity\Category;
 use App\Entity\Classification;
 use App\Entity\Developper;
@@ -61,6 +62,13 @@ class AppFixtures extends Fixture {
 			$c = new Category();
 			$c->setName($category);
 			$manager->persist($c);
+		}
+
+		$advertKinds = ['Echange', 'Location'];
+		foreach ($advertKinds as $advertKind) {
+			$a = new AdvertKind();
+			$a->setName($advertKind);
+			$manager->persist($a);
 		}
 
 		$user = new User();

@@ -61,7 +61,12 @@
             <div class="h-full w-2/3">
                 <h1 class="title-border">Annonces</h1>
                 <div class="flex justify-between">
-                {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+                {% if adverts is empty %}
+                    <p class="text-darker font-semibold text-xl">Tu n'as pas encore d'annonces, afin de commencer à en créer rend toi
+                        <a href="{{ path('advert_new') }}" class="text-primary font-bold">ici</a></p>
+                {% else %}
+                    {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+                {% endif %}
                 </div>
             </div>
         </div>

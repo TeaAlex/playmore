@@ -40,11 +40,11 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 	}
 
 	public function preSetData(FormEvent $event) {
-		$form = $event->getForm();
-		$platform = $event->getForm()->getParent()->getData()->getPlatform();
 		if($event->getData() == null){
 			return;
 		}
+		$form = $event->getForm();
+		$platform = $event->getForm()->getParent()->getData()->getPlatform();
 		$platforms = $this->getPlatforms($event->getData());
 		$form->getParent()->add('platform', EntityType::class, [
 			'class' => Platform::class,
