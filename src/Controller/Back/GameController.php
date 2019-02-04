@@ -28,6 +28,7 @@ class GameController extends AbstractController
 	 */
     public function index(GameRepository $gameRepository): Response
     {
+
         return $this->render('Back/game/index.html.twig', ['games' => $gameRepository->all()]);
     }
 
@@ -76,7 +77,7 @@ class GameController extends AbstractController
     }
 
 	/**
-	 * @Route("/{id}/edit", name="game_edit", methods={"GET","POST"})
+	 * @Route("/{slug}/edit", name="game_edit", methods={"GET","POST"})
 	 * @param Request $request
 	 * @param EntityManagerInterface $em
 	 * @param Game $game
@@ -87,13 +88,15 @@ class GameController extends AbstractController
 	 */
     public function edit(Request $request, EntityManagerInterface $em, Game $game, PlatformRepository $platformRepository, GamePlatformRepository $gamePlatformRepository): Response
     {
-    	$platforms = $platformRepository->findByGame($game);
+
+        $platforms = $platformRepository->findByGame($game);
         $form = $this->createForm(GameType::class, $game, ['platforms' => $platforms] );
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
 			$this->updatePlatforms($em, $game, $form, $platforms, $gamePlatformRepository);
 			$em->flush();
-            return $this->redirectToRoute('game_index', ['id' => $game->getId()]);
+            return $this->redirectToRoute('game_index', ['slug' => $game->getSlug()]);
         }
 
         return $this->render('Back/game/edit.html.twig', [
@@ -103,7 +106,7 @@ class GameController extends AbstractController
     }
 
 	/**
-	 * @Route("/delete/{id}", name="game_delete", methods={"DELETE"})
+	 * @Route("/delete/{slug}", name="game_delete", methods={"DELETE"})
 	 * @param Request $request
 	 * @param Game $game
 	 *
