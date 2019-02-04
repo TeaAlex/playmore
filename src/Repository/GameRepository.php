@@ -31,8 +31,9 @@ class GameRepository extends ServiceEntityRepository
 		$rsm->addScalarResult('developper','developper');
 		$rsm->addScalarResult('platforms','platforms');
 		$rsm->addScalarResult('file_name','file_name');
+        $rsm->addScalarResult('slug','slug');
 		$sql = <<<SQL
-			SELECT g.id, g.name, g.release_date, e.name editor, c.name classification, c2.name category, d.name developper, plat.platforms, g.img_name file_name
+			SELECT g.id, g.name, g.release_date,g.slug, e.name editor, c.name classification, c2.name category, d.name developper, plat.platforms, g.img_name file_name
 			FROM game g
 			JOIN editor e ON g.editor_id = e.id
 			JOIN classification c ON g.classification_id = c.id
