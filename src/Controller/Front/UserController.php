@@ -86,8 +86,9 @@ class UserController extends AbstractController {
 			$user->addGamePlatform($gamePlatform);
 			$em->persist($user);
 			$em->flush();
-			return $this->redirectToRoute('user_game_add');
-		}
+			return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
+
+        }
 		return $this->render('Front/users/add_game.html.twig', [
 			'form' => $form->createView()
 		]);
