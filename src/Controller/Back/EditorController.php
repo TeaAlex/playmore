@@ -79,7 +79,7 @@ class EditorController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="editor_delete", methods={"DELETE"})
+     * @Route("/{id}", name="editor_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Editor $editor): Response
     {
