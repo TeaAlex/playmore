@@ -36,9 +36,10 @@ class AdvertRepository extends ServiceEntityRepository
     	$rsm->addScalarResult('game_wanted_img_name','game_wanted_img_name');
     	$rsm->addScalarResult('game_wanted_platform','game_wanted_platform');
     	$rsm->addScalarResult('username','username');
+    	$rsm->addScalarResult('user_id','user_id');
     	$rsm->addScalarResult('user_img_name','user_img_name');
 		$sql = <<<SQL
-			SELECT a.id advert_id, a.advert_kind_id , a.start_date, a.end_date, a.price, u.username, u.img_name user_img_name,
+			SELECT a.id advert_id, a.advert_kind_id , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
        			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
 			FROM advert a
@@ -69,9 +70,10 @@ SQL;
 		$rsm->addScalarResult('game_wanted_img_name','game_wanted_img_name');
 		$rsm->addScalarResult('game_wanted_platform','game_wanted_platform');
 		$rsm->addScalarResult('username','username');
+		$rsm->addScalarResult('user_id','user_id');
 		$rsm->addScalarResult('user_img_name','user_img_name');
 		$sql = <<<SQL
-			SELECT a.id advert_id, a.advert_kind_id , a.start_date, a.end_date, a.price, u.username, u.img_name user_img_name,
+			SELECT a.id advert_id, a.advert_kind_id , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
        			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
 			FROM advert a
