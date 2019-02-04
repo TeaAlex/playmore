@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
@@ -93,7 +94,20 @@ class Game
      */
     private $gamePlatforms;
 
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug;
 
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     #endregion
 

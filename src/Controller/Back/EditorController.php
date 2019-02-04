@@ -59,7 +59,7 @@ class EditorController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="editor_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="editor_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Editor $editor): Response
     {
@@ -69,7 +69,7 @@ class EditorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('editor_index', ['id' => $editor->getId()]);
+            return $this->redirectToRoute('editor_index', ['slug' => $editor->getSlug()]);
         }
 
         return $this->render('Back/editor/edit.html.twig', [
@@ -79,7 +79,7 @@ class EditorController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="editor_delete", methods={"DELETE"})
+     * @Route("/{slug}", name="editor_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Editor $editor): Response
     {
