@@ -33,6 +33,7 @@ class UserType extends AbstractType
 //			])
 			->add('platforms', EntityType::class, [
 				'class' => Platform::class,
+				'label' => 'Plateformes',
 				'choice_label' => 'name',
 				'multiple' => true,
 				'expanded' => true

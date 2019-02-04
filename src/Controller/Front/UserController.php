@@ -27,14 +27,14 @@ class UserController extends AbstractController {
 
 
 	/**
-	 * @Route(path="/", name="profile")
+	 * @Route(path="/{id}", name="profile")
+	 * @param User $user
 	 * @param AdvertRepository $advertRepository
 	 * @param UserRepository $userRepository
 	 *
 	 * @return Response
 	 */
-	public function profile(AdvertRepository $advertRepository, UserRepository $userRepository): Response {
-		$user = $this->getUser();
+	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository): Response {
 		$adverts = $advertRepository->findAdvertsByUser($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		return $this->render('Front/users/profile.html.twig', [
