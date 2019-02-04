@@ -56,7 +56,7 @@ class UserController extends AbstractController {
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 			$em->flush();
-			return $this->redirectToRoute('user_profile');
+			return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
 		}
 		return $this->render('Front/users/edit.html.twig', [
 			'form' => $form->createView(),
