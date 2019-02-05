@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="w-full min-h-screen bg-grey-lightest">
-        <div class="w-5/6 h-screen m-auto flex justify-between text-grey-darkest pt-12">
+        <div class="w-78% m-auto flex justify-between text-grey-darkest pt-12">
             <div class="h-full">
                 <h1 class="title-border">Profil</h1>
                 <div class="bg-white flex flex-col shadow rounded relative mb-12" style="width:360px; height: 181px;">
@@ -60,7 +60,7 @@
             </div>
             <div class="h-full w-2/3">
                 <h1 class="title-border">Annonces</h1>
-                <div class="flex justify-between">
+                <div class="flex flex-wrap justify-between">
                 {% if adverts is empty %}
                     <p class="text-darker font-semibold text-xl">Tu n'as pas encore d'annonces, afin de commencer à en créer rend toi
                         <a href="{{ path('advert_new') }}" class="text-primary font-bold">ici</a></p>

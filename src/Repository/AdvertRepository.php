@@ -23,7 +23,7 @@ class AdvertRepository extends ServiceEntityRepository
 	public function all(  ) {
     	$rsm = new ResultSetMapping();
     	$rsm->addScalarResult('advert_id','advert_id');
-    	$rsm->addScalarResult('advert_kind_id','advert_kind_id');
+    	$rsm->addScalarResult('advert_kind_name','advert_kind_name');
     	$rsm->addScalarResult('start_date','start_date');
     	$rsm->addScalarResult('end_date','end_date');
     	$rsm->addScalarResult('price','price');
@@ -39,10 +39,11 @@ class AdvertRepository extends ServiceEntityRepository
     	$rsm->addScalarResult('user_id','user_id');
     	$rsm->addScalarResult('user_img_name','user_img_name');
 		$sql = <<<SQL
-			SELECT a.id advert_id, a.advert_kind_id , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
+			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
        			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
 			FROM advert a
+		  	JOIN advert_kind ak ON a.advert_kind_id = ak.id
 			JOIN game_platform gp ON a.game_owned_id = gp.id
 			JOIN game g ON gp.game_id = g.id
 			JOIN platform p ON gp.platform_id = p.id
@@ -57,7 +58,7 @@ SQL;
 	public function findAdvertsByUser($userId) {
 		$rsm = new ResultSetMapping();
 		$rsm->addScalarResult('advert_id','advert_id');
-		$rsm->addScalarResult('advert_kind_id','advert_kind_id');
+		$rsm->addScalarResult('advert_kind_name','advert_kind_name');
 		$rsm->addScalarResult('start_date','start_date');
 		$rsm->addScalarResult('end_date','end_date');
 		$rsm->addScalarResult('price','price');
@@ -73,10 +74,11 @@ SQL;
 		$rsm->addScalarResult('user_id','user_id');
 		$rsm->addScalarResult('user_img_name','user_img_name');
 		$sql = <<<SQL
-			SELECT a.id advert_id, a.advert_kind_id , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
+			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
        			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
 			FROM advert a
+		  	JOIN advert_kind ak ON a.advert_kind_id = ak.id
 			JOIN game_platform gp ON a.game_owned_id = gp.id
 			JOIN game g ON gp.game_id = g.id
 			JOIN platform p ON gp.platform_id = p.id

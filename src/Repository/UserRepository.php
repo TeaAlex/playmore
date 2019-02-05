@@ -29,8 +29,8 @@ class UserRepository extends ServiceEntityRepository
 			SELECT IFNULL(game.cnt_games, 0) cnt_games, IFNULL(echange.cnt_echange, 0) cnt_echange, IFNULL(location.cnt_location, 0) cnt_location
 			FROM user u
 			LEFT JOIN (SELECT COUNT(*) cnt_games, user_id FROM game_platform_user) game ON game.user_id = u.id
-			LEFT JOIN (SELECT COUNT(*) cnt_echange, created_by_id FROM advert WHERE advert_kind_id = 1) echange ON echange.created_by_id = u.id
-			LEFT JOIN (SELECT COUNT(*) cnt_location, created_by_id FROM advert WHERE advert_kind_id = 2) location ON echange.created_by_id = u.id
+			LEFT JOIN (SELECT COUNT(*) cnt_echange, created_by_id FROM advert JOIN advert_kind ak ON advert.advert_kind_id = ak.id WHERE ak.name = 'Echange' ) echange ON echange.created_by_id = u.id
+			LEFT JOIN (SELECT COUNT(*) cnt_location, created_by_id FROM advert JOIN advert_kind ak ON advert.advert_kind_id = ak.id WHERE ak.name = 'Location') location ON echange.created_by_id = u.id
 			WHERE u.id = :id		
 SQL;
 		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['id' => $userId])->getOneOrNullResult();

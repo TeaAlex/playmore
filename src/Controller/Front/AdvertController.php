@@ -65,7 +65,7 @@ class AdvertController extends AbstractController
 		$repo = $em->getRepository( GamePlatform::class );
 		$gameOwned = $repo->findOneByGameAndUser($form->get('gameOwned')->getData(), $this->getUser());
 		$advert->setGameOwned($gameOwned);
-		if($form->get('advertKind')->getViewData() == 1 && $form->get('gameWanted') && $form->get('platform')){
+		if($form->get('advertKind')->getData()->getName() == 'Echange' && $form->get('gameWanted') && $form->get('platform')){
 			$gameWanted = $repo->findOneBy(['game' => $form->get('gameWanted')->getData(), 'platform' => $form->get('platform')->getData()]);
 			$advert->setGameWanted($gameWanted);
 		}

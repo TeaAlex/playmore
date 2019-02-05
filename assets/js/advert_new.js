@@ -3,15 +3,15 @@
 function triggerSelect() {
   const formWrap = document.querySelector('.advert-infos');
   const advertKindInput = document.querySelector('#advert_advertKind');
-  advertKindInput.addEventListener('change', (e) => {
+  advertKindInput.addEventListener('change', function(e) {
     const platformForm = document.querySelector('#advert_platform') || false;
-    const value = e.target.value;
+    const text = this.options[this.selectedIndex].innerHTML;
     const priceInput = document.querySelector('.price-input');
     const gameWantedInput = document.querySelector('.game-wanted-input');
-    if (value == 1) {
+    if (text === 'Echange') {
       priceInput.classList.add('hidden');
       gameWantedInput.classList.remove('hidden');
-    } else if (value == 2) {
+    } else if (text === 'Location') {
       gameWantedInput.classList.add('hidden');
       priceInput.classList.remove('hidden');
       console.log(platformForm);
