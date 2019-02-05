@@ -27,7 +27,7 @@ class UserController extends AbstractController {
 
 
 	/**
-	 * @Route(path="/{id}", name="profile")
+	 * @Route(path="/{slug}", name="profile")
 	 * @param User $user
 	 * @param AdvertRepository $advertRepository
 	 * @param UserRepository $userRepository
@@ -39,13 +39,14 @@ class UserController extends AbstractController {
 		$infos = $userRepository->findInfosByUser($user->getId());
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
+            'slug' => $user->getSlug(),
 			'adverts' => $adverts,
 			'infos' => $infos
 		]);
 	}
 
 	/**
-	 * @Route(path="/edit/{id}", name="edit")
+	 * @Route(path="/edit/{slug}", name="edit")
 	 * @param Request $request
 	 * @param ObjectManager $em
 	 *
@@ -56,7 +57,7 @@ class UserController extends AbstractController {
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 			$em->flush();
-			return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
+			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 		}
 		return $this->render('Front/users/edit.html.twig', [
 			'form' => $form->createView(),

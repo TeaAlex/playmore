@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -90,6 +91,21 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToMany(targetEntity="App\Entity\Platform")
      */
     private $platforms;
+
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"username"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug;
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     public function __construct()
     {
