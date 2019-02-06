@@ -76,7 +76,7 @@ class Advert
         return $this->id;
     }
 
-    public function getGameOwned(): ?Game
+    public function getGameOwned(): ?GamePlatform
     {
         return $this->gameOwned;
     }
@@ -88,7 +88,7 @@ class Advert
         return $this;
     }
 
-    public function getGameWanted(): ?Game
+    public function getGameWanted(): ?GamePlatform
     {
         return $this->gameWanted;
     }

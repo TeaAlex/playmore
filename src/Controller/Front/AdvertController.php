@@ -61,6 +61,24 @@ class AdvertController extends AbstractController
 		]);
 	}
 
+	/**
+	 * @Route(path="/edit/{id}", name="edit", methods={"POST", "GET"})
+	 * @param Request $request
+	 * @param Advert $advert
+	 * @param ObjectManager $em
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function edit(Request $request, Advert $advert, ObjectManager $em): Response {
+		$form = $this->createForm(AdvertType::class, $advert);
+		$form->handleRequest($request);
+		if($form->isSubmitted() && $form->isValid()){
+			$em->flush();
+			return $this->redirectToRoute('user_profile', ['id' => $advert->getCreatedBy()->getId()]);
+		}
+		return $this->render('Front/adverts/edit.html.twig', ['form' => $form->createView()]);
+	}
+
 	private function saveGamePlatform(ObjectManager &$em, FormInterface &$form, Advert &$advert) {
 		$repo = $em->getRepository( GamePlatform::class );
 		$gameOwned = $repo->findOneByGameAndUser($form->get('gameOwned')->getData(), $this->getUser());

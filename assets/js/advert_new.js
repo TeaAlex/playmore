@@ -1,31 +1,34 @@
 // hide or show select based on advert kind value
 // TODO refactor value into something more reliable
-function triggerSelect() {
-  const formWrap = document.querySelector('.advert-infos');
-  const advertKindInput = document.querySelector('#advert_advertKind');
-  advertKindInput.addEventListener('change', function(e) {
-    const platformForm = document.querySelector('#advert_platform') || false;
-    const text = this.options[this.selectedIndex].innerHTML;
-    const priceInput = document.querySelector('.price-input');
-    const gameWantedInput = document.querySelector('.game-wanted-input');
-    if (text === 'Echange') {
-      priceInput.classList.add('hidden');
-      gameWantedInput.classList.remove('hidden');
-    } else if (text === 'Location') {
-      gameWantedInput.classList.add('hidden');
-      priceInput.classList.remove('hidden');
-      console.log(platformForm);
-      if(platformForm){
-        formWrap.removeChild(platformForm.parentNode);
-      }
-    } else {
-      gameWantedInput.classList.add('hidden');
-      priceInput.classList.add('hidden');
-      if(platformForm){
-        formWrap.removeChild(platformForm.parentNode);
-      }
+const formWrap = document.querySelector('.advert-infos');
+const advertKindInput = document.querySelector('#advert_advertKind');
+
+function updateVisibility() {
+  const platformForm = document.querySelector('#advert_platform') || false;
+  const text = advertKindInput.options[advertKindInput.selectedIndex].innerHTML;
+  console.log(text);
+  const priceInput = document.querySelector('.price-input');
+  const gameWantedInput = document.querySelector('.game-wanted-input');
+  if (text === 'Echange') {
+    priceInput.classList.add('hidden');
+    gameWantedInput.classList.remove('hidden');
+  } else if (text === 'Location') {
+    gameWantedInput.classList.add('hidden');
+    priceInput.classList.remove('hidden');
+    if(platformForm){
+      formWrap.removeChild(platformForm.parentNode);
     }
-  });
+  } else {
+    gameWantedInput.classList.add('hidden');
+    priceInput.classList.add('hidden');
+    if(platformForm){
+      formWrap.removeChild(platformForm.parentNode);
+    }
+  }
+}
+
+function triggerSelect() {
+  advertKindInput.addEventListener('change', updateVisibility);
 }
 
 
@@ -65,6 +68,7 @@ function addPlatform() {
   }
 }
 
+updateVisibility();
 addPlatform();
 triggerSelect();
 

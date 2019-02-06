@@ -1,0 +1,39 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+    <div class="w-full min-h-screen bg-grey-lightest">
+        <div class="w-2/3 h-auto mx-auto px-8 py-16">
+            <h1 class="text-primary mb-6">Editer une annonce</h1>
+            {{ form_start(form) }}
+            <div class="flex-col rounded bg-white shadow-md">
+                <div class="flex w-full">
+                    <div class="w-1/2 p-8 advert-infos">
+                        {{ form_row(form.advertKind) }}
+                        {{ form_row(form.gameOwned) }}
+                        <div class="hidden price-input">
+                            {{ form_row(form.price) }}
+                        </div>
+                        <div class="hidden game-wanted-input">
+                            {{ form_row(form.gameWanted) }}
+                        </div>
+                    </div>
+                    <div class="w-1/2 p-8">
+                        {{ form_row(form.startDate) }}
+                        {{ form_row(form.endDate) }}
+                    </div>
+                </div>
+                <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
+                    <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
+                    <a class="btn btn-secondary" href="{{ path('advert_list') }}">Retour</a>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('advert_new') }}
+{% endblock %}
