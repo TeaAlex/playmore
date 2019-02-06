@@ -8,7 +8,7 @@
                 <div class="bg-white flex flex-col shadow rounded relative mb-12" style="width:360px; height: 181px;">
                     {% if user.id == app.user.id %}
                     <div class="profile-edit-btn">
-                        <a href="{{ path('user_edit', {'id' : user.id}) }}">
+                        <a href="{{ path('user_edit', {'slug' : user.slug}) }}">
                             <i class="fas fa-edit text-white"></i>
                         </a>
                     </div>

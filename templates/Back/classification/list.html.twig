@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{ classification.id }}</td>
                     <td>{{ classification.name }}</td>
-                    <td><a href="{{ path('classification_edit', {'id' : classification.id}) }}" class="font-bold text-primary">Editer</a></td>
+                    <td><a href="{{ path('classification_edit', {'slug' : classification.slug}) }}" class="font-bold text-primary">Editer</a></td>
                     <td>{{ include('Back/classification/_delete_form.html.twig') }}</td>
                 </tr>
             {% endfor %}
