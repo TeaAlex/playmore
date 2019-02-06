@@ -55,7 +55,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="category_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Category $category): Response
     {
@@ -65,7 +65,7 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('category_index', ['id' => $category->getId()]);
+            return $this->redirectToRoute('category_index', ['slug' => $category->getSlug()]);
         }
 
         return $this->render('Back/category/edit.html.twig', [

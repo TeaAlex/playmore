@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ platform.id }}</td>
                 <td>{{ platform.name }}</td>
-                <td><a href="{{ path('platform_edit', {'id': platform.id}) }}" class="font-bold text-primary">Editer</a></td>
+                <td><a href="{{ path('platform_edit', {'slug': platform.slug}) }}" class="font-bold text-primary">Editer</a></td>
                 <td>{{ include('Back/platform/_delete_form.html.twig') }}</td>
             </tr>
         {% else %}

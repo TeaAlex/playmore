@@ -22,7 +22,7 @@
                 <td>{{ developper.logo }}</td>
                 <td>
                     <a href="{{ path('developper_show', {'id': developper.id}) }}">show</a>
-                    <a href="{{ path('developper_edit', {'id': developper.id}) }}">edit</a>
+                    <a href="{{ path('developper_edit', {'slug': developper.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

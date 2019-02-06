@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DevelopperRepository")
@@ -49,7 +51,20 @@ class Developper
 	 */
 	private $updatedAt;
 
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug;
 
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     public function __construct()
     {

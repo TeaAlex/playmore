@@ -59,7 +59,7 @@ class ClassificationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="classification_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="classification_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Classification $classification): Response
     {
@@ -70,7 +70,7 @@ class ClassificationController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('classification_index', [
-                'id' => $classification->getId(),
+                'slug' => $classification->getSlug(),
             ]);
         }
 
