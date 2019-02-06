@@ -1,5 +1,5 @@
 <?php
-/*
+
 namespace App\Command;
 
 use App\Entity\User;
@@ -57,4 +57,4 @@ class PromoteUserCommand extends Command
 
         $output->writeln("<comment>User " . $username . " granted role " . $role . ".</comment> \n");
     }
-}*/
+}
