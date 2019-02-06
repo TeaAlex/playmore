@@ -70,7 +70,7 @@ class PlatformController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('platform_index', [
-                ['slug' => $platform->getSlug()],
+                'slug' => $platform->getSlug(),
             ]);
         }
 

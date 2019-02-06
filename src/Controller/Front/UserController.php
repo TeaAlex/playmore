@@ -39,7 +39,6 @@ class UserController extends AbstractController {
 		$infos = $userRepository->findInfosByUser($user->getId());
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
-            'slug' => $user->getSlug(),
 			'adverts' => $adverts,
 			'infos' => $infos
 		]);
