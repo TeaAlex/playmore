@@ -17,7 +17,7 @@
         </div>
         <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
             <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
-            <a class="btn btn-secondary" href="{{ path('user_profile', {'id': user.id}) }}">Retour</a>
+            <a class="btn btn-secondary" href="{{ path('user_profile', {'slug': user.slug}) }}">Retour</a>
         </div>
         {{ form_end(form)}}
     </div>

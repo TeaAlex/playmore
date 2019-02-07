@@ -55,7 +55,7 @@ class DevelopperController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="developper_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="developper_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Developper $developper): Response
     {
@@ -65,7 +65,7 @@ class DevelopperController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('developper_index', ['id' => $developper->getId()]);
+            return $this->redirectToRoute('developper_index', ['slug' => $developper->getSlug()]);
         }
 
         return $this->render('Back/developper/edit.html.twig', [

@@ -20,7 +20,7 @@
                 <td>{{ classification.name }}</td>
                 <td>
                     <a href="{{ path('classification_show', {'id': classification.id}) }}">show</a>
-                    <a href="{{ path('classification_edit', {'id': classification.id}) }}">edit</a>
+                    <a href="{{ path('classification_edit', {'slug': classification.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

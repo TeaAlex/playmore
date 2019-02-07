@@ -59,7 +59,7 @@ class PlatformController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="platform_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="platform_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Platform $platform): Response
     {
@@ -70,7 +70,7 @@ class PlatformController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('platform_index', [
-                'id' => $platform->getId(),
+                'slug' => $platform->getSlug(),
             ]);
         }
 
