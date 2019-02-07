@@ -16,6 +16,9 @@
                         <div class="hidden game-wanted-input">
                             {{ form_row(form.gameWanted) }}
                         </div>
+                        {% if form.platform is defined and form.platform is not null %}
+                        {{ form_row(form.platform)}}
+                        {% endif %}
                     </div>
                     <div class="w-1/2 p-8">
                         {{ form_row(form.startDate) }}

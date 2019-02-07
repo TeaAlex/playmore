@@ -1,52 +1,9 @@
 {% extends 'Front/base.html.twig' %}
 
 {% block content %}
-    <div class="w-full min-h-screen bg-grey-lightest">
-        {#<h1 class="content-title">Toutes les annonces</h1>#}
-        {#<p class="filter-text">Filtres</p>#}
-        {#<form action="" method="post">#}
-            {#<div>#}
-                {#<span>Annonce</span>#}
-                {#<label for="">Location</label>#}
-                {#<input type="checkbox" name="advert_type" value="1">#}
-                {#<label for="">Echange</label>#}
-                {#<input type="checkbox" name="advert_type" value="2">#}
-            {#</div>#}
-            {#<div>#}
-                {#<span>Plateforme</span>#}
-                {#<label for="">PS4</label>#}
-                {#<input type="checkbox" name="platform" value="1">#}
-                {#<label for="">XBOX ONE</label>#}
-                {#<input type="checkbox" name="platform" value="2">#}
-                {#<label for="">SWITCH</label>#}
-                {#<input type="checkbox" name="platform" value="3">#}
-                {#<label for="">PC</label>#}
-                {#<input type="checkbox" name="platform" value="4">#}
-            {#</div>#}
-            {#<div>#}
-                {#<span>Dates</span>#}
-                {#<label for="">Début</label>#}
-                {#<input type="date" name="date_start">#}
-                {#<label for="">Fin</label>#}
-                {#<input type="date" name="date_end">#}
-            {#</div>#}
-            {#<div>#}
-                {#<span>Jeux</span>#}
-                {#<label for="">Possedé</label>#}
-                {#<input type="text" name="game_owned">#}
-                {#<label for="">Souhaité</label>#}
-                {#<input type="text" name="game_wanted">#}
-            {#</div>#}
-            {#<div>#}
-                {#<span>Prix</span>#}
-                {#<label for="">Entre</label>#}
-                {#<input type="number" name="price_min">#}
-                {#<label for="">et</label>#}
-                {#<input type="number" name="price_max">#}
-            {#</div>#}
-            {#<input type="submit" value="Envoyer">#}
-        {#</form>#}
-        <div class="w-full flex flex-wrap justify-around items-start min-h-screen p-12 ">
+    <div class="advert-list min-h-screen bg-grey-lightest">
+        <h1 class="font-bold text-primary mt-12">Toutes les annonces</h1>
+        <div class="flex flex-wrap justify-around items-start min-h-screen ">
             {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
         </div>
     </div>

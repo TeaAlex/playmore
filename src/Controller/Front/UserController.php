@@ -86,7 +86,7 @@ class UserController extends AbstractController {
 			$user->addGamePlatform($gamePlatform);
 			$em->persist($user);
 			$em->flush();
-			return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
+			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 
         }
 		return $this->render('Front/users/add_game.html.twig', [
@@ -122,7 +122,7 @@ class UserController extends AbstractController {
 				$user->removeGamePlatform($gamePlatform);
 				$em->flush();
 			}
-			return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
+			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 		}
 		return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
 	}
