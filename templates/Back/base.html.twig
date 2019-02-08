@@ -2,11 +2,7 @@
 <html lang="fr">
     {% include 'Partials/_head.html.twig' %}
     <body>
-    <header>
-        <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
-
-        <a class="return-button" href="{{ path('app_security_home') }}">Retour</a>
-    </header>
+        {{ include('Partials/_header.html.twig') }}
         <div class="w-full flex">
             <aside class="w-260px bg-white border-t border-grey-light">
                 {% set route_prefix = app.request.attributes.get('_route')|split('_')[0] %}

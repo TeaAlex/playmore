@@ -44,7 +44,7 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 			return;
 		}
 		$form = $event->getForm();
-		$platform = $event->getForm()->getParent()->getData()->getPlatform();
+		$platform = $event->getForm()->getParent()->getData()->getGameWanted()->getPlatform();
 		$platforms = $this->getPlatforms($event->getData());
 		$form->getParent()->add('platform', EntityType::class, [
 			'class' => Platform::class,

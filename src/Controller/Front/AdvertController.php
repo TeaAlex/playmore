@@ -54,12 +54,50 @@ class AdvertController extends AbstractController
 			$this->saveGamePlatform($em, $form, $advert);
 			$em->persist($advert);
 			$em->flush();
-			return $this->redirectToRoute('advert_new');
+			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 		}
 		return $this->render('Front/adverts/new.html.twig', [
 			'form' => $form->createView()
 		]);
 	}
+
+	/**
+	 * @Route(path="/edit/{id}", name="edit", methods={"POST", "GET"})
+	 * @param Request $request
+	 * @param Advert $advert
+	 * @param ObjectManager $em
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function edit(Request $request, Advert $advert, ObjectManager $em): Response {
+		$form = $this->createForm(AdvertType::class, $advert);
+		$form->handleRequest($request);
+		if($form->isSubmitted() && $form->isValid()){
+			$em->flush();
+			return $this->redirectToRoute('user_profile', ['id' => $advert->getCreatedBy()->getId()]);
+		}
+		return $this->render('Front/adverts/edit.html.twig', ['form' => $form->createView()]);
+	}
+
+	/**
+	 * @Route(path="/{id}", name="delete", methods={"DELETE"})
+	 * @param Request $request
+	 * @param Advert $advert
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function delete(Request $request, Advert $advert) {
+		if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->request->get('_token'))) {
+			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager->remove($advert);
+			$entityManager->flush();
+		}
+
+		return $this->redirectToRoute('user_profile', ['slug' => $advert->getCreatedBy()->getSlug()]);
+	}
+
+
+
 
 	private function saveGamePlatform(ObjectManager &$em, FormInterface &$form, Advert &$advert) {
 		$repo = $em->getRepository( GamePlatform::class );

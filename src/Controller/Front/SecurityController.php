@@ -2,6 +2,7 @@
 namespace App\Controller\Front;
 use App\Form\RegisterType;
 use App\Entity\User;
+use App\Services\MailServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  */
 class SecurityController extends AbstractController
 {
+
     /**
      * @Route("/login", name="login")
      */
@@ -39,7 +41,7 @@ class SecurityController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailServices $mailservices)
     {
         if ($this->getUser() instanceof User) {
             return $this->redirectToRoute('app_default_home');
@@ -55,6 +57,9 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+            if ($mailservices->notifyRegistration($user->getEmail())) {
+                $this->addFlash('success', 'Notification mail was sent successfully.');
+            }
             return $this->redirectToRoute('app_security_login');
         }
         return $this->render(

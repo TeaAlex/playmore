@@ -29,7 +29,15 @@ class AdvertType extends AbstractType
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    	/** @var $advert Advert  **/
+    	$advert = $builder->getData();
     	$user = $this->tokenStorage->getToken()->getUser();
+    	if($advert->getGameOwned() !== null){
+    		$go = $advert->getGameOwned()->getGame();
+	    }
+    	if( $advert->getGameWanted() !== null ){
+    	    $gw = $advert->getGameWanted()->getGame();
+	    }
         $builder
             ->add('advertKind', EntityType::class, [
             	'class' => AdvertKind::class,
@@ -54,7 +62,8 @@ class AdvertType extends AbstractType
 	            'label' => 'Jeu possédé',
 	            'placeholder' => '',
 	            'choices' => $user->getGames(),
-	            'mapped' => false
+	            'mapped' => false,
+	            'data' => $go ?? null
             ])
             ->add('price', IntegerType::class, [
             	'label' => 'Prix',
@@ -67,6 +76,7 @@ class AdvertType extends AbstractType
 	            'placeholder' => '',
 	            'required' => false,
 	            'mapped' => false,
+	            'data' => $gw ?? null
             ])
         ;
         $builder->get('gameWanted')->addEventSubscriber(new AddPlatformSubscriber());

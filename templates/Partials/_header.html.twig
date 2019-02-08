@@ -1,9 +1,13 @@
 <header>
-    <img src="{{ asset('images/logo.png') }}" alt="">
-    <nav>
-        <ul>
-            <li><a href="{{ path('advert_list') }}">Annonces</a></li>
-            <li><a href="{{ path('game_index') }}">Back office</a></li>
-        </ul>
-    </nav>
+    <a href="{{ path('app_security_home') }}">
+        <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
+    </a>
+    <div>
+        <a class="return-button" href="{{ path('advert_list') }}">Annonces</a>
+        <a class="return-button" href="{{ path('user_profile' ,{'slug': app.user.slug}) }}">Profil</a>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a class="return-button" href="{{ path('game_index') }}">Admin</a>
+        {% endif %}
+        <a class="return-button" href="{{ path('app_security_logout') }}">Se déconnecter</a>
+    </div>
 </header>

@@ -169,116 +169,6 @@ header{
 .adverts{
     width: 100%;
 }
-.advert-card {
-    width: 399px;
-    height: 206px;
-    background: #fff;
-    border-radius: 4px;
-    margin: 5px auto 5px auto;
-    .header{
-        height: 41px;
-        color: $secondary;
-        font-weight: 700;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        padding: 15px 15px 0;
-
-        .type{
-            font-size: 18px;
-        }
-        .dates-wrap{
-            display: flex;
-            align-items: center;
-            font-size: 10px;
-            font-weight: 700;
-            .dates{
-                padding-left: 5px;
-            }
-        }
-
-    }
-    .content{
-        height: 109px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .game{
-            padding: 0 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: min-content;
-            span{
-                padding-bottom: 8px;
-                color: $light-text;
-                font-size: 12px;
-                font-weight: 600;
-            }
-            .game-wrap{
-                display: flex;
-                img {
-                    width: 50px;
-                    height: 60px;
-                    object-fit: scale-down;
-                }
-                .infos{
-                    font-weight: 700;
-                    font-size: 10px;
-                    display: flex;
-                    flex-direction: column;
-                    padding-left: 7px;
-                    overflow-wrap: break-word;
-                }
-            }
-        }
-
-    }
-    .footer {
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-        height: 57px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .profile {
-            display: flex;
-            img{
-                margin-left: 8px;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-            }
-            .infos {
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-                padding-left: 8px;
-                font-weight: 600;
-                font-size: 10px;
-                color: $secondary-dark;
-            }
-        }
-        .btn {
-            border-radius: 50px;
-            width: 95px;
-            height: 28px;
-            color: $secondary-light;
-            font-weight: 700;
-            font-size: 10px;
-            margin: 0 8px;
-            border: none;
-            font-family: 'Nunito', sans-serif;
-            cursor: pointer;
-        }
-        .btn-secondary{
-            background-color: $secondary;
-        }
-    }
-    .trade {
-        background-color: $secondary-light;
-    }
-}
 
 
 .sidebar-item{
@@ -451,7 +341,7 @@ textarea{
     width: 50px;
     top: -15px;
     right: -15px;
-    @apply rounded-full bg-playmore-blue flex justify-center items-center absolute;
+    @apply rounded-full flex justify-center items-center absolute;
   }
 
   .title-border {
@@ -482,4 +372,23 @@ textarea{
     background-color: black;
   }
 
+  .advert-card {
+    width: 480px;
+    margin: 16px;
+    @apply relative;
+  }
+
+  .profile-edit-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+  }
+
+  .advert-card:hover .profile-edit-btn {
+    opacity: 1;
+  }
+
+  .advert-list {
+    width: max-content;
+    margin: 0 auto;
+  }
 
