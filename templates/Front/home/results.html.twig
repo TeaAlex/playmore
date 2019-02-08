@@ -10,7 +10,7 @@
         <div class="flex flex-wrap justify-between">
             {% if adverts is empty %}
                 <p class="text-darker font-semibold text-xl">{{ "Il n'y a pas d'annonce répondant à votre demande" }}
-                    <a href="{{ path('home') }}" class="text-primary font-bold">Retour à l'accueil</a></p>
+                    <a href="{{ path('app_security_home') }}" class="text-primary font-bold">Retour à l'accueil</a></p>
             {% else %}
                 {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
             {% endif %}
