@@ -5,7 +5,7 @@
         <div class="w-78% m-auto flex justify-between text-grey-darkest pt-12">
             <div class="h-full">
                 <h1 class="title-border">Profil</h1>
-                <div class="bg-white flex flex-col shadow rounded relative mb-12" style="width:360px; height: 181px;">
+                <div class="bg-white flex flex-col shadow rounded relative mb-12 profile-card">
                     {% if user.id == app.user.id %}
                     <div class="profile-edit-btn bg-playmore-blue">
                         <a href="{{ path('user_edit', {'slug' : user.slug}) }}">
@@ -38,7 +38,12 @@
                         <p class="w-1/3 text-center">{{ infos.cnt_location }} locations</p>
                     </div>
                 </div>
-                <h1 class="title-border">Jeux</h1>
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">Jeux</h1>
+                    {% if user.id == app.user.id %}
+                        <a class="btn btn-secondary" href="{{ path('user_game_add') }}">Ajouter</a>
+                    {% endif %}
+                </div>
                 {% for gamePlatform in user.gamePlatforms %}
                     <div class="flex profile-game-card">
                         <div class="w-1/3 flex justify-center items-center">
@@ -54,12 +59,14 @@
                         </div>
                     </div>
                 {% endfor %}
-                {% if user.id == app.user.id %}
-                    <a class="btn btn-secondary" href="{{ path('user_game_add') }}">Ajouter</a>
-                {% endif %}
             </div>
             <div class="h-full w-70%">
-                <h1 class="title-border">Annonces</h1>
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">Annonces</h1>
+                    {% if adverts is not empty %}
+                        <a href="{{ path('advert_new') }}" class="btn btn-secondary">Ajouter</a>
+                    {% endif %}
+                </div>
                 <div class="flex flex-wrap justify-between">
                 {% if adverts is empty %}
                     <p class="text-darker font-semibold text-xl">Tu n'as pas encore d'annonces, afin de commencer à en créer rend toi
@@ -68,9 +75,6 @@
                     {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
                 {% endif %}
                 </div>
-                {% if adverts is not empty %}
-                    <a href="{{ path('advert_new') }}" class="btn btn-secondary">Ajouter</a>
-                {% endif %}
             </div>
         </div>
     </div>

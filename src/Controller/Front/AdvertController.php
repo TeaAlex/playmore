@@ -73,8 +73,9 @@ class AdvertController extends AbstractController
 		$form = $this->createForm(AdvertType::class, $advert);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
+			$this->saveGamePlatform($em, $form, $advert);
 			$em->flush();
-			return $this->redirectToRoute('user_profile', ['id' => $advert->getCreatedBy()->getId()]);
+			return $this->redirectToRoute('user_profile', ['slug' => $advert->getCreatedBy()->getSlug()]);
 		}
 		return $this->render('Front/adverts/edit.html.twig', ['form' => $form->createView()]);
 	}
