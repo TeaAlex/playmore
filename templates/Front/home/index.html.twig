@@ -5,47 +5,47 @@
 
 {% block content %}
 
-    <div class="home-content">
+        <form action="{{ path("app_security_results") }}" method="GET">
+            <div class="home-content">
+                <div class="search-container">
+                    <input type="text" id="search-bar" name="game" placeholder="Quel jeu souhaitez vous échanger?">
+                </div>
+                <div class="filters">
+                   <div class="filter-container">
+                       <select id="filter-select" name="platform">
+                           {% for platform in platforms %}
+                           <option value="{{ platform.id }}">{{ platform.name }}</option>
+                           {% endfor %}
+                       </select>
+                   </div>
+                   <div class="filter-container">
+                       <select id="filter-select" name="category">
+                           {% for category in categories %}
+                               <option value="{{ category.id }}">{{ category.name }}</option>
+                           {% endfor %}
+                       </select>
+                   </div>
+                   <div class="filter-container">
+                       <select id="filter-select" name="localisation">
+                           <option>Localisation</option>
+                           <option>Ile-de-France</option>
+                           <option>Haut-de-France</option>
+                           <option>Haut-Bas-France</option>
+                       </select>
+                   </div>
+                </div>
+            </div>
 
-        <div class="search-container">
-            <input type="text" id="search-bar" placeholder="Quel jeu souhaitez vous échanger?">
-        </div>
-       <div class="filters">
-           <div class="filter-container">
-               <select id="filter-select">
-                   {% for platform in platforms %}
-                   <option>{{ platform.name }}</option>
-                   {% endfor %}
-               </select>
-           </div>
-           <div class="filter-container">
-               <select id="filter-select">
-                   {% for category in categories %}
-                       <option>{{ category.name }}</option>
-                   {% endfor %}
-               </select>
-           </div>
-           <div class="filter-container">
-               <select id="filter-select">
-                   <option>Localisation</option>
-                   <option>Ile-de-France</option>
-                   <option>Haut-de-France</option>
-                   <option>Haut-Bas-France</option>
-               </select>
-           </div>
-       </div>
+            <div class="last-news">
+                <h1 class="ml-5 pl-3 mt-3">Nouveautés</h1>
+                <p>
+                    Et hanc quidem praeter oppida multa duae civitates exornant Seleucia opus Seleuci regis, et Claudiopolis quam deduxit coloniam Claudius Caesar. Isaura enim antehac nimium potens, olim subversa ut rebellatrix interneciva aegre vestigia claritudinis pristinae monstrat admodum pauca.
 
-        <div class="last-news">
-            <h1 class="ml-5 pl-3 mt-3">Nouveautés</h1>
-            <p>
-                Et hanc quidem praeter oppida multa duae civitates exornant Seleucia opus Seleuci regis, et Claudiopolis quam deduxit coloniam Claudius Caesar. Isaura enim antehac nimium potens, olim subversa ut rebellatrix interneciva aegre vestigia claritudinis pristinae monstrat admodum pauca.
-
-                Et licet quocumque oculos flexeris feminas adfatim multas spectare cirratas, quibus, si nupsissent, per aetatem ter iam nixus poterat suppetere liberorum, ad usque taedium pedibus pavimenta tergentes iactari volucriter gyris, dum exprimunt innumera simulacra, quae finxere fabulae theatrales.
+                    Et licet quocumque oculos flexeris feminas adfatim multas spectare cirratas, quibus, si nupsissent, per aetatem ter iam nixus poterat suppetere liberorum, ad usque taedium pedibus pavimenta tergentes iactari volucriter gyris, dum exprimunt innumera simulacra, quae finxere fabulae theatrales.
 
 
-           </p>
-        </div>
-
-    </div>
+                </p>
+            </div>
+        </form>
 
 {% endblock %}

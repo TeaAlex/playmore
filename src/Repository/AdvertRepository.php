@@ -79,4 +79,42 @@ SQL;
 		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters($params)->getResult();
     }
 
+    /**
+     * @return adverts[] Returns an array of Adverts objects
+     */
+    public function search($params)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+        SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
+			       ga.id game_owned_id, ga.name game_owned_name, ga.img_name game_owned_img_name, plt.name game_owned_platform
+        FROM advert a
+		INNER JOIN user u ON a.created_by_id = u.id
+        INNER JOIN advert_kind as ak ON ak.id = a.advert_kind_id
+        INNER JOIN game as ga ON ga.id = a.game_owned_id
+        INNER JOIN category as cat ON cat.id = ga.category_id
+        INNER JOIN game_platform as gplt ON ga.id = gplt.game_id
+        INNER JOIN platform as plt ON plt.id = gplt.platform_id
+        WHERE ga.name LIKE :game
+        AND gplt.deleted_at is null
+        ";
+        $parameters = [
+            'game' => "%".$params['game']."%",
+        ];
+        if($params['platform']){
+            $sql .= " AND gplt.platform_id = :plt";
+            $parameters = array_merge($parameters,['plt' => $params['platform']]);
+        }
+        if($params['category']){
+            $sql .= " AND cat.id = :cat";
+            $parameters = array_merge($parameters,['cat' => $params['category']]);
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($parameters);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return  $stmt->fetchAll();
+    }
 }
