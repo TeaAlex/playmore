@@ -27,10 +27,11 @@ class AdvertController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function showAll(Request $request): Response
+    public function showAll(): Response
     {
+    	$userId = $this->getUser()->getId();
     	$em = $this->getDoctrine()->getManager();
-    	$adverts = $em->getRepository(Advert::class)->all();
+    	$adverts = $em->getRepository(Advert::class)->all($userId, true);
         return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
     }
 

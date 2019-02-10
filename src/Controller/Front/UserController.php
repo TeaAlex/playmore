@@ -36,7 +36,7 @@ class UserController extends AbstractController {
 	 * @return Response
 	 */
 	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository): Response {
-		$adverts = $advertRepository->findAdvertsByUser($user->getId());
+		$adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,

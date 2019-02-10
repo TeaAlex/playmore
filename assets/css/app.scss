@@ -190,6 +190,9 @@ header{
   &-delete {
     @apply bg-red;
   }
+  &-add {
+    @apply bg-green;
+  }
 }
 
 tbody{
@@ -354,6 +357,7 @@ textarea{
     border-radius: 4px;
     color: white;
     max-width: 42px;
+    margin-right: 8px;
   }
 
   .ps4{

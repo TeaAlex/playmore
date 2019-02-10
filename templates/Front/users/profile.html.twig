@@ -4,7 +4,7 @@
     <div class="w-full min-h-screen bg-grey-lightest">
         <div class="w-78% m-auto flex justify-between text-grey-darkest pt-12">
             <div class="h-full">
-                <h1 class="title-border">Profil</h1>
+                <h1 class="title-border">{% if app.user.id is same as (user.id) %}Mon {% endif %}Profil</h1>
                 <div class="bg-white flex flex-col shadow rounded relative mb-12 profile-card">
                     {% if user.id == app.user.id %}
                     <div class="profile-edit-btn bg-playmore-blue">
@@ -25,7 +25,7 @@
                         <div class="px-2 flex flex-col justify-center" style="width: 56%">
                             <p class="text-primary font-bold">{{ user.username }}</p>
                             <p class="text-sm pt-2">Pontault-Combault</p>
-                            <div class="flex justify-between pt-2 platform-icons-wrap">
+                            <div class="flex pt-2 platform-icons-wrap">
                             {% for platform in user.platforms %}
                                 {% include 'Partials/game_icon.html.twig' with {'name' : platform.name } %}
                             {% endfor %}
@@ -39,9 +39,9 @@
                     </div>
                 </div>
                 <div class="flex items-center">
-                    <h1 class="title-border mr-4">Jeux</h1>
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Jeux</h1>
                     {% if user.id == app.user.id %}
-                        <a class="btn btn-secondary" href="{{ path('user_game_add') }}">Ajouter</a>
+                        <a class="btn btn-add" href="{{ path('user_game_add') }}">Ajouter</a>
                     {% endif %}
                 </div>
                 {% for gamePlatform in user.gamePlatforms %}
@@ -62,9 +62,9 @@
             </div>
             <div class="h-full w-70%">
                 <div class="flex items-center">
-                    <h1 class="title-border mr-4">Annonces</h1>
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Annonces</h1>
                     {% if adverts is not empty %}
-                        <a href="{{ path('advert_new') }}" class="btn btn-secondary">Ajouter</a>
+                        <a href="{{ path('advert_new') }}" class="btn btn-add">Ajouter</a>
                     {% endif %}
                 </div>
                 <div class="flex flex-wrap justify-between">
