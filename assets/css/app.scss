@@ -190,6 +190,9 @@ header{
   &-delete {
     @apply bg-red;
   }
+  &-add {
+    @apply bg-green;
+  }
 }
 
 tbody{
@@ -354,6 +357,7 @@ textarea{
     border-radius: 4px;
     color: white;
     max-width: 42px;
+    margin-right: 8px;
   }
 
   .ps4{
@@ -372,6 +376,11 @@ textarea{
     background-color: black;
   }
 
+  .profile-card {
+    width:360px;
+    height: 181px;
+  }
+
   .advert-card {
     width: 480px;
     margin: 16px;
@@ -387,8 +396,13 @@ textarea{
     opacity: 1;
   }
 
+  .profile-card:hover .profile-edit-btn {
+    opacity: 1;
+  }
+
   .advert-list {
     width: max-content;
     margin: 0 auto;
+    max-width: 81%;
   }
 
