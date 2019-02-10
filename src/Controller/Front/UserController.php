@@ -43,7 +43,7 @@ class UserController extends AbstractController {
 		$adverts = $advertRepository->findAdvertsByUser($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$commentaire = new Comment();
-        $commentaires = $commentRepository->findAll();
+        $commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
         $form = $this->createForm(CommentType::class, $commentaire);
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,

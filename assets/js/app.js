@@ -10,5 +10,13 @@ require('../css/app.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // var $ = require('jquery');
+if(document.getElementById("comments")) {
+    let comments = document.getElementById("comments");
+    comments.setAttribute("class","hidden");
+    let button_comments = document.getElementById("create_comment");
+    button_comments.addEventListener("click", function () {
+        comments.removeAttribute("class");
+        button_comments.setAttribute("class","hidden");
+    });
 
-console.log('Referme cette console.');
+}
