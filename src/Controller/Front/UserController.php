@@ -12,6 +12,7 @@ use App\Form\Front\UserType;
 use App\Repository\AdvertRepository;
 use App\Repository\GamePlatformRepository;
 use App\Repository\UserRepository;
+use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +53,7 @@ class UserController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
 	public function edit(User $user, Request $request, ObjectManager $em) {
+		$this->denyAccessUnlessGranted(UserVoter::OWNER, $user);
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
