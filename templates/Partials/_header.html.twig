@@ -3,11 +3,19 @@
         <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
     </a>
     <div>
+
         <a class="return-button" href="{{ path('advert_list') }}">Annonces</a>
+        {% if is_granted('ROLE_USER') %}
         <a class="return-button" href="{{ path('user_profile' ,{'slug': app.user.slug}) }}">Profil</a>
+        {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
         <a class="return-button" href="{{ path('game_index') }}">Admin</a>
         {% endif %}
+        {% if is_granted('ROLE_USER') %}
         <a class="return-button" href="{{ path('app_security_logout') }}">Se déconnecter</a>
+        {% else %}
+        <a class="return-button" href="{{ path('app_security_login') }}">Se connecter</a>
+        <a class="return-button" href="{{ path('app_security_registration') }}">Créer un compte</a>
+        {% endif %}
     </div>
 </header>

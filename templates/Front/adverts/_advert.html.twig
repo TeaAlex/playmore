@@ -1,7 +1,7 @@
 {% for advert in adverts %}
     {% if advert.advert_kind_name == 'Echange' %}
         <div class="advert-card">
-            {% if advert.user_id == app.user.id %}
+            {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
             <div class="bg-red-light profile-edit-btn">
                 {{ include('Front/adverts/_delete_form.html.twig') }}
             </div>
@@ -41,6 +41,7 @@
                 </div>
             </div>
             {# FOOTER #}
+            {% if is_granted('ROLE_USER') %}
             <div style="height: 60px;" class="flex items-center justify-between px-4 bg-playmore-blue-lightest rounded-b">
                 <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug' : advert.user_slug }) }}">
                     <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
@@ -55,6 +56,7 @@
                     <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-secondary">Editer</a>
                 {% endif %}
             </div>
+                {% endif %}
         </div>
     {% elseif advert.advert_kind_name == 'Location' %}
         <div class="advert-card">
@@ -86,6 +88,7 @@
                 </div>
             </div>
             {# FOOTER #}
+            {% if is_granted('ROLE_USER') %}
             <div style="height: 60px;" class="flex items-center justify-between px-4 bg-primary-lightest rounded-b">
                 <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug': advert.user_slug }) }}">
                     <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
@@ -100,6 +103,7 @@
                 <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-edit">Editer</a>
                 {% endif %}
             </div>
+                {% endif %}
         </div>
     {% endif %}
 {% endfor %}
