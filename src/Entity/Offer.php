@@ -44,6 +44,11 @@ class Offer
      */
     private $endDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\GamePlatform")
+     */
+    private $gamePlatform;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +111,18 @@ class Offer
     public function setEndDate(\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function getGamePlatform(): ?GamePlatform
+    {
+        return $this->gamePlatform;
+    }
+
+    public function setGamePlatform(?GamePlatform $gamePlatform): self
+    {
+        $this->gamePlatform = $gamePlatform;
 
         return $this;
     }

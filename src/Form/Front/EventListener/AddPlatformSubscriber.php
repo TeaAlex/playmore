@@ -72,5 +72,5 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 		}
 
 		return $platforms;
-}
+	}
 }

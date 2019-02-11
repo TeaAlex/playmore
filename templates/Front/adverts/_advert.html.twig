@@ -50,7 +50,14 @@
                     </div>
                 </a>
                 {% if advert.user_id != app.user.id %}
-                <a href="#" class="btn btn-secondary">Faire une offre</a>
+                <a href="#" class="btn btn-secondary offer-btn"
+                   data-advert-id="{{ advert.advert_id }}"
+                   data-advert-kind="{{ advert.advert_kind_name }}"
+                   data-start-date="{{ advert.start_date | date('Y-m-d') }}"
+                   data-end-date="{{ advert.end_date | date('Y-m-d') }}"
+                >
+                    Faire une offre
+                </a>
                 {% else %}
                     <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-secondary">Editer</a>
                 {% endif %}
@@ -97,7 +104,7 @@
                     </div>
                 </a>
                 {% if advert.user_id != app.user.id %}
-                <a href="#" class="btn btn-edit">Faire une offre</a>
+                <a href="#" class="btn btn-edit offer-btn">Faire une offre</a>
                 {% else %}
                 <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-edit">Editer</a>
                 {% endif %}
