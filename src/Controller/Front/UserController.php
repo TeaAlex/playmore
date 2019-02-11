@@ -15,6 +15,7 @@ use App\Repository\AdvertRepository;
 use App\Repository\CommentRepository;
 use App\Repository\GamePlatformRepository;
 use App\Repository\UserRepository;
+use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,8 +40,9 @@ class UserController extends AbstractController {
 	 *
 	 * @return Response
 	 */
+
 	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository): Response {
-		$adverts = $advertRepository->findAdvertsByUser($user->getId());
+		$adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$commentaire = new Comment();
         $commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
@@ -62,6 +64,7 @@ class UserController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
 	public function edit(User $user, Request $request, ObjectManager $em) {
+		$this->denyAccessUnlessGranted(UserVoter::OWNER, $user);
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){

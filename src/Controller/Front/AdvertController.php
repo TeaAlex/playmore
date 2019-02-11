@@ -6,6 +6,7 @@ namespace App\Controller\Front;
 use App\Entity\Advert;
 use App\Entity\GamePlatform;
 use App\Form\Front\AdvertType;
+use App\Security\AdvertVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +27,11 @@ class AdvertController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function showAll(Request $request): Response
+    public function showAll(): Response
     {
+    	$userId = $this->getUser()->getId();
     	$em = $this->getDoctrine()->getManager();
-    	$adverts = $em->getRepository(Advert::class)->all();
+    	$adverts = $em->getRepository(Advert::class)->all($userId, true);
         return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
     }
 
@@ -70,11 +72,13 @@ class AdvertController extends AbstractController
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function edit(Request $request, Advert $advert, ObjectManager $em): Response {
+		$this->denyAccessUnlessGranted(AdvertVoter::OWNER, $advert);
 		$form = $this->createForm(AdvertType::class, $advert);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
+			$this->saveGamePlatform($em, $form, $advert);
 			$em->flush();
-			return $this->redirectToRoute('user_profile', ['id' => $advert->getCreatedBy()->getId()]);
+			return $this->redirectToRoute('user_profile', ['slug' => $advert->getCreatedBy()->getSlug()]);
 		}
 		return $this->render('Front/adverts/edit.html.twig', ['form' => $form->createView()]);
 	}
@@ -87,6 +91,7 @@ class AdvertController extends AbstractController
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function delete(Request $request, Advert $advert) {
+		$this->denyAccessUnlessGranted(AdvertVoter::OWNER, $advert);
 		if ($this->isCsrfTokenValid('delete'.$advert->getId(), $request->request->get('_token'))) {
 			$entityManager = $this->getDoctrine()->getManager();
 			$entityManager->remove($advert);

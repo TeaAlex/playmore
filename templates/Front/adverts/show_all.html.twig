@@ -3,7 +3,7 @@
 {% block content %}
     <div class="advert-list min-h-screen bg-grey-lightest">
         <h1 class="font-bold text-primary mt-12">Toutes les annonces</h1>
-        <div class="flex flex-wrap justify-around items-start min-h-screen ">
+        <div class="flex flex-wrap justify-start items-start">
             {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
         </div>
     </div>
