@@ -17,9 +17,18 @@
                         <div class="flex flex-col justify-center items-center px-2">
                             <img src="{{ vich_uploader_asset(user, 'imgFile') }}" alt="" style="width: 55px; height: 55px;" class="rounded-full bg-grey">
                             <div class="flex mt-2">
-                                {% for i in 1..5 %}
-                                    <i class="fas fa-star text-orange-light"></i>
+                               {% if user.rating > 0 %}
+                                   {% for i in 1..user.rating %}
+                                       <i class="fas fa-star text-orange-light"></i>
+                                   {% endfor %}
+                                   {% for i in user.rating..4 %}
+                                       <i class="fas fa-star text-grey-light"></i>
+                                   {% endfor %}
+                               {%  else %}
+                                {% for i in user.rating..4 %}
+                                    <i class="fas fa-star text-grey-light"></i>
                                 {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                         <div class="px-2 flex flex-col justify-center" style="width: 56%">
@@ -97,7 +106,19 @@
 
                 <div class="flex w-full">
                     <div class="w-full p-8">
+                        <div class="flex flex-col mb-6">
+                            <label for="comment_rating" class="label">Votre note</label>
+                            <select id="comment_rating" name="_rating" required="required">
+                                <option value="" selected="selected"></option>
+                                <option value="1">1 étoile</option>
+                                <option value="2">2 étoile</option>
+                                <option value="3">3 étoile</option>
+                                <option value="4">4 étoile</option>
+                                <option value="5">5 étoile</option>
+                            </select>
+                        </div>
                         {{ form_row(form.content) }}
+
                         {{ form_rest(form) }}
                     </div>
                 </div>

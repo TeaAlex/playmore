@@ -88,11 +88,15 @@ class UserController extends AbstractController {
     {
         $user = $this->getUser();
         $destinataire = $this->getDoctrine()->getRepository(User::class)->find($request->get("destinataire"));
+        $oldRating = $destinataire->getRating();
+        $newRating = $request->request->get('_rating');
+        $finalRating = ($oldRating + $newRating) / 2;
         $commentaire = new Comment();
         $form = $this->createForm(CommentType::class, $commentaire);
         $form->handleRequest($request);
         $commentaire->setCreatedBy($user);
         $commentaire->setCreatedTo($destinataire);
+        $destinataire->setRating($finalRating);
 
         if ($form->isSubmitted() && $form->isValid() && $commentaire->getCreatedBy() !== null &&  $commentaire->getCreatedTo() !== null) {
             $em = $this->getDoctrine()->getManager();
