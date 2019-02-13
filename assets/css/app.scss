@@ -380,6 +380,9 @@ textarea{
     width:360px;
     height: 181px;
   }
+.comment-card {
+  position: relative;
+}
 
   .advert-card {
     width: 480px;
@@ -398,6 +401,9 @@ textarea{
 
   .profile-card:hover .profile-edit-btn {
     opacity: 1;
+  }
+  .comment-card:hover .profile-edit-btn {
+   opacity: 1;
   }
 
   .advert-list {

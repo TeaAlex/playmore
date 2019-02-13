@@ -15,6 +15,7 @@ use App\Repository\AdvertRepository;
 use App\Repository\CommentRepository;
 use App\Repository\GamePlatformRepository;
 use App\Repository\UserRepository;
+use App\Security\CommentVoter;
 use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -110,6 +111,25 @@ class UserController extends AbstractController {
             'form' => $form->createView(),
             'user' => $user
         ]);
+    }
+
+    /**
+     * @Route(path="/comment/{id}/edit", name="edit_comment", methods={"POST", "GET"})
+     * @param Request $request
+     * @param Comment $comment
+     * @param ObjectManager $em
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editComment(Request $request, Comment $comment, ObjectManager $em): Response {
+        $this->denyAccessUnlessGranted(CommentVoter::OWNER, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            return $this->redirectToRoute('user_profile', ['slug' => $comment->getCreatedTo()->getSlug()]);
+        }
+        return $this->render('Front/Comment/edit.html.twig', ['form' => $form->createView(), 'user' => $comment->getCreatedTo()]);
     }
 
 	/**

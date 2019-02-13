@@ -81,7 +81,15 @@
                  {% else %}
                         {% for comment in commentaires %}
 
-                            <div class="flex flex-grow mb-5">
+                            <div class="comment-card flex flex-grow mb-5">
+                                {% if comment.createdBy.getId() == app.user.id %}
+                                <div class="bg-yellow-dark profile-edit-btn">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="yo">
+                                        <a href="{{ path('user_edit_comment', {'id' : comment.id}) }}" class="fas fa-pencil-alt text-white cursor-pointer"></a>
+
+                                </div>
+                                {% endif %}
                                 <div class="flex flex-col justify-center items-center px-2">
                                     <img src="{{ vich_uploader_asset(comment.createdBy, 'imgFile') }}" alt="" style="width: 55px; height: 55px;" class="rounded-full bg-grey">
                                     <div class="flex mt-2">
