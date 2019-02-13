@@ -30,7 +30,7 @@ class Offer
 
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $price;
 
@@ -46,6 +46,7 @@ class Offer
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GamePlatform")
+     * @ORM\JoinColumn(name="game_platform_id", referencedColumnName="id", nullable=true)
      */
     private $gamePlatform;
 

@@ -32,13 +32,15 @@ class OfferController extends AbstractController {
 	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository) {
 		$offer = new Offer();
 		$offer->setAdvert($advert);
-		$form = $this->createForm(OfferType::class, $offer);
+		$form = $this->createForm(OfferType::class, $offer, [
+			'action' => $this->generateUrl('offer_new', ['id' => $advert->getId()])
+		]);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 			$user = $this->getUser();
 			$offer->setCreatedBy($user);
-			if($form->get('game')){
-				$game = $form->get('game');
+			if(in_array('game', $form->all())){
+				$game = $form->get('game')->getData();
 				$gamePlatform = $gamePlatformRepository->findOneByGameAndUser($game, $user);
 				$offer->setGamePlatform($gamePlatform);
 			}

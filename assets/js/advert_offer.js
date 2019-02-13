@@ -6,7 +6,6 @@ Routing.setRoutingData(routes);
 function triggerModal(e) {
   e.preventDefault();
   const advertId = this.dataset.advertId;
-  console.log(advertId);
   const backdrop = document.querySelector('.backdrop');
   const modal = document.querySelector('.modal');
   const axios = require('axios');
