@@ -11,6 +11,7 @@ use App\Form\Front\UserGameType;
 use App\Form\Front\UserType;
 use App\Repository\AdvertRepository;
 use App\Repository\GamePlatformRepository;
+use App\Repository\OfferRepository;
 use App\Repository\UserRepository;
 use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -35,13 +36,15 @@ class UserController extends AbstractController {
 	 *
 	 * @return Response
 	 */
-	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository): Response {
+	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, OfferRepository $offerRepository): Response {
 		$adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
+		$offers = $offerRepository->findUserOffers($user->getId());
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
 			'adverts' => $adverts,
-			'infos' => $infos
+			'infos' => $infos,
+			'offers' => $offers
 		]);
 	}
 

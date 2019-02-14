@@ -3,11 +3,12 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 
 Routing.setRoutingData(routes);
 
+const backdrop = document.querySelector('.backdrop');
+const modal = document.querySelector('.modal');
+const modalContent = modal.querySelector('.modal-content');
 function triggerModal(e) {
   e.preventDefault();
   const advertId = this.dataset.advertId;
-  const backdrop = document.querySelector('.backdrop');
-  const modal = document.querySelector('.modal');
   const axios = require('axios');
   axios({
     method: 'get',
@@ -15,7 +16,6 @@ function triggerModal(e) {
   }).then(response => {
     const html = new DOMParser().parseFromString(response.data, "text/html");
     const form = html.querySelector('form');
-    const modalContent = modal.querySelector('.modal-content');
     modalContent.appendChild(form);
     backdrop.style.display = 'block';
     modal.style.display = 'block';
@@ -27,3 +27,8 @@ for (let btn of btns) {
   btn.addEventListener('click', triggerModal);
 }
 
+backdrop.addEventListener('click', function () {
+  modal.style.display = 'none';
+  modalContent.innerHTML = '';
+  this.style.display = 'none';
+});

@@ -75,6 +75,12 @@
                     {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
                 {% endif %}
                 </div>
+                <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Offres</h1>
+                <div>
+                    {% for offer in offers %}
+                        {{ include('Front/offer/_offer.html.twig') }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
