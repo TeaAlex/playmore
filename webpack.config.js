@@ -20,6 +20,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('user_game_add', './assets/js/user_game_add.js')
     .addEntry('advert_new', './assets/js/advert_new.js')
+    .addEntry('comment', './assets/js/comment.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

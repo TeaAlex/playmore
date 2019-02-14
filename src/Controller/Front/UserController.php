@@ -15,6 +15,8 @@ use App\Repository\AdvertRepository;
 use App\Repository\CommentRepository;
 use App\Repository\GamePlatformRepository;
 use App\Repository\UserRepository;
+use App\Security\CommentVoter;
+use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,8 +41,9 @@ class UserController extends AbstractController {
 	 *
 	 * @return Response
 	 */
+
 	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository): Response {
-		$adverts = $advertRepository->findAdvertsByUser($user->getId());
+		$adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$commentaire = new Comment();
         $commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
@@ -62,6 +65,7 @@ class UserController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
 	public function edit(User $user, Request $request, ObjectManager $em) {
+		$this->denyAccessUnlessGranted(UserVoter::OWNER, $user);
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
@@ -85,11 +89,15 @@ class UserController extends AbstractController {
     {
         $user = $this->getUser();
         $destinataire = $this->getDoctrine()->getRepository(User::class)->find($request->get("destinataire"));
+        $oldRating = $destinataire->getRating();
+        $newRating = $request->request->get('_rating');
+        $finalRating = ($oldRating + $newRating) / 2;
         $commentaire = new Comment();
         $form = $this->createForm(CommentType::class, $commentaire);
         $form->handleRequest($request);
         $commentaire->setCreatedBy($user);
         $commentaire->setCreatedTo($destinataire);
+        $destinataire->setRating($finalRating);
 
         if ($form->isSubmitted() && $form->isValid() && $commentaire->getCreatedBy() !== null &&  $commentaire->getCreatedTo() !== null) {
             $em = $this->getDoctrine()->getManager();
@@ -103,6 +111,25 @@ class UserController extends AbstractController {
             'form' => $form->createView(),
             'user' => $user
         ]);
+    }
+
+    /**
+     * @Route(path="/comment/{id}/edit", name="edit_comment", methods={"POST", "GET"})
+     * @param Request $request
+     * @param Comment $comment
+     * @param ObjectManager $em
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editComment(Request $request, Comment $comment, ObjectManager $em): Response {
+        $this->denyAccessUnlessGranted(CommentVoter::OWNER, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            return $this->redirectToRoute('user_profile', ['slug' => $comment->getCreatedTo()->getSlug()]);
+        }
+        return $this->render('Front/Comment/edit.html.twig', ['form' => $form->createView(), 'user' => $comment->getCreatedTo()]);
     }
 
 	/**

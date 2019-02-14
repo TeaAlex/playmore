@@ -1,7 +1,8 @@
 security:
     role_hierarchy:
         ROLE_MEMBRE: ROLE_USER
-        ROLE_ADMIN: [ROLE_MEMBRE]
+        ROLE_ALLOWED_TO_SWITCH: ROLE_MEMBRE
+        ROLE_ADMIN: ROLE_ALLOWED_TO_SWITCH
 
     encoders:
         App\Entity\User:
@@ -21,6 +22,7 @@ security:
             security: false
         main:
             anonymous: true
+            switch_user: true
 
             form_login:
                 check_path: app_security_login
