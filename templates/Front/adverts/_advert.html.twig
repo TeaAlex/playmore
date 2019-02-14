@@ -1,0 +1,112 @@
+{% for advert in adverts %}
+    {% if advert.advert_kind_name == 'Echange' %}
+        <div class="advert-card">
+            {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
+                <div class="bg-red-light profile-edit-btn">
+                    {{ include('Front/adverts/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+            {# HEADER #}
+            <div style="height: 60px;" class="w-full flex items-center justify-between font-bold text-playmore-blue-darkest rounded-t px-4 border-b-2 bg-white border-playmore-blue-lightest">
+                <p class="text-base">Echange</p>
+                <div class="flex items-center">
+                    <i class="fas fa-calendar"></i>
+                    <div class="flex flex-col ml-2 text-sm text-right">
+                        <p>Du {{ advert.start_date | localizeddate('medium', 'none') }}</p>
+                        <p>Au {{ advert.end_date | localizeddate('medium', 'none') }}</p>
+                    </div>
+                </div>
+            </div>
+            {# MAIN #}
+            <div style="height: 180px;" class="bg-white px-4 flex flex-col">
+                <div class="h-1/2 flex justify-between items-center border-b-2 border-playmore-blue-lightest">
+                    <div class="flex">
+                        <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
+                        <div class="flex flex-col justify-center ml-3">
+                            <p class="font-bold text-black pb-1">{{ advert.game_owned_name }}</p>
+                            <p class="font-semibold text-grey-dark">{% include 'Partials/game_icon.html.twig' with { 'name' : advert.game_owned_platform } %}</p>
+                        </div>
+                    </div>
+                    <p class="text-playmore-blue font-semibold">Possède</p>
+                </div>
+                <div class="h-1/2 flex justify-between items-center">
+                    <div class="flex">
+                        <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~ advert.game_wanted_img_name ) }}" alt="">
+                        <div class="flex flex-col justify-center ml-3">
+                            <p class="font-bold text-black pb-1">{{ advert.game_wanted_name }}</p>
+                            <p class="font-semibold text-grey-dark">{% include 'Partials/game_icon.html.twig' with { 'name' : advert.game_wanted_platform } %}</p>
+                        </div>
+                    </div>
+                    <p class="text-playmore-blue font-semibold">Recherche</p>
+                </div>
+            </div>
+            {# FOOTER #}
+            {% if is_granted('ROLE_USER') %}
+                <div style="height: 60px;" class="flex items-center justify-between px-4 bg-playmore-blue-lightest rounded-b">
+                    <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug' : advert.user_slug }) }}">
+                        <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
+                        <div class="flex flex-col text-xs text-playmore-blue-darkest font-semibold ml-2">
+                            <p>{{ advert.username | capitalize }}</p>
+                            <p>Pontault-Combault</p>
+                        </div>
+                    </a>
+                    {% if advert.user_id != app.user.id %}
+                        <a href="#" class="btn btn-secondary">Faire une offre</a>
+                    {% else %}
+                        <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-secondary">Editer</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    {% elseif advert.advert_kind_name == 'Location' %}
+        <div class="advert-card">
+            {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
+                <div class="bg-red-light profile-edit-btn">
+                    {{ include('Front/adverts/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+            {# HEADER #}
+            <div style="height: 60px;" class="w-full flex items-center justify-between font-bold text-primary bg-primary-lighter rounded-t px-4 bg-white border-b-2 border-playmore-blue-lightest">
+                <p class="text-base">Location</p>
+                <div class="flex items-center">
+                    <i class="fas fa-calendar"></i>
+                    <div class="flex flex-col ml-2 text-sm text-right">
+                        <p>Du {{ advert.start_date | localizeddate('medium', 'none') }}</p>
+                        <p>Au {{ advert.end_date | localizeddate('medium', 'none') }}</p>
+                    </div>
+                </div>
+            </div>
+            {# MAIN #}
+            <div style="height: 180px;" class="bg-white px-4 flex flex-col">
+                <div class="h-full flex justify-between items-center border-playmore-blue-lightest">
+                    <div class="flex">
+                        <img style="width: 48px; height: 60px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
+                        <div class="flex flex-col justify-center ml-3">
+                            <p class="font-bold text-black pb-1">{{ advert.game_owned_name }}</p>
+                            <p class="font-semibold text-grey-dark">{% include 'Partials/game_icon.html.twig' with { 'name' : advert.game_owned_platform } %}</p>
+                        </div>
+                    </div>
+                    <p class="text-primary font-semibold">{{ advert.price }} PMC</p>
+                </div>
+            </div>
+            {# FOOTER #}
+            {% if is_granted('ROLE_USER') %}
+                <div style="height: 60px;" class="flex items-center justify-between px-4 bg-primary-lightest rounded-b">
+                    <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug': advert.user_slug }) }}">
+                        <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
+                        <div class="flex flex-col text-xs text-primary font-semibold ml-2">
+                            <p>{{ advert.username | capitalize }}</p>
+                            <p>Pontault-Combault</p>
+                        </div>
+                    </a>
+                    {% if advert.user_id != app.user.id %}
+                        <a href="#" class="btn btn-edit">Faire une offre</a>
+                    {% else %}
+                        <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-edit">Editer</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+        </div>
+    {% endif %}
+{% endfor %}
