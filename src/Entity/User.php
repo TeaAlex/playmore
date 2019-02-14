@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Vich\Uploadable()
+ * @UniqueEntity("email")
+
 
  */
 class User implements UserInterface, \Serializable
@@ -29,14 +30,17 @@ class User implements UserInterface, \Serializable
     private $id;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $username;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $email;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $password;
     /**
@@ -124,23 +128,7 @@ class User implements UserInterface, \Serializable
         $this->platforms = new ArrayCollection();
     }
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('username', new Assert\NotBlank([
-            'payload' => ['severity' => 'error'],
-        ]));
-        $metadata->addPropertyConstraint('password', new Assert\NotBlank([
-            'payload' => ['severity' => 'error'],
-        ]));
-        $metadata->addPropertyConstraint('email', new Assert\NotBlank([
-            'payload' => ['severity' => 'warning'],
-        ]));
-        $metadata->addConstraint(new UniqueEntity([
-            'fields'  => 'email',
-        ]));
 
-        $metadata->addPropertyConstraint('email', new Assert\Email());
-    }
 
     public function getId(): ?int
     {
