@@ -109,6 +109,12 @@ class User implements UserInterface, \Serializable
     private $slug;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $resetToken;
+
+    /**
      * @return mixed
      */
     public function getSlug()
@@ -452,6 +458,21 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param string $resetToken
+     */
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
 	/**
 	 * String representation of object
 	 * @link https://php.net/manual/en/serializable.serialize.php

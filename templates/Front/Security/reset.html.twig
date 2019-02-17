@@ -1,0 +1,24 @@
+{% extends 'Front/Security/baseauth.html.twig' %}
+
+{% block content %}
+
+    <div class="left-part">
+        <div class="logo">
+            <img src="{{ asset('images/playmoreheader.png') }}" alt="">
+        </div>
+    </div>
+    <div class="right-part">
+
+        <div class="login">
+            <h1 class="login-title">Inscription</h1>
+            {{ form_start(form) }}
+            {{ form_row(form.password.first) }}
+            {{ form_row(form.password.second) }}
+            <p class="login-lost">Déjà inscrit ? <a href="{{ path('app_security_login') }}">Connecte toi !</a></p>
+            <button type="submit" class="login-button">Demander un mot de passe </button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
