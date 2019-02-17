@@ -98,8 +98,7 @@ class SecurityController extends AbstractController
             $user = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findOneByResetToken($token);
-            if ($user->getResetToken() === null) {
-                $this->addFlash('danger', 'Token Invalide');
+            if ($user === null) {
                 return $this->redirectToRoute('app_security_login');
             }
             $user->setResetToken(null);
@@ -107,7 +106,6 @@ class SecurityController extends AbstractController
             $password = $passwordEncoder->encodePassword($user, $pass);
             $user->setPassword($password);
             $em->flush();
-            $this->addFlash('notice', 'Mot de passe mis à jour');
             if ($mailservices->notifyPassword($user->getEmail())) {
                 $this->addFlash('success', 'Notification mail was sent successfully.');
             }
@@ -134,26 +132,22 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form['email']->getData();
-            $users = $this->getDoctrine()
+            $user = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findOneBy(['email' => $email]);
             $token = $tokenGenerator->generateToken();
 
-            if ($users === null) {
-                $this->addFlash('danger', 'Email Inconnu');
+            if ($user === null) {
                 return $this->redirectToRoute('app_security_login');
             }
+
             $url = $this->generateUrl('app_security_reset', array('token'=>$token), UrlGeneratorInterface::ABSOLUTE_URL);
-            try{
-                $em = $this->getDoctrine()->getManager();
-                $users->setResetToken($token);
-                $em->flush();
-            } catch (\Exception $e) {
-                $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('app_security_login');
-            }
+            $em = $this->getDoctrine()->getManager();
+            $users->setResetToken($token);
+            $em->flush();
+
             if ($mailservices->forgotPass($email, $url)) {
-                $this->addFlash('success', 'Notification mail was sent successfully.');
+                $this->addFlash('notice', 'Notification mail was sent successfully.');
             }
         }
         return $this->render('Front/Security/forgot.html.twig', [
