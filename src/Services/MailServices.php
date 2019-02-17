@@ -16,8 +16,6 @@ class MailServices {
 
     public function notifyRegistration($mail)
     {
-
-
         $message = (new \Swift_Message('Inscription sur Playmore'))
             ->setFrom($this->adminEmail)
             ->setTo($mail)
@@ -29,4 +27,26 @@ class MailServices {
     }
 
 
+    public function forgotPass($mail, $url)
+    {
+        $message = (new \Swift_Message('Demande de mot de passe Playmore'))
+            ->setFrom($this->adminEmail)
+            ->setTo($mail)
+            ->addPart(
+                'Lien de réinitialisation du mot de passe:'." ".$url
+            );
+
+        return $this->mailer->send($message) > 0;
+    }
+    public function notifyPassword($mail)
+    {
+        $message = (new \Swift_Message('Changement de mot de passe'))
+            ->setFrom($this->adminEmail)
+            ->setTo($mail)
+            ->addPart(
+                'Le mot de passe a bien été changer'
+            );
+
+        return $this->mailer->send($message) > 0;
+    }
 }

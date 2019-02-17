@@ -26,6 +26,7 @@
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
             <p class="login-lost">Vous n'avez pas de compte ? <a href="{{ path('app_security_registration') }}">S'inscrire</a></p>
+            <p class="login-lost">Problème de mot de passe ? <a href="{{ path('app_security_forgot') }}">Mot de passe oublié</a></p>
             <input type="submit" value="Se connecter" class="login-button">
 
         </form>
