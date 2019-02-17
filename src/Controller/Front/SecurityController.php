@@ -89,12 +89,17 @@ class SecurityController extends AbstractController
         $form = $this->createForm(ResetType::class);
         $form->handleRequest($request);
         $token = $request->query->get('token');
+
+        if($token === null){
+            return $this->redirectToRoute('app_security_login');
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findOneByResetToken($token);
-            if ($user === null) {
+            if ($user->getResetToken() === null) {
+                $this->addFlash('danger', 'Token Invalide');
                 return $this->redirectToRoute('app_security_login');
             }
             $user->setResetToken(null);
