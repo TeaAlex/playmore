@@ -51,6 +51,51 @@ class OfferController extends AbstractController {
 		return $this->render('Front/offer/_form.html.twig', ['form' => $form->createView()]);
 	}
 
+	/**
+	 * @Route(path="/edit/{id}", name="edit", methods={"GET", "POST"} )
+	 * @param Request $request
+	 * @param Offer $offer
+	 * @param GamePlatformRepository $gamePlatformRepository
+	 * @param ObjectManager $em
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function edit(Request $request, Offer $offer, GamePlatformRepository $gamePlatformRepository, ObjectManager $em) {
+		$form = $this->createForm(OfferType::class, $offer);
+		$form->handleRequest($request);
+		if($form->isSubmitted() && $form->isValid()){
+			$user = $this->getUser();
+			if($form->get('game') != null){
+				$game = $form->get('game')->getData();
+				$gamePlatform = $gamePlatformRepository->findOneByGameAndUser($game, $user);
+				$offer->setGamePlatform($gamePlatform);
+			}
+			$em->persist($offer);
+			$em->flush();
+			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
+		}
+		return $this->render('Front/offer/edit.html.twig', ['form' => $form->createView()]);
+	}
+
+	/**
+	 * @Route(path="/{id}", name="delete", methods={"DELETE"})
+	 * @param Request $request
+	 *
+	 * @param Offer $offer
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function delete(Request $request, Offer $offer) {
+//		$this->denyAccessUnlessGranted(AdvertVoter::OWNER, $advert);
+		if ($this->isCsrfTokenValid('delete'.$offer->getId(), $request->request->get('_token'))) {
+			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager->remove($offer);
+			$entityManager->flush();
+		}
+
+		return $this->redirectToRoute('user_profile', ['slug' => $offer->getCreatedBy()->getSlug()]);
+	}
+
 
 }
 

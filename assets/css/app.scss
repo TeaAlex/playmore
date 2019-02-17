@@ -347,16 +347,27 @@ textarea{
     @apply rounded-full flex justify-center items-center absolute;
   }
 
+  .profile-left-btn {
+    height: 50px;
+    width: 50px;
+    top: -15px;
+    left: -15px;
+    @apply rounded-full flex justify-center items-center absolute;
+  }
+
   .title-border {
     @apply border-l-4 border-primary pl-2 my-4;
   }
 
 
   .platform-icon {
-    padding: 5px 12px;
+    height: 28px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 4px;
     color: white;
-    max-width: 42px;
     margin-right: 8px;
   }
 
@@ -387,7 +398,13 @@ textarea{
     @apply relative;
   }
 
-  .profile-edit-btn {
+  .offer-card {
+    width: 480px;
+    height: 160px;
+    @apply bg-white rounded m-4 p-4 flex flex-col relative;
+  }
+
+  .profile-edit-btn, .profile-left-btn {
     opacity: 0;
     transition: opacity 0.2s ease-in;
   }
@@ -399,6 +416,15 @@ textarea{
   .profile-card:hover .profile-edit-btn {
     opacity: 1;
   }
+
+  .offer-card:hover .profile-edit-btn {
+    opacity: 1;
+  }
+  .offer-card:hover .profile-left-btn {
+    opacity: 1;
+  }
+
+
 
   .advert-list {
     width: max-content;
@@ -414,17 +440,18 @@ textarea{
   display: none;
   position: fixed;
   z-index: 200;
-  top: 40%;
+  top: 30%;
   left: 40%;
-  width: 20%;
+  width: 30%;
   background: white;
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
   padding: 1rem;
+  border-radius: 4px;
 }
 
 .modal h1 {
-  color: #521751;
-  margin: 0.5rem 0;
+  color: #2a8eff;
+  margin: 1rem 0;
   font-size: 1.2rem;
 }
 
