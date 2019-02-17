@@ -8,10 +8,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Vich\Uploadable()
+ * @UniqueEntity("email")
+
 
  */
 class User implements UserInterface, \Serializable
@@ -24,14 +30,17 @@ class User implements UserInterface, \Serializable
     private $id;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $username;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $email;
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $password;
     /**
@@ -118,6 +127,7 @@ class User implements UserInterface, \Serializable
         $this->gamePlatforms = new ArrayCollection();
         $this->platforms = new ArrayCollection();
     }
+
 
 
     public function getId(): ?int
