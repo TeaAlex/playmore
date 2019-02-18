@@ -6,6 +6,7 @@ use App\Entity\Advert;
 use App\Entity\Offer;
 use App\Form\OfferType;
 use App\Repository\GamePlatformRepository;
+use App\Repository\OfferRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,6 +95,18 @@ class OfferController extends AbstractController {
 		}
 
 		return $this->redirectToRoute('user_profile', ['slug' => $offer->getCreatedBy()->getSlug()]);
+	}
+
+	/**
+	 * @Route(path="/list/{id}", name="list", methods={"GET"})
+	 * @param $id
+	 * @param OfferRepository $offerRepository
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function listOffers($id, OfferRepository $offerRepository) {
+		$offers = $offerRepository->findOffersByAdvert($id);
+		return $this->render('Front/offer/list.html.twig', ['offers' => $offers]);
 	}
 
 
