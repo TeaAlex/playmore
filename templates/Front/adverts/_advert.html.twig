@@ -2,6 +2,11 @@
     {% if advert.advert_kind_name == 'Echange' %}
         <div class="advert-card">
             {% if advert.user_id == app.user.id %}
+            <div class="bg-playmore-blue profile-left-btn">
+                <a href="{{ path('advert_edit', {'id': advert.advert_id}) }}">
+                    <i class="fas fa-edit text-white"></i>
+                </a>
+            </div>
             <div class="bg-red-light profile-edit-btn">
                 {{ include('Front/adverts/_delete_form.html.twig') }}
             </div>
@@ -46,22 +51,30 @@
                     <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
                     <div class="flex flex-col text-xs text-playmore-blue-darkest font-semibold ml-2">
                         <p>{{ advert.username | capitalize }}</p>
-                        <p>Pontault-Combault</p>
+                        {#<p>Pontault-Combault</p>#}
                     </div>
                 </a>
-                <a href="#" class="showOffers" data-advert-id="{{ advert.advert_id }}">Offres</a>
                 {% if advert.user_id != app.user.id %}
-                <a href="#" class="btn btn-secondary offer-btn" data-advert-id="{{ advert.advert_id }}">
-                    Faire une offre
-                </a>
+                    {% if advert.advert_status == 'Fermé' %}
+                        <p class="font-semibold">Annonce déja pourvue</p>
+                    {% else %}
+                    <a href="#" class="btn btn-secondary offer-btn" data-advert-id="{{ advert.advert_id }}">
+                        Faire une offre
+                    </a>
+                    {% endif %}
                 {% else %}
-                    <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-secondary">Editer</a>
+                    <a href="#" class="btn btn-secondary showOffers" data-advert-id="{{ advert.advert_id }}">({{ advert.offer_cnt }}) Offres</a>
                 {% endif %}
             </div>
         </div>
     {% elseif advert.advert_kind_name == 'Location' %}
         <div class="advert-card">
             {% if advert.user_id == app.user.id %}
+                <div class="bg-playmore-blue profile-left-btn">
+                    <a href="{{ path('advert_edit', {'id': advert.advert_id}) }}">
+                        <i class="fas fa-edit text-white"></i>
+                    </a>
+                </div>
                 <div class="bg-red-light profile-edit-btn">
                     {{ include('Front/adverts/_delete_form.html.twig') }}
                 </div>
@@ -96,13 +109,17 @@
                     <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
                     <div class="flex flex-col text-xs text-primary font-semibold ml-2">
                         <p>{{ advert.username | capitalize }}</p>
-                        <p>Pontault-Combault</p>
+                        {#<p>Pontault-Combault</p>#}
                     </div>
                 </a>
                 {% if advert.user_id != app.user.id %}
-                <a href="#" class="btn btn-edit offer-btn" data-advert-id="{{ advert.advert_id }}">Faire une offre</a>
+                    {% if advert.advert_status == 'Fermé' %}
+                        <p class="font-semibold">Annonce déjà pourvue</p>
+                    {% else %}
+                    <a href="#" class="btn btn-edit offer-btn" data-advert-id="{{ advert.advert_id }}">Faire une offre</a>
+                    {% endif %}
                 {% else %}
-                <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-edit">Editer</a>
+                    <a href="#" class="btn btn-edit showOffers" data-advert-id="{{ advert.advert_id }}">({{ advert.offer_cnt }}) Offres</a>
                 {% endif %}
             </div>
         </div>

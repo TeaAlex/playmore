@@ -5,10 +5,15 @@ namespace App\Controller\Front;
 use App\Entity\Advert;
 use App\Entity\Offer;
 use App\Form\OfferType;
+use App\Repository\AdvertStatusRepository;
 use App\Repository\GamePlatformRepository;
 use App\Repository\OfferRepository;
+use App\Repository\OfferStatusRepository;
+use App\Security\OfferVoter;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,14 +28,13 @@ class OfferController extends AbstractController {
 	 * @Route(path="/new/{id}", name="new", methods={"GET", "POST"})
 	 * @param Request $request
 	 * @param Advert $advert
-	 *
 	 * @param ObjectManager $em
-	 *
 	 * @param GamePlatformRepository $gamePlatformRepository
+	 * @param OfferStatusRepository $offerStatusRepository
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository) {
+	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository, OfferStatusRepository $offerStatusRepository) {
 		$offer = new Offer();
 		$offer->setAdvert($advert);
 		$form = $this->createForm(OfferType::class, $offer, [
@@ -40,7 +44,9 @@ class OfferController extends AbstractController {
 		if($form->isSubmitted() && $form->isValid()){
 			$user = $this->getUser();
 			$offer->setCreatedBy($user);
-			if(in_array('game', $form->all())){
+			$status = $offerStatusRepository->findOneBy(['name' => 'En cours de validation']);
+			$offer->setOfferStatus($status);
+			if($form->has('game')){
 				$game = $form->get('game')->getData();
 				$gamePlatform = $gamePlatformRepository->findOneByGameAndUser($game, $user);
 				$offer->setGamePlatform($gamePlatform);
@@ -62,11 +68,12 @@ class OfferController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function edit(Request $request, Offer $offer, GamePlatformRepository $gamePlatformRepository, ObjectManager $em) {
+		$this->denyAccessUnlessGranted(OfferVoter::OWNER, $offer);
 		$form = $this->createForm(OfferType::class, $offer);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 			$user = $this->getUser();
-			if($form->get('game') != null){
+			if($form->has('game')){
 				$game = $form->get('game')->getData();
 				$gamePlatform = $gamePlatformRepository->findOneByGameAndUser($game, $user);
 				$offer->setGamePlatform($gamePlatform);
@@ -109,6 +116,35 @@ class OfferController extends AbstractController {
 		return $this->render('Front/offer/list.html.twig', ['offers' => $offers]);
 	}
 
+
+	/**
+	 * @Route(path="/accept/{id}", name="accept", methods={"POST"})
+	 * @param Offer $offer
+	 * @param EntityManagerInterface terface $em
+	 * @param OfferRepository $offerRepository
+	 * @param OfferStatusRepository $offerStatusRepository
+	 *
+	 * @param AdvertStatusRepository $advertStatusRepository
+	 *
+	 * @return JsonResponse
+	 */
+	public function acceptOffer(Offer $offer, EntityManagerInterface $em, OfferRepository $offerRepository,
+								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository)
+	{
+		$accepted = $offerStatusRepository->findOneBy(['name' => 'Accepté']);
+		$refused = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
+		$closed = $advertStatusRepository->findOneBy(['name' => 'Fermé']);
+		$offer->setOfferStatus($accepted);
+		$advert = $offer->getAdvert();
+		$advert->setAdvertStatus($closed);
+		/** @var $remainingOffers Offer[] **/
+		$remainingOffers = $offerRepository->exludeByAdvert($offer->getId(), $offer->getAdvert()->getId());
+		foreach ($remainingOffers as $remainingOffer) {
+			$remainingOffer->setOfferStatus($refused);
+		}
+		$em->flush();
+		return new JsonResponse($remainingOffers);
+	}
 
 }
 

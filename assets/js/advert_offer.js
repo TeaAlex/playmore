@@ -36,6 +36,16 @@ function triggerModal(e) {
   });
 }
 
+function acceptOffer(){
+  const offerId = this.dataset.offerId;
+  axios({
+    method: 'post',
+    url: Routing.generate('offer_accept', {id: offerId})
+  }).then(response => {
+    console.log(response.data);
+  })
+}
+
 function showOffers(e){
   e.preventDefault();
   const advertId = this.dataset.advertId;
@@ -43,11 +53,15 @@ function showOffers(e){
     method: 'get',
     url: Routing.generate('offer_list', {id: advertId})
   }).then(response => {
-    modal.classList.add('bg-grey-lightest');
+    modal.classList.add('bg-grey-lightest');  
     modalTitle.innerText = 'Offres sur cette annonce';
     modalContent.innerHTML = response.data;
     backdrop.style.display = 'block';
     modal.style.display = 'block';
+    const acceptOfferBtns = document.querySelectorAll('.accept_offer');
+    for (let btn of acceptOfferBtns ){
+      btn.addEventListener('click', acceptOffer)
+    }
   })
 }
 

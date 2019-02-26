@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OfferRepository")
  */
 class Offer
 {
+	use SoftDeleteableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -49,6 +53,12 @@ class Offer
      * @ORM\JoinColumn(name="game_platform_id", referencedColumnName="id", nullable=true)
      */
     private $gamePlatform;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\OfferStatus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $offerStatus;
 
     public function getId(): ?int
     {
@@ -124,6 +134,18 @@ class Offer
     public function setGamePlatform(?GamePlatform $gamePlatform): self
     {
         $this->gamePlatform = $gamePlatform;
+
+        return $this;
+    }
+
+    public function getOfferStatus(): ?OfferStatus
+    {
+        return $this->offerStatus;
+    }
+
+    public function setOfferStatus(?OfferStatus $offerStatus): self
+    {
+        $this->offerStatus = $offerStatus;
 
         return $this;
     }

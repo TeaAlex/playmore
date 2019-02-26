@@ -413,6 +413,10 @@ textarea{
     opacity: 1;
   }
 
+  .advert-card:hover .profile-left-btn {
+    opacity: 1;
+  }
+
   .profile-card:hover .profile-edit-btn {
     opacity: 1;
   }
@@ -442,7 +446,8 @@ textarea{
   z-index: 200;
   top: 30%;
   left: 40%;
-  width: 30%;
+  width: auto;
+  min-width: 30%;
   background: white;
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
   padding: 1rem;
