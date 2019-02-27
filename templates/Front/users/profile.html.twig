@@ -76,7 +76,7 @@
                 {% endif %}
                 </div>
                 <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Offres</h1>
-                <div class="flex">
+                <div class="flex flex-wrap">
                     {% for offer in offers %}
                         {{ include('Front/offer/_offer.html.twig') }}
                     {% endfor %}

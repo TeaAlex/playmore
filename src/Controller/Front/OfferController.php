@@ -68,7 +68,7 @@ class OfferController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function edit(Request $request, Offer $offer, GamePlatformRepository $gamePlatformRepository, ObjectManager $em) {
-		$this->denyAccessUnlessGranted(OfferVoter::OWNER, $offer);
+		$this->denyAccessUnlessGranted(OfferVoter::PENDING, $offer);
 		$form = $this->createForm(OfferType::class, $offer);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
@@ -132,7 +132,7 @@ class OfferController extends AbstractController {
 								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository)
 	{
 		$accepted = $offerStatusRepository->findOneBy(['name' => 'Accepté']);
-		$refused = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
+		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
 		$closed = $advertStatusRepository->findOneBy(['name' => 'Fermé']);
 		$offer->setOfferStatus($accepted);
 		$advert = $offer->getAdvert();
@@ -140,10 +140,21 @@ class OfferController extends AbstractController {
 		/** @var $remainingOffers Offer[] **/
 		$remainingOffers = $offerRepository->exludeByAdvert($offer->getId(), $offer->getAdvert()->getId());
 		foreach ($remainingOffers as $remainingOffer) {
-			$remainingOffer->setOfferStatus($refused);
+			$remainingOffer->setOfferStatus($declined);
 		}
 		$em->flush();
 		return new JsonResponse($remainingOffers);
+	}
+
+	/**
+	 * @Route(path="/decline/{id}", name="decline", methods={"POST"})
+	 */
+	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository) {
+		$slug = $this->getUser()->getSlug();
+		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
+		$offer->setOfferStatus($declined);
+		$em->flush();
+		return $this->redirectToRoute('user_profile', ['slug' => $slug]);
 	}
 
 }

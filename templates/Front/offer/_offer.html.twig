@@ -7,7 +7,7 @@
         border-green
     {% endif %}
 ">
-    {% if offer.offer_created_by == app.user.id %}
+    {% if offer.offer_created_by == app.user.id and offer.offer_status == 'En cours de validation' %}
     <div class="bg-playmore-blue profile-left-btn">
         <a href="{{ path('offer_edit', {'id': offer.offer_id}) }}">
             <i class="fas fa-edit text-white"></i>
@@ -50,9 +50,16 @@
         {#</div>#}
     </div>
     {% if offer.advert_created_by == app.user.id and offer.offer_status == 'En cours de validation' %}
-        <div class="flex justify-end">
-        <a href="#" class="font-bold text-green-light accept_offer" data-offer-id="{{ offer.offer_id }}">Accepter</a>
-        <a href="#" class="font-bold ml-3 text-red-light decline_offer" data-offer-id="{{ offer.offer_id }}">Refuser</a>
+        <div class="flex justify-between">
+        {% if offer.offer_created_by != app.user.id %}
+        <div>
+            <a href="{{ path('user_profile', {'slug' : offer.offer_created_by_slug }) }}" class="text-playmore-blue font-bold">Par {{ offer.offer_created_by_username }}</a>
+        </div>
+        {% endif %}
+        <div>
+            <a href="#" class="font-bold text-green-light accept_offer" data-offer-id="{{ offer.offer_id }}">Accepter</a>
+            <a href="#" class="font-bold ml-3 text-red-light decline_offer" data-offer-id="{{ offer.offer_id }}">Refuser</a>
+        </div>
     </div>
     {% endif %}
 

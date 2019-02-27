@@ -19,6 +19,8 @@ class OfferRepository extends ServiceEntityRepository
 		$rsm = new ResultSetMapping();
 		$rsm->addScalarResult('offer_id','offer_id');
 		$rsm->addScalarResult('offer_created_by','offer_created_by');
+		$rsm->addScalarResult('offer_created_by_slug','offer_created_by_slug');
+		$rsm->addScalarResult('offer_created_by_username','offer_created_by_username');
 		$rsm->addScalarResult('price','price');
 		$rsm->addScalarResult('start_date','start_date');
 		$rsm->addScalarResult('end_date','end_date');
@@ -36,12 +38,14 @@ class OfferRepository extends ServiceEntityRepository
 
 		$sql = <<<SQL
 			SELECT o.id offer_id, o.created_by_id offer_created_by, o.price, o.start_date, o.end_date,
+			       u2.slug offer_created_by_slug, u2.username offer_created_by_username,
 			       os.name offer_status,
 			       a.id advert_id, ak.name advert_name, a.created_by_id advert_created_by,
 			       g.name game_advert_name, g.img_name game_advert_img_name, p.name game_advert_platform,
 			       g2.name game_offer_name, g2.img_name game_offer_img_name, p2.name game_offer_platform,
 			       u.slug advert_user_slug
 			FROM offer o
+			JOIN user u2 ON o.created_by_id = u2.id
 		  	JOIN offer_status os ON o.offer_status_id = os.id
 			JOIN advert a ON o.advert_id = a.id
 			JOIN advert_kind ak ON a.advert_kind_id = ak.id
@@ -61,6 +65,8 @@ SQL;
 		$rsm = new ResultSetMapping();
 		$rsm->addScalarResult('offer_id','offer_id');
 		$rsm->addScalarResult('offer_created_by','offer_created_by');
+		$rsm->addScalarResult('offer_created_by_slug','offer_created_by_slug');
+		$rsm->addScalarResult('offer_created_by_username','offer_created_by_username');
 		$rsm->addScalarResult('price','price');
 		$rsm->addScalarResult('start_date','start_date');
 		$rsm->addScalarResult('end_date','end_date');
@@ -78,12 +84,14 @@ SQL;
 
 		$sql = <<<SQL
 			SELECT o.id offer_id, o.created_by_id offer_created_by, o.price, o.start_date, o.end_date,
+			       u2.slug offer_created_by_slug, u2.username offer_created_by_username,
 			       os.name offer_status,
 			       a.id advert_id, ak.name advert_name, a.created_by_id advert_created_by,
 			       g.name game_advert_name, g.img_name game_advert_img_name, p.name game_advert_platform,
 			       g2.name game_offer_name, g2.img_name game_offer_img_name, p2.name game_offer_platform,
 			       u.slug advert_user_slug
 			FROM offer o
+			JOIN user u2 ON o.created_by_id = u2.id
 		  	JOIN offer_status os ON o.offer_status_id = os.id
 			JOIN advert a ON o.advert_id = a.id
 			JOIN advert_kind ak ON a.advert_kind_id = ak.id

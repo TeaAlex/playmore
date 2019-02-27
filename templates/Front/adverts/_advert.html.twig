@@ -56,7 +56,7 @@
                 </a>
                 {% if advert.user_id != app.user.id %}
                     {% if advert.advert_status == 'Fermé' %}
-                        <p class="font-semibold">Annonce déja pourvue</p>
+                        <p class="font-semibold">Annonce déjà pourvue</p>
                     {% else %}
                     <a href="#" class="btn btn-secondary offer-btn" data-advert-id="{{ advert.advert_id }}">
                         Faire une offre

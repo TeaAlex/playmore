@@ -42,7 +42,19 @@ function acceptOffer(){
     method: 'post',
     url: Routing.generate('offer_accept', {id: offerId})
   }).then(response => {
-    console.log(response.data);
+    modal.style.display = 'none';
+    backdrop.style.display = 'none';
+  })
+}
+
+function declineOffer(){
+  const offerId = this.dataset.offerId;
+  axios({
+    method: 'post',
+    url: Routing.generate('offer_decline', {id: offerId})
+  }).then(response => {
+    modal.style.display = 'none';
+    backdrop.style.display = 'none';
   })
 }
 
@@ -61,6 +73,10 @@ function showOffers(e){
     const acceptOfferBtns = document.querySelectorAll('.accept_offer');
     for (let btn of acceptOfferBtns ){
       btn.addEventListener('click', acceptOffer)
+    }
+    const declineOfferBtns = document.querySelectorAll('.decline_offer');
+    for (let btn of declineOfferBtns) {
+      btn.addEventListener('click', declineOffer)
     }
   })
 }

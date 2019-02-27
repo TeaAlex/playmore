@@ -399,7 +399,7 @@ textarea{
   }
 
   .offer-card {
-    width: 480px;
+    min-width: 480px;
     height: 160px;
     @apply bg-white rounded m-4 p-4 flex flex-col relative;
   }
@@ -444,8 +444,9 @@ textarea{
   display: none;
   position: fixed;
   z-index: 200;
-  top: 30%;
-  left: 40%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   width: auto;
   min-width: 30%;
   background: white;
@@ -453,6 +454,8 @@ textarea{
   padding: 1rem;
   border-radius: 4px;
 }
+
+
 
 .modal h1 {
   color: #2a8eff;
