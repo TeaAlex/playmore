@@ -3,22 +3,28 @@
 namespace App\Controller\Front;
 
 
+use App\Entity\Comment;
 use App\Entity\Game;
 use App\Entity\GamePlatform;
 use App\Entity\Platform;
 use App\Entity\User;
 use App\Form\Front\UserGameType;
 use App\Form\Front\UserType;
+use App\Form\Front\CommentType;
 use App\Repository\AdvertRepository;
+use App\Repository\CommentRepository;
 use App\Repository\GamePlatformRepository;
 use App\Repository\OfferRepository;
 use App\Repository\UserRepository;
+use App\Security\CommentVoter;
 use App\Security\UserVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * Class UserController
@@ -34,17 +40,26 @@ class UserController extends AbstractController {
 	 * @param AdvertRepository $advertRepository
 	 * @param UserRepository $userRepository
 	 *
+	 * @param CommentRepository $commentRepository
+	 * @param OfferRepository $offerRepository
+	 *
 	 * @return Response
 	 */
-	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, OfferRepository $offerRepository): Response {
+	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
 		$adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$offers = $offerRepository->findUserOffers($user->getId());
+		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
+		$commentaire = new Comment();
+		$form = $this->createForm(CommentType::class, $commentaire);
+
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
 			'adverts' => $adverts,
 			'infos' => $infos,
-			'offers' => $offers
+			'offers' => $offers,
+            'form' => $form->createView(),
+            'commentaires' => $commentaires
 		]);
 	}
 
@@ -69,6 +84,59 @@ class UserController extends AbstractController {
 		]);
 	}
 
+
+    /**
+     * @Route(path="/comment/newComment", name="comment", methods="GET|POST")
+     * @param Request $request
+     * @param ObjectManager $em
+     * @return Response
+     */
+    public function newComment(Request $request, ObjectManager $em): Response
+    {
+        $user = $this->getUser();
+        $destinataire = $this->getDoctrine()->getRepository(User::class)->find($request->get("destinataire"));
+        $oldRating = $destinataire->getRating();
+        $newRating = $request->request->get('_rating');
+        $finalRating = ($oldRating + $newRating) / 2;
+        $commentaire = new Comment();
+        $form = $this->createForm(CommentType::class, $commentaire);
+        $form->handleRequest($request);
+        $commentaire->setCreatedBy($user);
+        $commentaire->setCreatedTo($destinataire);
+        $destinataire->setRating($finalRating);
+
+        if ($form->isSubmitted() && $form->isValid() && $commentaire->getCreatedBy() !== null &&  $commentaire->getCreatedTo() !== null) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($commentaire);
+            $em->flush();
+
+            return $this->redirectToRoute('user_profile', ['slug' => $destinataire->getSlug()]);
+        }
+
+        return $this->render('Front/Comment/new.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route(path="/comment/{id}/edit", name="edit_comment", methods={"POST", "GET"})
+     * @param Request $request
+     * @param Comment $comment
+     * @param ObjectManager $em
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editComment(Request $request, Comment $comment, ObjectManager $em): Response {
+        $this->denyAccessUnlessGranted(CommentVoter::OWNER, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            return $this->redirectToRoute('user_profile', ['slug' => $comment->getCreatedTo()->getSlug()]);
+        }
+        return $this->render('Front/Comment/edit.html.twig', ['form' => $form->createView(), 'user' => $comment->getCreatedTo()]);
+    }
 
 	/**
 	 * @Route(path="/game/add", name="game_add", methods={"POST", "GET"})

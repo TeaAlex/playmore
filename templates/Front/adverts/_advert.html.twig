@@ -1,7 +1,7 @@
 {% for advert in adverts %}
     {% if advert.advert_kind_name == 'Echange' %}
         <div class="advert-card">
-            {% if advert.user_id == app.user.id %}
+            {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
             <div class="bg-playmore-blue profile-left-btn">
                 <a href="{{ path('advert_edit', {'id': advert.advert_id}) }}">
                     <i class="fas fa-edit text-white"></i>
@@ -46,6 +46,7 @@
                 </div>
             </div>
             {# FOOTER #}
+            {% if is_granted('ROLE_USER') %}
             <div style="height: 60px;" class="flex items-center justify-between px-4 bg-playmore-blue-lightest rounded-b">
                 <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug' : advert.user_slug }) }}">
                     <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
@@ -66,10 +67,11 @@
                     <a href="#" class="btn btn-secondary showOffers" data-advert-id="{{ advert.advert_id }}">({{ advert.offer_cnt }}) Offres</a>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
     {% elseif advert.advert_kind_name == 'Location' %}
         <div class="advert-card">
-            {% if advert.user_id == app.user.id %}
+            {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
                 <div class="bg-playmore-blue profile-left-btn">
                     <a href="{{ path('advert_edit', {'id': advert.advert_id}) }}">
                         <i class="fas fa-edit text-white"></i>
@@ -104,6 +106,7 @@
                 </div>
             </div>
             {# FOOTER #}
+            {% if is_granted('ROLE_USER') %}
             <div style="height: 60px;" class="flex items-center justify-between px-4 bg-primary-lightest rounded-b">
                 <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug': advert.user_slug }) }}">
                     <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
@@ -122,6 +125,7 @@
                     <a href="#" class="btn btn-edit showOffers" data-advert-id="{{ advert.advert_id }}">({{ advert.offer_cnt }}) Offres</a>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
     {% endif %}
 {% endfor %}

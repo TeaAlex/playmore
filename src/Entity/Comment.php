@@ -38,6 +38,11 @@ class Comment
      */
     private $createdAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
