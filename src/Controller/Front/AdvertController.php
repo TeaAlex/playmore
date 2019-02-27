@@ -29,9 +29,15 @@ class AdvertController extends AbstractController
      */
     public function showAll(): Response
     {
-    	$userId = $this->getUser()->getId();
-    	$em = $this->getDoctrine()->getManager();
-    	$adverts = $em->getRepository(Advert::class)->all($userId, true);
+        if( $this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            $userId = $this->getUser()->getId();
+            $em = $this->getDoctrine()->getManager();
+            $adverts = $em->getRepository(Advert::class)->all($userId, true);
+        } else {
+            $em = $this->getDoctrine()->getManager();
+            $adverts = $em->getRepository(Advert::class)->all(500, true);
+        }
+
         return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
     }
 
