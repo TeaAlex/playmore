@@ -20,7 +20,7 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
-	public function all($userId, bool $all = false) {
+	public function all($userId = null, bool $all = false) {
     	$rsm = new ResultSetMapping();
     	$rsm->addScalarResult('advert_id','advert_id');
     	$rsm->addScalarResult('advert_kind_name','advert_kind_name');
@@ -43,10 +43,16 @@ class AdvertRepository extends ServiceEntityRepository
     	$rsm->addScalarResult('advert_status','advert_status');
 
 		$join = "";
-    	if($all === true){
+		$params = [];
+		if($userId === null && $all === true){
+			$where = "";
+		}
+    	elseif($all === true){
     		$where = "WHERE u.id != :userId AND astat.name = 'Ouvert'";
+    		$params = ["userId" => $userId];
 	    } else {
     		$where = "WHERE u.id = :userId";
+    		$params = ["userId" => $userId];
 	    }
 
 		$sql = <<<SQL
@@ -70,7 +76,7 @@ class AdvertRepository extends ServiceEntityRepository
 			$where
 			GROUP BY a.id
 SQL;
-		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(["userId" => $userId])->getResult();
+		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters($params)->getResult();
     }
 
 }
