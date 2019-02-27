@@ -21,6 +21,7 @@ html, body {
 
 body {
   @apply bg-grey-lightest;
+
   margin:0;
   padding: 0;
   font-family: 'Nunito', sans-serif;
@@ -52,11 +53,14 @@ header{
 
 .home-content {
 
-  background-color: #eff2f6;
+  //background-color: #eff2f6;
+  background-image: url('../../public/images/apex-legends.jpg');
+  background-size: 1900px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+
 
   .search-container{
     width: 50%;
@@ -68,6 +72,23 @@ header{
     width: 100%;
     justify-content: center;
 
+  }
+
+  .last-news {
+    margin-top: 150px;
+    width: 70%;
+    height: 250px;
+    background-color: white;
+    opacity: 0.3;
+    border-radius: 30px;
+
+
+    p {
+      padding: 30px;
+      font-size: 1.3em;
+      color: black;
+      font-weight: 700;
+    }
   }
   .filter-container{
     width: 16%;
