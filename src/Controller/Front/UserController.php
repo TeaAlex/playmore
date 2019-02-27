@@ -14,6 +14,7 @@ use App\Form\Front\CommentType;
 use App\Repository\AdvertRepository;
 use App\Repository\CommentRepository;
 use App\Repository\GamePlatformRepository;
+use App\Repository\OfferRepository;
 use App\Repository\UserRepository;
 use App\Security\CommentVoter;
 use App\Security\UserVoter;
@@ -39,21 +40,26 @@ class UserController extends AbstractController {
 	 * @param AdvertRepository $advertRepository
 	 * @param UserRepository $userRepository
 	 *
+	 * @param CommentRepository $commentRepository
+	 * @param OfferRepository $offerRepository
+	 *
 	 * @return Response
 	 */
-
-	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository): Response {
+	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
 		$adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
+		$offers = $offerRepository->findUserOffers($user->getId());
+		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
 		$commentaire = new Comment();
-        $commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
-        $form = $this->createForm(CommentType::class, $commentaire);
+		$form = $this->createForm(CommentType::class, $commentaire);
+
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
 			'adverts' => $adverts,
 			'infos' => $infos,
+			'offers' => $offers,
             'form' => $form->createView(),
-            'commentaires' => $commentaires,
+            'commentaires' => $commentaires
 		]);
 	}
 

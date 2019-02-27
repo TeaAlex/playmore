@@ -347,16 +347,27 @@ textarea{
     @apply rounded-full flex justify-center items-center absolute;
   }
 
+  .profile-left-btn {
+    height: 50px;
+    width: 50px;
+    top: -15px;
+    left: -15px;
+    @apply rounded-full flex justify-center items-center absolute;
+  }
+
   .title-border {
     @apply border-l-4 border-primary pl-2 my-4;
   }
 
 
   .platform-icon {
-    padding: 5px 12px;
+    height: 28px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 4px;
     color: white;
-    max-width: 42px;
     margin-right: 8px;
   }
 
@@ -390,12 +401,22 @@ textarea{
     @apply relative;
   }
 
-  .profile-edit-btn {
+  .offer-card {
+    min-width: 480px;
+    height: 160px;
+    @apply bg-white rounded m-4 p-4 flex flex-col relative;
+  }
+
+  .profile-edit-btn, .profile-left-btn {
     opacity: 0;
     transition: opacity 0.2s ease-in;
   }
 
   .advert-card:hover .profile-edit-btn {
+    opacity: 1;
+  }
+
+  .advert-card:hover .profile-left-btn {
     opacity: 1;
   }
 
@@ -406,9 +427,103 @@ textarea{
    opacity: 1;
   }
 
+  .offer-card:hover .profile-edit-btn {
+    opacity: 1;
+  }
+  .offer-card:hover .profile-left-btn {
+    opacity: 1;
+  }
+
+
+
   .advert-list {
     width: max-content;
     margin: 0 auto;
     max-width: 81%;
   }
+
+
+  //MODAL
+
+/* The Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: auto;
+  min-width: 30%;
+  background: white;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+
+
+.modal h1 {
+  color: #2a8eff;
+  margin: 1rem 0;
+  font-size: 1.2rem;
+}
+
+.modal-input {
+  margin: 0.5rem 0;
+}
+
+.modal-input textarea {
+  width: 100%;
+  font: inherit;
+  resize: none;
+}
+
+.modal-input textarea:focus {
+  outline: none;
+  background: #ffdbfe;
+  border-color: #521751;
+}
+
+.modal-actions {
+  text-align: right;
+}
+
+button.btn-cancel {
+  border-color: red;
+  color: red;
+}
+
+button.btn-cancel:hover,
+button.btn-cancel:active {
+  color: white;
+  background: red;
+}
+
+button.btn-confirm {
+  border-color: green;
+  color: green;
+}
+
+button.btn-confirm:hover,
+button.btn-confirm:active {
+  color: white;
+  background: green;
+}
+
+.backdrop {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.open {
+  display: block;
+}
+
 
