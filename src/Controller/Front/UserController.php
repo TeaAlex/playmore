@@ -96,6 +96,7 @@ class UserController extends AbstractController {
         $form = $this->createForm(CommentType::class, $commentaire);
         $form->handleRequest($request);
         $commentaire->setCreatedBy($user);
+        $commentaire->setRating($newRating);
         $commentaire->setCreatedTo($destinataire);
         $destinataire->setRating($finalRating);
 
@@ -125,6 +126,7 @@ class UserController extends AbstractController {
         $this->denyAccessUnlessGranted(CommentVoter::OWNER, $comment);
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
             return $this->redirectToRoute('user_profile', ['slug' => $comment->getCreatedTo()->getSlug()]);
