@@ -4,7 +4,15 @@
     <div class="w-full min-h-screen bg-grey-lightest">
         <div class="w-78% m-auto flex justify-between text-grey-darkest pt-12">
             <div class="h-full">
-                <h1 class="title-border">{% if app.user.id is same as (user.id) %}Mon {% endif %}Profil</h1>
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mon {% endif %}Profil</h1>
+                    {% if app.user.id == user.id %}
+                    <a href="{{ path('message_show', {'id': app.user.id}) }}" class="btn btn-add">Messages</a>
+                    {% endif %}
+                    {% if app.user is defined and app.user.id != user.id %}
+                        <a href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : user.id}) }}" class="btn btn-secondary">Contacter</a>
+                    {% endif %}
+                </div>
                 <div class="bg-white flex flex-col shadow rounded relative mb-12 profile-card">
                     {% if user.id == app.user.id %}
                     <div class="profile-edit-btn bg-playmore-blue">
@@ -223,8 +231,8 @@
                 {% if adverts is empty and app.user.id is same as (user.id) %}
                     <p class="text-darker font-semibold text-xl">Tu n'as pas encore d'annonces, afin de commencer à en créer rend toi
                         <a href="{{ path('advert_new') }}" class="text-primary font-bold">ici</a></p>
-                    {% elseif adverts is not empty and app.user.id is same as (user.id)%}
-                        {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+                {% elseif adverts is not empty%}
+                    {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
                 {% else %}
                     <p class="text-darker font-semibold text-xl">Cet utilisateur n'a publié aucune annonce. :(</p>
                 {% endif %}
