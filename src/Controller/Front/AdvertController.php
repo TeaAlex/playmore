@@ -30,6 +30,7 @@ class AdvertController extends AbstractController
      */
     public function showAll(): Response
     {
+
     	if(is_object($this->getUser())){
 		    $userId = $this->getUser()->getId();
 	    }

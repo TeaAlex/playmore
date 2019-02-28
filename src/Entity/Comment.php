@@ -34,9 +34,31 @@ class Comment
     private $content;
 
     /**
+     * @ORM\Column(type="integer", length=255, options={"default":0})
+     */
+    private $rating;
+
+    /**
+     * @return mixed
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param mixed $rating
+     */
+    public function setRating($rating): void
+    {
+        $this->rating = $rating;
+    }
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
 
     public function __construct()
     {
