@@ -39,6 +39,7 @@ class HomeController extends AbstractController
         $params['game'] = $request->get('game', null);
         $params['platform'] = $request->get('platform', null);
         $params['category'] = $request->get('category', null);
+        $params['userId'] = $this->getUser() ? $this->getUser()->getId() : null;
 
         $annonces = $advertrepository->search($params);
 

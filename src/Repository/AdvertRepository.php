@@ -97,6 +97,10 @@ SQL;
 		    $where .= " AND g.category_id = :cat";
 		    $parameters = array_merge($parameters,['cat' => $params['category']]);
 	    }
+	    if($params['userId']){
+	    	$where .= " AND a.created_by_id != :userId";
+	    	$parameters = array_merge($parameters, ['userId' => $params['userId']]);
+	    }
 
         $sql = "
         SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status,
