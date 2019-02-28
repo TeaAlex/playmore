@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\Front\MessageType;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
+use App\Security\MessageVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,7 @@ class MessageController extends AbstractController
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function show(User $user, MessageRepository $messageRepository): Response {
+		$this->denyAccessUnlessGranted(MessageVoter::OWNER, $user->getId());
 		$users = $messageRepository->findContacts($user->getId());
 		return $this->render('Front/message/show.html.twig', [
 			'users' => $users
@@ -38,12 +40,31 @@ class MessageController extends AbstractController
 
 	/**
 	 * @Route(path="/{user_from}/{user_to}", name="conversation")
+	 * @param Request $request
+	 * @param $user_from
+	 * @param $user_to
+	 * @param MessageRepository $messageRepository
+	 * @param UserRepository $userRepository
+	 * @param ObjectManager $em
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
 	public function conversation(Request $request, $user_from, $user_to,
 		MessageRepository $messageRepository, UserRepository $userRepository, ObjectManager $em)
 	{
+		$this->denyAccessUnlessGranted(MessageVoter::OWNER, $user_from);
 		$users = $messageRepository->findContacts($user_from);
-		$messages = $messageRepository->findMessages($user_from, $user_to);
+		if(empty($users)){
+			$userTo = $userRepository->find($user_to);
+			$users[] = [
+				'id' => $userTo->getId(),
+				'username' => $userTo->getUsername(),
+				'slug' => $userTo->getSlug(),
+				'img_name' => $userTo->getImgName()
+			];
+		} else {
+			$messages = $messageRepository->findMessages($user_from, $user_to);
+		}
 		$message = new Message();
 		$form = $this->createForm(MessageType::class, $message);
 		$form->handleRequest($request);
@@ -56,7 +77,7 @@ class MessageController extends AbstractController
 		}
 		return $this->render('Front/message/show.html.twig', [
 			'users' => $users,
-			'messages' => $messages,
+			'messages' => $messages ?? [],
 			'form' => $form->createView()
 		]);
 	}
