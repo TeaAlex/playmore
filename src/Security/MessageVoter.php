@@ -16,6 +16,9 @@ class MessageVoter extends Voter {
 		if(!in_array($attribute, [self::OWNER])){
 			return false;
 		}
+		if(is_object($subject)){
+			return false;
+		}
 		return true;
 	}
 
