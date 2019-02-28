@@ -85,31 +85,39 @@ SQL;
     public function search($params)
     {
         $conn = $this->getEntityManager()->getConnection();
+		$where = "";
+	    $parameters = [
+		    'game' => "%".$params['game']."%",
+	    ];
+	    if($params['platform']){
+		    $where .= " AND p.id = :plt";
+		    $parameters = array_merge($parameters,['plt' => $params['platform']]);
+	    }
+	    if($params['category']){
+		    $where .= " AND g.category_id = :cat";
+		    $parameters = array_merge($parameters,['cat' => $params['category']]);
+	    }
 
         $sql = "
-        SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, u.username, u.id user_id, u.img_name user_img_name,
-			       ga.id game_owned_id, ga.name game_owned_name, ga.img_name game_owned_img_name, plt.name game_owned_platform
-        FROM advert a
-		INNER JOIN user u ON a.created_by_id = u.id
-        INNER JOIN advert_kind as ak ON ak.id = a.advert_kind_id
-        INNER JOIN game as ga ON ga.id = a.game_owned_id
-        INNER JOIN category as cat ON cat.id = ga.category_id
-        INNER JOIN game_platform as gplt ON ga.id = gplt.game_id
-        INNER JOIN platform as plt ON plt.id = gplt.platform_id
-        WHERE ga.name LIKE :game
-        AND gplt.deleted_at is null
+        SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status,
+		       IFNULL(COUNT(o.id), 0) offer_cnt,
+		       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug,
+		       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
+		       g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
+		FROM advert a
+		JOIN advert_status astat ON a.advert_status_id = astat.id
+		JOIN advert_kind ak ON a.advert_kind_id = ak.id
+		JOIN game_platform gp ON a.game_owned_id = gp.id
+		JOIN game g ON gp.game_id = g.id
+		JOIN platform p ON gp.platform_id = p.id
+		LEFT JOIN game_platform gp2 ON a.game_wanted_id = gp2.id
+		LEFT JOIN game g2 ON gp2.game_id = g2.id
+		LEFT JOIN platform p2 ON gp2.platform_id = p2.id
+		LEFT JOIN offer o ON o.advert_id = a.id
+		JOIN user u ON a.created_by_id = u.id
+        WHERE g.name LIKE :game $where
+		GROUP BY a.id
         ";
-        $parameters = [
-            'game' => "%".$params['game']."%",
-        ];
-        if($params['platform']){
-            $sql .= " AND gplt.platform_id = :plt";
-            $parameters = array_merge($parameters,['plt' => $params['platform']]);
-        }
-        if($params['category']){
-            $sql .= " AND cat.id = :cat";
-            $parameters = array_merge($parameters,['cat' => $params['category']]);
-        }
 
         $stmt = $conn->prepare($sql);
         $stmt->execute($parameters);

@@ -32,23 +32,20 @@ class HomeController extends AbstractController
     /**
      * @Route("/results", name="results")
      */
-    public function results(Request $request, ObjectManager $em, AdvertRepository $advertrepository) : \Symfony\Component\HttpFoundation\Response
+    public function results(Request $request, AdvertRepository $advertrepository) : Response
     {
-        /*$annonces = $this->getDoctrine()
-            ->getRepository(Advert::class)
-            ->findBy([
-                "" => "",
-                "" => ""
-            ]);*/
         $params = [];
 
-        $params['game'] = $request->get('game') ? $request->get('game') : " ";
-        $params['platform'] = $request->get('platform') ? $request->get('platform') : null;
-        $params['category'] = $request->get('category') ? $request->get('category') : null;
+        $params['game'] = $request->get('game', null);
+        $params['platform'] = $request->get('platform', null);
+        $params['category'] = $request->get('category', null);
 
         $annonces = $advertrepository->search($params);
 
-        return $this->render('Front/home/results.html.twig', ['adverts' => $annonces]);
+        return $this->render('Front/home/results.html.twig', [
+        	'adverts' => $annonces,
+	        'query' => $request->get('game', null)
+        ]);
     }
 
 }
