@@ -36,8 +36,8 @@ class MessageRepository extends ServiceEntityRepository
 			SELECT u.id, u.username, u.slug, u.img_name
 			FROM message m
 			JOIN user u ON m.user_from_id = u.id
-			WHERE m.user_to_id = :userId
-			GROUP BY m.user_to_id
+			WHERE user_to_id = :userId
+			GROUP BY m.user_from_id
 SQL;
 		return $this->getEntityManager()
 		            ->createNativeQuery($sql, $rsm)

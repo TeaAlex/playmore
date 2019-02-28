@@ -78,7 +78,8 @@ class MessageController extends AbstractController
 		return $this->render('Front/message/show.html.twig', [
 			'users' => $users,
 			'messages' => $messages ?? [],
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'user_to' => $user_to
 		]);
 	}
 	

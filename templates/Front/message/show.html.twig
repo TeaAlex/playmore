@@ -5,7 +5,9 @@
         <div class="w-1/5 mr-4 bg-white rounded p-6">
             <p class="text-lg font-bold text-playmore-blue mb-4">Contacts</p>
             {% for user in users %}
-                <div class="flex items-center">
+                <div class="flex items-center flex items-center my-3 p-3 rounded
+                    {% if user_to is defined and user_to == user.id %}bg-grey-lighter{% endif %}
+                ">
                     <img src="{{ asset('images/user/' ~  user.img_name  ) }}" alt="{{ user.username }}" class="rounded-full message-user-icon">
                     <a href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : user.id}) }}">{{ user.username }}</a>
                 </div>

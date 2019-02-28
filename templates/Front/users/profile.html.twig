@@ -77,7 +77,12 @@
                     </div>
                 {% endfor %}
                 <br>
-                <h1 class="title-border">Derniers avis</h1>
+                <div class="flex items-center">
+                    <h1 class="title-border">Derniers avis</h1>
+                    {% if user.id != app.user.id %}
+                        <button id="create_comment" class="btn btn-add ml-4">Ajouter</button>
+                    {% endif %}
+                </div>
                 <div class="bg-white flex flex-col shadow rounded relative mb-5 pt-5" style="width:360px;">
                  {% if commentaires is empty %}
                     <div class="flex flex-grow mb-5">
@@ -216,9 +221,6 @@
 
 
             </div>
-            {% if user.id != app.user.id %}
-            <button id="create_comment" class="btn btn-secondary">Ajouter</button>
-            {% endif %}
             </div>
             <div class="h-full w-70%">
                 <div class="flex items-center">
