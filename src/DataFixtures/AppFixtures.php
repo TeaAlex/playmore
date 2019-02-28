@@ -2,10 +2,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\AdvertKind;
+use App\Entity\AdvertStatus;
 use App\Entity\Category;
 use App\Entity\Classification;
 use App\Entity\Developper;
 use App\Entity\Editor;
+use App\Entity\OfferStatus;
 use App\Entity\Platform;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -81,7 +83,19 @@ class AppFixtures extends Fixture {
 		$user->setUpdatedAt(new \DateTime('now'));
 		$manager->persist($user);
 
-		$manager->flush();
 
+		$status = ['Ouvert', 'Fermé'];
+		foreach ($status as $s) {
+			$advertStatus = new AdvertStatus();
+			$advertStatus->setName($s);
+		}
+
+		$status = ['Refusé', 'En cours de validation', 'Accepté'];
+		foreach ($status as $s) {
+			$offerStatus = new OfferStatus();
+			$offerStatus->setName($s);
+		}
+
+		$manager->flush();
 	}
 }

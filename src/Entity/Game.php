@@ -35,7 +35,7 @@ class Game
 
 	/**
 	 * @var \DateTime
-	 * @ORM\Column(type="datetime", name="updated_at")
+	 * @ORM\Column(type="datetime", name="updated_at", nullable=true)
 	 */
 	private $updatedAt;
 
@@ -113,6 +113,7 @@ class Game
 
     public function __construct()
     {
+    	$this->updatedAt = new \DateTime('now');
         $this->gamePlatforms = new ArrayCollection();
     }
 
