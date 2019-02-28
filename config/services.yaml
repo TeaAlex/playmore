@@ -33,6 +33,10 @@ services:
         arguments:
             $adminEmail: '%admin_email%'
 
+    App\Command\CreateUserCommand:
+        public: false
+        tags: ['console.command']
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
