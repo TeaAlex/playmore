@@ -2,7 +2,9 @@
 
 namespace App\Form\Front\EventListener;
 
+use App\Entity\Advert;
 use App\Entity\Game;
+use App\Entity\GamePlatform;
 use App\Entity\Platform;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -44,7 +46,13 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 			return;
 		}
 		$form = $event->getForm();
-		$platform = $event->getForm()->getParent()->getData()->getGameWanted()->getPlatform();
+		$data = $form->getParent()->getData();
+		if($data instanceof GamePlatform){
+			$platform = $data->getPlatform();
+		}
+		elseif($data instanceof Advert){
+			$platform = $data->getGameWanted()->getPlatform();
+		}
 		$platforms = $this->getPlatforms($event->getData());
 		$form->getParent()->add('platform', EntityType::class, [
 			'class' => Platform::class,
@@ -72,5 +80,5 @@ class AddPlatformSubscriber implements EventSubscriberInterface {
 		}
 
 		return $platforms;
-}
+	}
 }

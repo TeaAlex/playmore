@@ -33,7 +33,7 @@
                         </div>
                         <div class="px-2 flex flex-col justify-center" style="width: 56%">
                             <p class="text-primary font-bold">{{ user.username }}</p>
-                            <p class="text-sm pt-2">Pontault-Combault</p>
+                            {#<p class="text-sm pt-2">Pontault-Combault</p>#}
                             <div class="flex pt-2 platform-icons-wrap">
                             {% for platform in user.platforms %}
                                 {% include 'Partials/game_icon.html.twig' with {'name' : platform.name } %}
@@ -210,15 +210,15 @@
     {% endif %}
 
 
-                </div>
-                {% if user.id != app.user.id %}
-                <button id="create_comment" class="btn btn-secondary">Ajouter</button>
-                {% endif %}
+            </div>
+            {% if user.id != app.user.id %}
+            <button id="create_comment" class="btn btn-secondary">Ajouter</button>
+            {% endif %}
             </div>
             <div class="h-full w-70%">
                 <div class="flex items-center">
                     <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Annonces</h1>
-                    {% if adverts is not empty %}
+                    {% if adverts is not empty and app.user.id is same as (user.id) %}
                         <a href="{{ path('advert_new') }}" class="btn btn-add">Ajouter</a>
                     {% endif %}
                 </div>
@@ -232,11 +232,18 @@
                     <p class="text-darker font-semibold text-xl">Cet utilisateur n'a publié aucune annonce. :(</p>
                 {% endif %}
                 </div>
+                <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Offres</h1>
+                <div class="flex flex-wrap">
+                    {% for offer in offers %}
+                        {{ include('Front/offer/_offer.html.twig') }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    {{ encore_entry_script_tags('advert_offer') }}
     {{ encore_entry_script_tags('comment') }}
 {% endblock %}

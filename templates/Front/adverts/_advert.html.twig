@@ -2,13 +2,18 @@
     {% if advert.advert_kind_name == 'Echange' %}
         <div class="advert-card">
             {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
-                <div class="bg-red-light profile-edit-btn">
-                    {{ include('Front/adverts/_delete_form.html.twig') }}
-                </div>
+            <div class="bg-playmore-blue profile-left-btn">
+                <a href="{{ path('advert_edit', {'id': advert.advert_id}) }}">
+                    <i class="fas fa-edit text-white"></i>
+                </a>
+            </div>
+            <div class="bg-red-light profile-edit-btn">
+                {{ include('Front/adverts/_delete_form.html.twig') }}
+            </div>
             {% endif %}
             {# HEADER #}
             <div style="height: 60px;" class="w-full flex items-center justify-between font-bold text-playmore-blue-darkest rounded-t px-4 border-b-2 bg-white border-playmore-blue-lightest">
-                <p class="text-base">Echange</p>
+                <p class="text-base">Echange #{{ advert.advert_id }}</p>
                 <div class="flex items-center">
                     <i class="fas fa-calendar"></i>
                     <div class="flex flex-col ml-2 text-sm text-right">
@@ -42,32 +47,43 @@
             </div>
             {# FOOTER #}
             {% if is_granted('ROLE_USER') %}
-                <div style="height: 60px;" class="flex items-center justify-between px-4 bg-playmore-blue-lightest rounded-b">
-                    <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug' : advert.user_slug }) }}">
-                        <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
-                        <div class="flex flex-col text-xs text-playmore-blue-darkest font-semibold ml-2">
-                            <p>{{ advert.username | capitalize }}</p>
-                            <p>Pontault-Combault</p>
-                        </div>
-                    </a>
-                    {% if advert.user_id != app.user.id %}
-                        <a href="#" class="btn btn-secondary">Faire une offre</a>
+            <div style="height: 60px;" class="flex items-center justify-between px-4 bg-playmore-blue-lightest rounded-b">
+                <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug' : advert.user_slug }) }}">
+                    <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
+                    <div class="flex flex-col text-xs text-playmore-blue-darkest font-semibold ml-2">
+                        <p>{{ advert.username | capitalize }}</p>
+                        {#<p>Pontault-Combault</p>#}
+                    </div>
+                </a>
+                {% if advert.user_id != app.user.id %}
+                    {% if advert.advert_status == 'Fermé' %}
+                        <p class="font-semibold">Annonce déjà pourvue</p>
                     {% else %}
-                        <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-secondary">Editer</a>
+                    <a href="#" class="btn btn-secondary offer-btn" data-advert-id="{{ advert.advert_id }}">
+                        Faire une offre
+                    </a>
                     {% endif %}
-                </div>
+                {% else %}
+                    <a href="#" class="btn btn-secondary showOffers" data-advert-id="{{ advert.advert_id }}">({{ advert.offer_cnt }}) Offres</a>
+                {% endif %}
+            </div>
             {% endif %}
         </div>
     {% elseif advert.advert_kind_name == 'Location' %}
         <div class="advert-card">
             {% if is_granted('ROLE_USER') and advert.user_id == app.user.id %}
+                <div class="bg-playmore-blue profile-left-btn">
+                    <a href="{{ path('advert_edit', {'id': advert.advert_id}) }}">
+                        <i class="fas fa-edit text-white"></i>
+                    </a>
+                </div>
                 <div class="bg-red-light profile-edit-btn">
                     {{ include('Front/adverts/_delete_form.html.twig') }}
                 </div>
             {% endif %}
             {# HEADER #}
             <div style="height: 60px;" class="w-full flex items-center justify-between font-bold text-primary bg-primary-lighter rounded-t px-4 bg-white border-b-2 border-playmore-blue-lightest">
-                <p class="text-base">Location</p>
+                <p class="text-base">Location #{{ advert.advert_id }}</p>
                 <div class="flex items-center">
                     <i class="fas fa-calendar"></i>
                     <div class="flex flex-col ml-2 text-sm text-right">
@@ -91,22 +107,25 @@
             </div>
             {# FOOTER #}
             {% if is_granted('ROLE_USER') %}
-                <div style="height: 60px;" class="flex items-center justify-between px-4 bg-primary-lightest rounded-b">
-                    <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug': advert.user_slug }) }}">
-                        <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
-                        <div class="flex flex-col text-xs text-primary font-semibold ml-2">
-                            <p>{{ advert.username | capitalize }}</p>
-                            <p>Pontault-Combault</p>
-                        </div>
-                    </a>
-                    {% if advert.user_id != app.user.id %}
-                        <a href="#" class="btn btn-edit">Faire une offre</a>
+            <div style="height: 60px;" class="flex items-center justify-between px-4 bg-primary-lightest rounded-b">
+                <a class="flex items-center justify-between" href="{{ path('user_profile', { 'slug': advert.user_slug }) }}">
+                    <img style="height: 40px; width: 40px;" src="{{ asset('images/user/' ~ advert.user_img_name) }}" alt="" class="rounded-full bg-grey">
+                    <div class="flex flex-col text-xs text-primary font-semibold ml-2">
+                        <p>{{ advert.username | capitalize }}</p>
+                        {#<p>Pontault-Combault</p>#}
+                    </div>
+                </a>
+                {% if advert.user_id != app.user.id %}
+                    {% if advert.advert_status == 'Fermé' %}
+                        <p class="font-semibold">Annonce déjà pourvue</p>
                     {% else %}
-                        <a href="{{ path('advert_edit', { 'id': advert.advert_id }) }}" class="btn btn-edit">Editer</a>
+                    <a href="#" class="btn btn-edit offer-btn" data-advert-id="{{ advert.advert_id }}">Faire une offre</a>
                     {% endif %}
-                </div>
+                {% else %}
+                    <a href="#" class="btn btn-edit showOffers" data-advert-id="{{ advert.advert_id }}">({{ advert.offer_cnt }}) Offres</a>
+                {% endif %}
+            </div>
             {% endif %}
-
         </div>
     {% endif %}
 {% endfor %}

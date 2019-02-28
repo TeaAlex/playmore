@@ -1,0 +1,66 @@
+<div class="offer-card shadow border-l-4
+    {% if offer.offer_status == 'Refusé' %}
+        border-red
+    {% elseif offer.offer_status == 'En cours de validation' %}
+        border-yellow
+    {% elseif offer.offer_status == 'Accepté' %}
+        border-green
+    {% endif %}
+">
+    {% if offer.offer_created_by == app.user.id and offer.offer_status == 'En cours de validation' %}
+    <div class="bg-playmore-blue profile-left-btn">
+        <a href="{{ path('offer_edit', {'id': offer.offer_id}) }}">
+            <i class="fas fa-edit text-white"></i>
+        </a>
+    </div>
+    <div class="bg-red-light profile-edit-btn">
+        {{ include('Front/offer/_delete_form.html.twig') }}
+    </div>
+    {% endif %}
+    <div class="flex justify-between">
+        <p class="mb-3 text-grey-darkest font-bold"><a href="{{ path('user_profile', {'slug': offer.advert_user_slug}) }}">{{ offer.advert_name }} #{{ offer.advert_id }}</a></p>
+        <div class="flex items-center font-semibold">
+            <i class="fas fa-calendar"></i>
+            <div class="flex flex-col ml-2 text-sm text-right">
+                <p>Du {{ offer.start_date | localizeddate('medium', 'none') }}</p>
+                <p>Au {{ offer.end_date | localizeddate('medium', 'none') }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-grow items-center justify-between w-full">
+        {% if offer.advert_name == 'Echange' %}
+            <div class="flex items-center">
+                <img src="{{ asset('images/games/' ~ offer.game_offer_img_name) }}" class="mr-4" alt="" style="height: 60px; width: 50px;">
+                <div class="flex flex-col">
+                    <p class="text-grey-darkest font-bold mb-1">{{ offer.game_offer_name }}</p>
+                    {% include 'Partials/game_icon.html.twig' with {'name': offer.game_offer_platform} %}
+                </div>
+            </div>
+            <p class="text-grey-darker font-semibold">Jeu proposé</p>
+        {% else  %}
+            <div class="flex items-center">
+                <img src="{{ asset('images/games/' ~ offer.game_advert_img_name) }}" class="mr-4" alt="" style="height: 60px; width: 50px;">
+                <div class="flex flex-col">
+                    <p class="text-grey-darkest font-bold mb-1">{{ offer.game_advert_name }}</p>
+                    {% include 'Partials/game_icon.html.twig' with {'name': offer.game_advert_platform} %}
+                </div>
+            </div>
+            <p class="text-grey-darker font-bold">{{ offer.price }} PMC</p>
+        {% endif %}
+        {#</div>#}
+    </div>
+    {% if offer.advert_created_by == app.user.id and offer.offer_status == 'En cours de validation' %}
+        <div class="flex justify-between">
+        {% if offer.offer_created_by != app.user.id %}
+        <div>
+            <a href="{{ path('user_profile', {'slug' : offer.offer_created_by_slug }) }}" class="text-playmore-blue font-bold">Par {{ offer.offer_created_by_username }}</a>
+        </div>
+        {% endif %}
+        <div>
+            <a href="#" class="font-bold text-green-light accept_offer" data-offer-id="{{ offer.offer_id }}">Accepter</a>
+            <a href="#" class="font-bold ml-3 text-red-light decline_offer" data-offer-id="{{ offer.offer_id }}">Refuser</a>
+        </div>
+    </div>
+    {% endif %}
+
+</div>

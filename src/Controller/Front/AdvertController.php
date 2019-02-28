@@ -6,6 +6,7 @@ namespace App\Controller\Front;
 use App\Entity\Advert;
 use App\Entity\GamePlatform;
 use App\Form\Front\AdvertType;
+use App\Repository\AdvertStatusRepository;
 use App\Security\AdvertVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -29,27 +30,26 @@ class AdvertController extends AbstractController
      */
     public function showAll(): Response
     {
-        if( $this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ){
-            $userId = $this->getUser()->getId();
-            $em = $this->getDoctrine()->getManager();
-            $adverts = $em->getRepository(Advert::class)->all($userId, true);
-        } else {
-            $em = $this->getDoctrine()->getManager();
-            $adverts = $em->getRepository(Advert::class)->all(500, true);
-        }
 
+    	if(is_object($this->getUser())){
+		    $userId = $this->getUser()->getId();
+	    }
+    	$em = $this->getDoctrine()->getManager();
+    	$adverts = $em->getRepository(Advert::class)->all($userId ?? null, true);
         return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
     }
 
-    
+
 	/**
 	 * @Route(path="/new", name="new", methods={"POST", "GET"})
 	 * @param Request $request
 	 * @param ObjectManager $em
+	 * @param AdvertStatusRepository $advertStatusRepository
 	 *
 	 * @return Response
 	 */
-	public function new(Request $request, ObjectManager $em) {
+	public function new(Request $request, ObjectManager $em, AdvertStatusRepository $advertStatusRepository)
+	{
         $advert = new Advert();
         $user = $this->getUser();
         $advert->setCreatedBy($user);
@@ -59,6 +59,8 @@ class AdvertController extends AbstractController
 			return $this->render('Front/adverts/new.html.twig', ['form' => $form->createView()]);
 		}
 		if($form->isSubmitted() && $form->isValid()){
+			$status = $advertStatusRepository->findOneBy(['name' => 'Ouvert']);
+			$advert->setAdvertStatus($status);
 			$this->saveGamePlatform($em, $form, $advert);
 			$em->persist($advert);
 			$em->flush();

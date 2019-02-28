@@ -13,3 +13,6 @@ controllers_back:
 controllers_front:
   resource: ../../src/Controller/Front
   type: annotation
+  options:
+    expose: true
+
