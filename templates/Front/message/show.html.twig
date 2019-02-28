@@ -1,0 +1,45 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+    <div class="w-2/3 mx-auto mt-12 flex">
+        <div class="w-1/5 mr-4 bg-white rounded p-6">
+            <p class="text-lg font-bold text-playmore-blue mb-4">Contacts</p>
+            {% for user in users %}
+                <div class="flex items-center">
+                    <img src="{{ asset('images/user/' ~  user.img_name  ) }}" alt="{{ user.username }}" class="rounded-full message-user-icon">
+                    <a href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : user.id}) }}">{{ user.username }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="bg-white rounded w-full">
+            <div class="flex flex-col p-6">
+                {% if messages is not defined %}
+                    <p>Selectionne un contact sur ta gauche :)</p>
+                {% elseif messages is not empty %}
+                    <p class="text-lg font-bold text-playmore-blue mb-4">Messages</p>
+                    <div class="messages-wrap">
+                    {% for message in messages %}
+                        <div class="py-4">
+                            <div class="flex items-center">
+                                <img src="{{ asset('images/user/' ~  message.user_from_img  ) }}" alt="{{ message.user_from_username }}" class="rounded-full message-user-icon">
+                                <a href="" class="font-semibold text-playmore-blue-darkest">{{ message.user_from_username }}</a>
+                                <span class="text-xs ml-2 text-grey-dark"> le {{ message.created_at | date('d/m/Y h:i') }}</span>
+                            </div>
+                            <div class="ml-12 text-grey-dark font-normal">{{ message.content }}</div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                {% if form is defined %}
+                    {{ form_start(form) }}
+                    {{ form_widget(form.content) }}
+                    <button class="btn btn-add mt-4">Envoyer</button>
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

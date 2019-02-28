@@ -4,7 +4,10 @@
     <div class="w-full min-h-screen bg-grey-lightest">
         <div class="w-78% m-auto flex justify-between text-grey-darkest pt-12">
             <div class="h-full">
-                <h1 class="title-border">{% if app.user.id is same as (user.id) %}Mon {% endif %}Profil</h1>
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mon {% endif %}Profil</h1>
+                    <a href="{{ path('message_show', {'id': app.user.id}) }}" class="btn btn-add">Messages</a>
+                </div>
                 <div class="bg-white flex flex-col shadow rounded relative mb-12 profile-card">
                     {% if user.id == app.user.id %}
                     <div class="profile-edit-btn bg-playmore-blue">
