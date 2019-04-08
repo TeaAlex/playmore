@@ -17,10 +17,5 @@ class ResetType extends AbstractType
             'second_options' => array('label' => 'Répeter le mot de passe','attr' => ['class' => 'login-input']),
         ));
     }
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => User::class,
-        ));
-    }
+
 }
