@@ -13,10 +13,5 @@ class ForgotType extends AbstractType
             ->add('email', EmailType::class,[ 'attr' => ['class' => 'login-input']])
         ;
     }
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => User::class,
-        ));
-    }
+
 }

@@ -143,7 +143,7 @@ class SecurityController extends AbstractController
 
             $url = $this->generateUrl('app_security_reset', array('token'=>$token), UrlGeneratorInterface::ABSOLUTE_URL);
             $em = $this->getDoctrine()->getManager();
-            $users->setResetToken($token);
+            $user->setResetToken($token);
             $em->flush();
 
             if ($mailservices->forgotPass($email, $url)) {
