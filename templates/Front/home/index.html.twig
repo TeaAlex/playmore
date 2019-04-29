@@ -4,6 +4,11 @@
 {% block title %}PlayMore{% endblock %}
 
 {% block content %}
+    <div class="pmcoins">
+        <div class="mycoins">
+            <p> Mes PlayMore Coins : {{ app.user.coins }}</p>
+        </div>
+    </div>
 
         <form action="{{ path("app_security_results") }}" method="GET">
             <div class="home-content">
