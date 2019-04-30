@@ -4,6 +4,9 @@
     </a>
     <div>
 
+        {% if is_granted('ROLE_USER') %}
+            <a class="return-button" href="{{ path('app_security_payment') }}">Recharger</a>
+        {% endif %}
         <a class="return-button" href="{{ path('advert_list') }}">Annonces</a>
         {% if is_granted('ROLE_USER') %}
         <a class="return-button" href="{{ path('user_profile' ,{'slug': app.user.slug}) }}">Profil</a>

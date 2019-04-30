@@ -53,6 +53,7 @@ security:
     - { path: ^/advert/new, roles: ROLE_USER }
     - { path: ^/advert/edit, roles: ROLE_USER }
     - { path: ^/advert/delete, roles: ROLE_USER }
+    - { path: ^/payment, roles: ROLE_USER }
     - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 

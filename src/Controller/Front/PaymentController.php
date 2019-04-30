@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Comment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,19 +28,30 @@ class PaymentController extends AbstractController
     /**
      * @Route("/payment/done", name="done")
      */
-    public function paymentDone(Request $request) : Response
+    public function paymentDone(Request $request,ObjectManager $em) : Response
     {
         \Stripe\Stripe::setApiKey("sk_test_PpluQ2FQOMErLMBeKIc1e6Xd00KLAvkbIj");
 
         $token = $_POST['stripeToken'];
 
+        $user = $this->getUser();
+        $amount = $request->request->get('_radio');
+
+
         try {
             $charge = \Stripe\Charge::create([
-                'amount' => 2000,
+                'amount' => $amount,
                 'currency' => 'eur',
                 'source' => $request->request->get('stripeToken'),
-                'description' => "Achat de Playmore Coins",
+                'description' => "Achat de Playmore Coins par ".$user->getUsername().".",
             ]);
+            $oldCoins = $user->getCoins();
+            $totalCoins = ($amount / 100 )+ $oldCoins;
+            $user->setCoins($totalCoins);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
             return $this->render('Front/payment/success.html.twig');
         } catch(\Stripe\Error\Card $e) {
 

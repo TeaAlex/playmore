@@ -104,6 +104,31 @@ header{
   }
 }
 
+.cardelement {
+  margin-top: 15px;
+}
+
+.info-msg {
+  text-align: center;
+  font-style: italic;
+  font-size: 1em;
+  color: darkviolet;
+}
+
+.succes-msg {
+  font-size: 2em;
+  margin-bottom: 25px;
+}
+
+.succes-text {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+
+  a {
+    color:dodgerblue;
+  }
+}
+
 .home-content {
 
   //background-color: #eff2f6;
