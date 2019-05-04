@@ -58,7 +58,7 @@
                         <p class="text-playmore-text-light">{{ advert.city }} ({{ advert.postal_code }})</p>
                     </div>
                 </a>
-                <a href="#" class="btn btn-secondary">Voir</a>
+                <a href="{{ path('advert_show', {'id': advert.advert_id}) }}" class="btn btn-secondary">Voir</a>
             </div>
             {% endif %}
         </div>

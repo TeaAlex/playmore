@@ -549,6 +549,7 @@ module.exports = {
   */
 
   height: {
+    'fit': 'fit-content',
     'auto': 'auto',
     'px': '1px',
     '210px': '210px',
