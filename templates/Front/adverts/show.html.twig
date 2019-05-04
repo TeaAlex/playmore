@@ -1,0 +1,30 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+
+    <div class="w-3/4 min-h-screen mx-auto my-20">
+        <h1 class="text-playmore-text mb-3">Annonce</h1>
+        <div class="flex">
+            {% include 'Front/adverts/_advert.html.twig' with {'adverts': advert } %}
+            <div style="width: 340px; height: 230px; border-top: 4px solid #003776" class="p-4 rounded-b shadow bg-white mt-4 flex">
+                <div class="w-full flex" style="height: 55px;" >
+                    <img src="{{ asset('/images/user/' ~ advert[0].user_img_name) }}" style="width: 55px; height: 55px;" class="rounded-full" alt="">
+                    <div class="flex">
+                        <div class="flex flex-col justify-center ml-4 w-full">
+                            <p class="text-playmore-text font-bold">{{ advert[0].username }}</p>
+                        </div>
+                        <div class="bg-playmore-blue" style="width: 55px; height: 55px;">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('advert') }}
+{% endblock %}
+

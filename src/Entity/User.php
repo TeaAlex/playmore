@@ -53,6 +53,18 @@ class User implements UserInterface, \Serializable
     private $coins;
 
 	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", length=255, nullable=true)
+	 */
+    private $city;
+
+	/**
+	 * @var int|null
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+    private $postalCode;
+
+	/**
 	 * @var File|null
 	 * @Vich\UploadableField(mapping="user_image", fileNameProperty="imgName")
 	 */
@@ -505,4 +517,42 @@ class User implements UserInterface, \Serializable
 			$this->password
 		] = unserialize($serialized, ['allowed_classes' => false]);
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getCity(): ?string {
+		return $this->city;
+	}
+
+	/**
+	 * @param string|null $city
+	 *
+	 * @return User
+	 */
+	public function setCity(?string $city): User {
+		$this->city = $city;
+
+		return $this;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getPostalCode(): ?int {
+		return $this->postalCode;
+	}
+
+	/**
+	 * @param int|null $postalCode
+	 *
+	 * @return User
+	 */
+	public function setPostalCode(?int $postalCode): User {
+		$this->postalCode = $postalCode;
+
+		return $this;
+	}
+
+
 }

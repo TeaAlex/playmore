@@ -45,6 +45,12 @@ class Advert
      */
     private $endDate;
 
+	/**
+	 * @var $createdAt \DateTime
+	 * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+	 */
+    private $createdAt;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AdvertStatus")
      */
@@ -69,6 +75,7 @@ class Advert
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -202,4 +209,24 @@ class Advert
 
         return $this;
     }
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): \DateTime {
+		return $this->createdAt;
+	}
+
+	/**
+	 * @param \DateTime $createdAt
+	 *
+	 * @return Advert
+	 */
+	public function setCreatedAt(\DateTime $createdAt): Advert {
+		$this->createdAt = $createdAt;
+
+		return $this;
+	}
+
+
 }

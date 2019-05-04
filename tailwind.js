@@ -45,10 +45,13 @@ let defaultConfig = require('tailwindcss/defaultConfig')()
 
 let colors = {
 
-  'playmore-blue-darkest': '#0A407E',
+  'playmore-blue-darkest': '#003776',
   'playmore-blue': '#2A8EFF',
   'playmore-blue-light': '#78B8FF',
-  'playmore-blue-lightest': '#F6F9FF',
+  'playmore-blue-lightest': '#F7FBFF',
+  'playmore-text': '#484757',
+  'playmore-text-light': '#9693B8',
+  'playmore-green': '#38C172',
 
 
   'transparent': 'transparent',
@@ -789,7 +792,7 @@ module.exports = {
   */
 
   shadows: {
-    default: '0 2px 4px 0 rgba(0,0,0,0.10)',
+    default: '0 4px 4px 0 rgba(0,0,0,0.25)',
     'md': '0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08)',
     'lg': '0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08)',
     'inner': 'inset 0 2px 4px 0 rgba(0,0,0,0.06)',
