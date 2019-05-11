@@ -43,10 +43,10 @@ class AdvertController extends AbstractController
 	/**
 	 * @Route(path="/show/{id}", name="show")
 	 */
-	public function show($id, AdvertRepository $advertRepository) {
+	public function show($id, AdvertRepository $advertRepository)
+    {
 		$advert = $advertRepository->findOneId($id);
 		return $this->render('Front/adverts/show.html.twig', ['advert' => $advert]);
-
     }
 
 

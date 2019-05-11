@@ -104,9 +104,10 @@ SQL;
 		$rsm->addScalarResult('created_at','created_at');
 		$rsm->addScalarResult('city','city');
 		$rsm->addScalarResult('postal_code','postal_code');
+		$rsm->addScalarResult('description', 'description');
 
 		$sql = <<<SQL
-			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, created_at,
+			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, a.created_at, a.description,
 			       IFNULL(COUNT(o.id), 0) offer_cnt,
 			       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
@@ -124,7 +125,7 @@ SQL;
 			JOIN user u ON a.created_by_id = u.id
 			WHERE a.id = :id
 SQL;
-		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['id' => $id])->getResult();
+		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['id' => $id])->getSingleResult();
 
     }
 

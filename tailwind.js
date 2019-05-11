@@ -52,6 +52,8 @@ let colors = {
   'playmore-text': '#484757',
   'playmore-text-light': '#9693B8',
   'playmore-green': '#38C172',
+  'playmore-purple-500': '#4D5EB4',
+  'playmore-purple-400': '#727EBC',
 
 
   'transparent': 'transparent',

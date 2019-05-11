@@ -68,6 +68,12 @@ class Advert
     private $createdBy;
 
     /**
+     * @var $description string|null
+     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="advert")
      */
     private $offers;
@@ -227,6 +233,25 @@ class Advert
 
 		return $this;
 	}
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Advert
+     */
+    public function setDescription(?string $description): Advert
+    {
+        $this->description = $description;
+        return $this;
+    }
+
 
 
 }

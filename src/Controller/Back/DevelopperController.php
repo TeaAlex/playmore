@@ -51,7 +51,7 @@ class DevelopperController extends AbstractController
      */
     public function show(Developper $developper): Response
     {
-        return $this->render('developper/show.html.twig', ['developper' => $developper]);
+        return $this->render('Back/developper/show.html.twig', ['developper' => $developper]);
     }
 
     /**

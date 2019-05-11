@@ -2,24 +2,57 @@
 
 {% block content %}
 
-    <div class="w-3/4 min-h-screen mx-auto my-20">
-        <h1 class="text-playmore-text mb-3">Annonce</h1>
-        <div class="flex">
-            {% include 'Front/adverts/_advert.html.twig' with {'adverts': advert } %}
-            <div style="width: 340px; height: 230px; border-top: 4px solid #003776" class="p-4 rounded-b shadow bg-white mt-4 flex">
-                <div class="w-full flex justify-between items-center h-fit pb-3 border-b-4 border-playmore-blue-lightest">
-                    <div class="flex">
-                        <img src="{{ asset('/images/user/' ~ advert[0].user_img_name) }}" style="width: 55px; height: 55px;" class="rounded-full" alt="">
-                        <div class="flex">
-                            <div class="flex flex-col justify-center ml-4 w-full">
-                                <p class="text-playmore-text font-bold">{{ advert[0].username }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-playmore-blue flex items-center justify-center rounded" style="width: 45px; height: 45px;">
-                        <i class="fas fa-lg fa-envelope text-white"></i>
+    <div class="min-h-screen mx-auto my-16" style="width: 700px">
+
+        <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
+            <div class="flex items-center">
+                <img class="rounded-full border-playmore-purple-500" src="{{ asset('/images/user/' ~ advert.user_img_name) }}" alt="" style="width: 45px; height: 45px;">
+                <div class="flex flex-col ml-3">
+                    <p class="font-bold text-playmore-purple-500 mb-1">{{ advert.username }}</p>
+                    <p class="text-sm text-playmore-purple-400">{{ advert.city }} ({{ advert.postal_code }})</p>
+                </div>
+            </div>
+            <div class="flex">
+                <button class="bg-playmore-blue font-bold p-3 rounded text-white">Faire une offre</button>
+                <button class="bg-playmore-purple-400 font-bold p-3 rounded text-white ml-3">Contacter</button>
+            </div>
+        </div>
+
+        <div class="flex justify-between my-10 pb-4 border-b-2 border-playmore-purple-500 font-semibold text-2xl text-playmore-purple-400">
+            <div class="flex items-center">
+                <svg style="fill: currentColor" xmlns="http://www.w3.org/2000/svg" height="30px" width="30px" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="clock"><rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M16 11h-3V8a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1h4a1 1 0 0 0 0-2z"/></g></g></svg>
+                <p class="ml-2 created_at" datetime="{{ advert.created_at }}"></p>
+            </div>
+            <p>{{ advert.advert_kind_name }}</p>
+        </div>
+
+        <div>
+            <div>
+                <p class="font-bold text-playmore-purple-500 mb-3">POSSEDE</p>
+                <div class="flex">
+                    <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
+                    <div class="flex flex-col justify-center ml-6">
+                        <p class="font-bold text-2xl text-playmore-text pb-1">{{ advert.game_owned_name }}</p>
+                        <p class="text-playmore-purple-400 text-xl">{{ advert.game_owned_platform }}</p>
                     </div>
                 </div>
+            </div>
+            <div class="mt-10">
+                <p class="font-bold text-playmore-purple-500 mb-3">RECHERCHE</p>
+                <div class="flex">
+                    <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  advert.game_wanted_img_name  ) }}" alt="">
+                    <div class="flex flex-col justify-center ml-6">
+                        <p class="font-bold text-2xl text-playmore-text pb-1">{{ advert.game_wanted_name }}</p>
+                        <p class="text-playmore-purple-400 text-xl">{{ advert.game_wanted_platform }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <h1 class="text-playmore-text mb-4">Description</h1>
+            <div class="w-full h-210px bg-white rounded p-5 text-playmore-text">
+                {{ advert.description }}
             </div>
         </div>
     </div>
