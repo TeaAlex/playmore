@@ -1,5 +1,7 @@
 import { format, render, cancel, register } from 'timeago.js';
 
+console.log('titi');
+
 const dates = document.querySelectorAll('.created_at');
 const localeFunc = (number, index, total_sec) => {
   return [
