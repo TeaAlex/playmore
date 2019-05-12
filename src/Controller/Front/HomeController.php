@@ -29,6 +29,7 @@ class HomeController extends AbstractController
         return $this->render('Front/home/index.html.twig', ['platforms' => $platformRepository->findAll(),
             'categories' => $categoryRepository->findAll()]);
     }
+
     /**
      * @Route("/results", name="results")
      */

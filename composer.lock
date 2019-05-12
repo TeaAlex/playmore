@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2ea0fd06a78000a8e0e89e51a20e16d",
+    "content-hash": "f39608b13fab8f7a63fa100fef5eba88",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2474,6 +2474,62 @@
                 "tree"
             ],
             "time": "2017-12-24T16:06:50+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v6.34.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "60335d5dad000fb4b08aa7176b832a59d13d0420"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/60335d5dad000fb4b08aa7176b832a59d13d0420",
+                "reference": "60335d5dad000fb4b08aa7176b832a59d13d0420",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "1.*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0",
+                "symfony/process": "~2.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "time": "2019-04-26T18:30:55+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -6761,16 +6817,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.2.2",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "4d53b78ee50da242dffa4eb91ea1f0ee084945c5"
+                "reference": "12593ad0bc54658d9bc74fa240a545b3873b4626"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/4d53b78ee50da242dffa4eb91ea1f0ee084945c5",
-                "reference": "4d53b78ee50da242dffa4eb91ea1f0ee084945c5",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/12593ad0bc54658d9bc74fa240a545b3873b4626",
+                "reference": "12593ad0bc54658d9bc74fa240a545b3873b4626",
                 "shasum": ""
             },
             "require": {
@@ -6780,7 +6836,6 @@
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
             },
             "suggest": {
-                "ext-zip": "Zip support is required when using bin/simple-phpunit",
                 "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
             },
             "bin": [
@@ -6823,7 +6878,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-01-03T09:07:35+00:00"
+            "time": "2019-04-16T09:36:45+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
