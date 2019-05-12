@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +23,8 @@ class UserType extends AbstractType
 				"label" => "Photo de profil",
 				"required" => false
 			])
+			->add('city', TextType::class, ['label' => 'Ville'])
+			->add('postalCode', IntegerType::class, ['label' => 'Code Postal'])
 			// TODO : add event to check if user is admin then add roles
 //			->add('roles', ChoiceType::class, [
 //				'choices'  => [

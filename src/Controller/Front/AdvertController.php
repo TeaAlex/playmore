@@ -6,7 +6,9 @@ namespace App\Controller\Front;
 use App\Entity\Advert;
 use App\Entity\GamePlatform;
 use App\Form\Front\AdvertType;
+use App\Repository\AdvertRepository;
 use App\Repository\AdvertStatusRepository;
+use App\Repository\OfferRepository;
 use App\Security\AdvertVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -37,6 +39,18 @@ class AdvertController extends AbstractController
     	$em = $this->getDoctrine()->getManager();
     	$adverts = $em->getRepository(Advert::class)->all($userId ?? null, true);
         return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
+    }
+
+	/**
+	 * @Route(path="/show/{id}", name="show")
+	 */
+	public function show($id, AdvertRepository $advertRepository, OfferRepository $offerRepository)
+    {
+		$advert = $advertRepository->findOneId($id);
+		if($advert["user_id"] == $this->getUser()->getId()){
+		    $offers = $offerRepository->findOffersByAdvert($id);
+        }
+		return $this->render('Front/adverts/show.html.twig', ['advert' => $advert, 'offers' => $offers ?? []]);
     }
 
 

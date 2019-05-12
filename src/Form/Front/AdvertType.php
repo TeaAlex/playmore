@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -77,6 +78,10 @@ class AdvertType extends AbstractType
 	            'required' => false,
 	            'mapped' => false,
 	            'data' => $gw ?? null
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'required' => false
             ])
         ;
         $builder->get('gameWanted')->addEventSubscriber(new AddPlatformSubscriber());

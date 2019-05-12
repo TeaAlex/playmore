@@ -45,6 +45,12 @@ class Advert
      */
     private $endDate;
 
+	/**
+	 * @var $createdAt \DateTime
+	 * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+	 */
+    private $createdAt;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AdvertStatus")
      */
@@ -62,6 +68,12 @@ class Advert
     private $createdBy;
 
     /**
+     * @var $description string|null
+     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="advert")
      */
     private $offers;
@@ -69,6 +81,7 @@ class Advert
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -202,4 +215,43 @@ class Advert
 
         return $this;
     }
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): \DateTime {
+		return $this->createdAt;
+	}
+
+	/**
+	 * @param \DateTime $createdAt
+	 *
+	 * @return Advert
+	 */
+	public function setCreatedAt(\DateTime $createdAt): Advert {
+		$this->createdAt = $createdAt;
+
+		return $this;
+	}
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Advert
+     */
+    public function setDescription(?string $description): Advert
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+
+
 }
