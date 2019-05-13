@@ -17,13 +17,13 @@
                     <div class="form-row">
                         <div class="flex-col m-6 p-3 mb-0 pb-0">
                             <label class="label">
-                                Nombre de PMC:
+                                Nombre de PMC: <span class="infopayment">(1€ correspond a 1PMC)</span>
                             </label>
                             <div class="flex-col m-6 p-3">
-                                <input type="radio" checked id="one_pmc" name="_radio"  value="100"/><span class="mr-6"> 1 PMC</span>
-                                <input type="radio" id="two_pmc" name="_radio"  value="200"/><span class="mr-6"> 2 PMC</span>
-                                <input type="radio" id="five_pmc" name="_radio"  value="500"/><span class="mr-6"> 5 PMC</span>
-                                <input type="radio" id="ten_pmc" name="_radio"  value="1000"/><span class="mr-6"> 10 PMC</span>
+                                <input type="radio" checked id="one_pmc" name="_radio"  value="100"/><span class="mr-6"> <abbr title="1€">1 PMC</abbr></span>
+                                <input type="radio" id="two_pmc" name="_radio"  value="200"/><span class="mr-6"><abbr title="2€">2 PMC</abbr></span>
+                                <input type="radio" id="five_pmc" name="_radio"  value="500"/><span class="mr-6"><abbr title="5€">5 PMC</abbr></span>
+                                <input type="radio" id="ten_pmc" name="_radio"  value="1000"/><span class="mr-6"><abbr title="10€">10 PMC</abbr></span>
                             </div>
                         </div>
                     </div>
@@ -55,62 +55,7 @@
 {% endblock %}
 
 {% block javascripts %}
+
     <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        var stripe = Stripe('pk_test_DfDwyEdGq1DHYiCGfPHmUv5a007YZwFu2r');
-        var elements = stripe.elements();
-
-        var style = {
-            base: {
-                // Add your base input styles here. For example:
-                fontSize: '16px',
-                color: "#32325d",
-            }
-        };
-
-        // Create an instance of the card Element.
-        var card = elements.create('card', {style: style});
-
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element');
-
-        card.addEventListener('change', function(event) {
-            var displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
-
-        // Create a token or display an error when the form is submitted.
-        var form = document.getElementById('button_done');
-        form.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    // Inform the customer that there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
-
-        function stripeTokenHandler(token) {
-            // Insert the token ID into the form so it gets submitted to the server
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            // Submit the form
-            form.submit();
-        }
-    </script>
+    {{ encore_entry_script_tags('payment') }}
 {% endblock %}
