@@ -76,6 +76,12 @@ class User implements UserInterface, \Serializable
 	 */
 	private $imgName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="user")
+     * @Assert\Valid()
+     */
+    private $address;
+
 	/**
 	 * @var $updatedAt \DateTime
 	 * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default": "CURRENT_TIMESTAMP"})
@@ -144,6 +150,7 @@ class User implements UserInterface, \Serializable
         $this->coins            = 0;
         $this->gamePlatforms = new ArrayCollection();
         $this->platforms = new ArrayCollection();
+        $this->address = new Address();
     }
 
 
@@ -443,6 +450,27 @@ class User implements UserInterface, \Serializable
 		$this->imgName = $imgName;
 		return $this;
 	}
+
+    /**
+     * @return Address
+     */
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param Address $address
+     *
+     * @return  User
+     */
+    public function setAddress(Address $address): User
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection|Platform[]
