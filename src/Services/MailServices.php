@@ -3,6 +3,8 @@ namespace App\Services;
 
 
 
+use App\Entity\User;
+
 class MailServices {
 
     private $mailer;
@@ -45,6 +47,18 @@ class MailServices {
             ->setTo($mail)
             ->addPart(
                 'Le mot de passe a bien été changer'
+            );
+
+        return $this->mailer->send($message) > 0;
+    }
+
+    public function notifyOfferDemmand($mail,User$user)
+    {
+        $message = (new \Swift_Message('Votre offre à une demande'))
+            ->setFrom($this->adminEmail)
+            ->setTo($mail)
+            ->addPart(
+                "L'utilisateur ".$user->getUsername()." a répondu à votre offre, vous pouvez l'examiné dans votre profil"
             );
 
         return $this->mailer->send($message) > 0;
