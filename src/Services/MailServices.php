@@ -52,7 +52,7 @@ class MailServices {
         return $this->mailer->send($message) > 0;
     }
 
-    public function notifyOfferDemmand($mail,User$user)
+    public function notifyOfferDemmand($mail,User $user)
     {
         $message = (new \Swift_Message('Votre offre à une demande'))
             ->setFrom($this->adminEmail)
