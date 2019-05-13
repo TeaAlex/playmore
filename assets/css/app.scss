@@ -83,7 +83,6 @@ header{
 
   .mycoins {
     background-color: white;
-    opacity: 0.4;
     width: 90%;
     height: 60px;
     border-radius: 30px;
@@ -94,6 +93,7 @@ header{
     text-transform: uppercase;
     font-size: 0.9em;
     font-weight: bold;
+    border:1px solid $secondary;
   }
 
   .mycoins:hover {

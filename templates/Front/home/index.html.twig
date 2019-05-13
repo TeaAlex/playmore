@@ -7,7 +7,7 @@
     {% if is_granted('ROLE_USER') %}
         <div class="pmcoins">
             <div class="mycoins">
-                <p> Mes PlayMore Coins : {{ app.user.coins }}</p>
+                <a href="{{ path('app_security_payment') }}"><p> Mes PlayMore Coins : {{ app.user.coins }}</p></a>
             </div>
         </div>
     {% endif %}
@@ -47,14 +47,14 @@
 
                 <div class="last-news">
                     <h1 class="ml-5 mt-3">Découvrez les jeux du moments</h1>
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/reddead.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/gta.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/only.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/spiderman.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/thedivision.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/assacin.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/metro.jpg') }}" />
-                    <img class="homeimages" src="{{ asset('images/jeux_moment/farcry.jpg') }}" />
+                    <a href="{{ path("app_security_results", {"game":"Red Dead Redemption 2"}) }}"><img class="homeimages"  name="Red dead redemption 2" src="{{ asset('images/jeux_moment/reddead.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"GTA V"}) }}"><img class="homeimages" name="GTA V" src="{{ asset('images/jeux_moment/gta.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"Battlefield 1"}) }}"><img class="homeimages" name="Battlefield 1" src="{{ asset('images/jeux_moment/only.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"Spiderman"}) }}"> <img class="homeimages" name="Spiderman" src="{{ asset('images/jeux_moment/spiderman.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"The Division"}) }}"> <img class="homeimages" name="The division" src="{{ asset('images/jeux_moment/thedivision.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"Assassin's Creed"}) }}">    <img class="homeimages" name="Assassin's Creed" src="{{ asset('images/jeux_moment/assacin.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"Metro"}) }}">     <img class="homeimages" name="Metro" src="{{ asset('images/jeux_moment/metro.jpg') }}" /></a>
+                    <a href="{{ path("app_security_results", {"game":"Far Cry Primal"}) }}">    <img class="homeimages" name="Far Cry Primal" src="{{ asset('images/jeux_moment/farcry.jpg') }}" /></a>
                 </div>
             </div>
         </form>
