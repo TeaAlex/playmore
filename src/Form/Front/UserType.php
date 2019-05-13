@@ -2,6 +2,7 @@
 namespace App\Form\Front;
 use App\Entity\Platform;
 use App\Entity\User;
+use App\Entity\Address;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,8 +24,10 @@ class UserType extends AbstractType
 				"label" => "Photo de profil",
 				"required" => false
 			])
-			->add('city', TextType::class, ['label' => 'Ville'])
+            ->add('street', TextType::class, ['label' => 'Rue'])
+            ->add('city', TextType::class, ['label' => 'Ville'])
 			->add('postalCode', IntegerType::class, ['label' => 'Code Postal'])
+
 			// TODO : add event to check if user is admin then add roles
 //			->add('roles', ChoiceType::class, [
 //				'choices'  => [
@@ -46,7 +49,8 @@ class UserType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults(array(
-			'data_class' => User::class
+			'data_class' => User::class,
+            'data_class1' => Address::class
 		));
 	}
 }
