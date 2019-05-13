@@ -4,7 +4,7 @@
     
     <div class="min-h-screen mx-auto my-16" style="width: 700px">
         <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
-            {% include 'Front/adverts/_profile_name_city.html.twig' with {'advert': advert} %}
+            {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
             <div class="flex">
                 {% if app.user is defined and app.user.id != advert.user_id %}
                 <button class="bg-playmore-blue font-bold p-3 rounded text-white offer-btn" data-advert-id="{{ advert.advert_id }}" >Faire une offre</button>

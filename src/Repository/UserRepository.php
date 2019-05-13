@@ -36,6 +36,34 @@ SQL;
 		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['id' => $userId])->getOneOrNullResult();
     }
 
+    public function getGamesByUser($userId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('name', 'name');
+        $rsm->addScalarResult('img_name', 'img_name');
+        $rsm->addScalarResult('release_date', 'release_date');
+        $rsm->addScalarResult('platform', 'platform');
+        $rsm->addScalarResult('editor', 'editor');
+        $rsm->addScalarResult('developer', 'developer');
+        $sql = <<<SQL
+            SELECT g.name, g.img_name, g.release_date, p.name platform, e.name editor, d.name developer
+            FROM game_platform_user gpu 
+            JOIN game_platform gp on gpu.game_platform_id = gp.id
+            JOIN platform p on gp.platform_id = p.id
+            JOIN game g on gp.game_id = g.id
+            JOIN user u on gpu.user_id = u.id
+            JOIN editor e on g.editor_id = e.id
+            JOIN developper d on g.developper_id = d.id
+            WHERE u.id = :userId
+SQL;
+        $rows = $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['userId' => $userId])->getResult();
+        $platforms = [];
+        foreach ($rows as &$row) {
+            $platforms[$row['platform']][] = $row;
+        }
+        return $platforms;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

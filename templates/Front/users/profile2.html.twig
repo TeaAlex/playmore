@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="flex">
+        <aside class="min-h-screen bg-white p-8" style="width: 300px">
+            {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': app.user.imgName, 'username': app.user.username, 'city': app.user.city, 'postal_code': app.user.postalCode } %}
+            <div class="flex flex-col text-playmore-text font-bold text-2xl mt-10 uppercase">
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'game'}) }}">Jeux</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'game'}) }}">Annonces</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'game'}) }}">Offres</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'game'}) }}">Avis</a>
+            </div>
+        </aside>
+        <main class="w-full h-screen p-10">
+            {% if page == 'game' %}
+                <h1 class="text-playmore-purple-500">Jeux</h1>
+                <div>
+                {% for platform, games in platforms %}
+                    <div class="mt-10">
+                        <p class="text-2xl font-semibold text-playmore-text">{{ platform }}</p>
+                        <div class="mt-4">
+                        {% for game in games %}
+                            <div class="h-210px bg-white rounded p-4 flex items-center" style="width: fit-content;">
+                                <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  game.img_name  ) }}" alt="">
+                                <div class="ml-4 text-playmore-text">
+                                    <p class="font-bold text-xl mb-2">{{ game.name }}</p>
+                                    <p class="mb-1">{{ game.editor }}</p>
+                                    <p class="mb-1">{{ game.developer }}</p>
+                                    <p class="mb-1">{{ game.release_date | localizeddate('medium', 'none') }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        </main>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
