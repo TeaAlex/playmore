@@ -6,8 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
-        "geocoder-php/algolia-places-provider": "^0.1.0",
-        "geocoder-php/google-maps-provider": "^4.4",
         "liip/imagine-bundle": "^2.1",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/message": "^1.7",
@@ -34,8 +32,7 @@
         "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "4.2.*",
         "twig/extensions": "^1.5",
-        "vich/uploader-bundle": "^1.8",
-        "willdurand/geocoder-bundle": "^5.0"
+        "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
