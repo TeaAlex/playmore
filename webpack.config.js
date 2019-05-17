@@ -24,6 +24,7 @@ Encore
     .addEntry('comment', './assets/js/comment.js')
     .addEntry('advert', './assets/js/advert.js')
     .addEntry('payment','./assets/js/payment.js')
+    .addEntry('geolocate','./assets/js/geolocate.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

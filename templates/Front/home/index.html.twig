@@ -44,6 +44,8 @@
                        </select>
                    </div>
                 </div>
+                <button class="geolocate-btn">GEOLOCALISER</button>
+                <p>LOCATION : <span class="positions"></span></p>
 
                 <div class="last-news">
                     <h1 class="ml-5 mt-3">Découvrez les jeux du moments</h1>
@@ -59,4 +61,8 @@
             </div>
         </form>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('geolocate') }}
 {% endblock %}

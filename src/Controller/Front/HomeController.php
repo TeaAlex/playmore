@@ -6,6 +6,9 @@ use App\Entity\Advert;
 use App\Repository\AdvertRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\PlatformRepository;
+use Geocoder\Plugin\PluginProvider;
+use Geocoder\ProviderAggregator;
+use Geocoder\Query\GeocodeQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +27,7 @@ class HomeController extends AbstractController
 	 *
 	 * @return Response
 	 */
-    public function index(PlatformRepository $platformRepository,CategoryRepository $categoryRepository) : Response
+    public function index(Request $request,  PlatformRepository $platformRepository,CategoryRepository $categoryRepository) : Response
     {
         return $this->render('Front/home/index.html.twig', ['platforms' => $platformRepository->findAll(),
             'categories' => $categoryRepository->findAll()]);

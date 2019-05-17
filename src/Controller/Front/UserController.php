@@ -33,6 +33,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserController extends AbstractController {
 
+    /**
+     * @Route(path="/geolocate", name="geolocate", methods={"GET"})
+     */
+    public function getUserLocation(ObjectManager $em, Request $request)
+    {
+        $lat = $request->query->get('lat');
+        $lon = $request->query->get('lon');
+        $user = $this->getUser();
+        $user->setLat($lat);
+        $user->setLon($lon);
+        $em->persist($user);
+        $em->flush();
+        return new Response('ok', 200);
+    }
 
 	/**
 	 * @Route(path="/{slug}", name="profile")
@@ -206,6 +220,8 @@ class UserController extends AbstractController {
 		}
 		return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
 	}
+
+
 
 
 

@@ -19,7 +19,6 @@ class RegisterType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Mot de passe','attr' => ['class' => 'login-input']),
                 'second_options' => array('label' => 'Répeter le mot de passe','attr' => ['class' => 'login-input']),
-
             ))
         ;
     }
