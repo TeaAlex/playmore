@@ -81,9 +81,11 @@ class UserController extends AbstractController {
             case 'game':
                 $platforms = $userRepository->getGamesByUser($user->getId());
                 break;
+            case 'advert':
+                $adverts = $advertRepository->all($user->getId());
+                break;
         }
 
-	    $adverts = $advertRepository->all($user->getId());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$offers = $offerRepository->findUserOffers($user->getId());
 		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
@@ -92,7 +94,7 @@ class UserController extends AbstractController {
 
 		return $this->render('Front/users/profile2.html.twig', [
 			'user' => $user,
-			'adverts' => $adverts,
+			'adverts' => $adverts ?? [],
 			'infos' => $infos,
 			'offers' => $offers,
             'form' => $form->createView(),

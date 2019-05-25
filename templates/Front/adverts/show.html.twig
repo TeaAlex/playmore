@@ -12,6 +12,9 @@
                    href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : advert.user_id}) }}">
                     Contacter
                 </a>
+                {% else %}
+                    <a href="{{ path('advert_edit', {'id' : advert.advert_id}) }}" class="bg-playmore-blue font-bold p-3 rounded text-white">Editer</a>
+                    {{ include('Front/adverts/_delete_form.html.twig') }}
                 {% endif %}
             </div>
         </div>

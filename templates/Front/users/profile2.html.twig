@@ -13,7 +13,7 @@
         </aside>
         <main class="w-full h-screen p-10">
             {% if page == 'game' %}
-                <div class="flex items-center">
+                <div class="flex items-center mb-10">
                     <h1 class="text-playmore-purple-500">Jeux</h1>
                     <a href="{{ path('user_game_add') }}" class="bg-playmore-blue font-semibold mx-4 p-3 rounded text-white">Ajouter</a>
                 </div>
@@ -23,11 +23,10 @@
                         <p class="text-2xl font-semibold text-playmore-text mb-4">{{ platform }}</p>
                         <div class="flex">
                         {% for game in games %}
-                            <div class="bg-white rounded flex items-center shadow-md mr-6" style="width: fit-content;">
+                            <div class="bg-white rounded flex items-center shadow-md mr-6" style="min-width: 414px">
                                 <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  game.img_name  ) }}" alt="">
-                                <div class="ml-4 text-playmore-text p-4" style="min-width: 265px">
+                                <div class="text-playmore-text p-4" style="min-width: 284px">
                                     <p class="font-bold text-xl mb-2">{{ game.name }}</p>
-                                    <p class="mb-1">{{ game.editor }}</p>
                                     <p class="mb-1">{{ game.developer }}</p>
                                     <p class="mb-1">{{ game.release_date | localizeddate('medium', 'none') }}</p>
                                 </div>
@@ -38,10 +37,21 @@
                 {% endfor %}
                 </div>
             {% endif %}
+            {% if page == 'advert' %}
+                <div class="flex items-center mb-10">
+                    <h1 class="text-playmore-purple-500">Annonces</h1>
+                    <a href="{{ path('advert_new') }}" class="bg-playmore-blue font-semibold mx-4 p-3 rounded text-white">Ajouter</a>
+                </div>
+                <div>
+                    {% include 'Front/adverts/_advert.html.twig' with {'adverts': adverts} %}
+                </div>
+            {% endif %}
         </main>
     </div>
 {% endblock %}
 
 {% block javascripts %}
-
+    {% if page == 'advert' %}
+        {{ encore_entry_script_tags('advert') }}
+    {% endif %}
 {% endblock %}

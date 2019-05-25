@@ -9,7 +9,7 @@
         {% endif %}
         <a class="return-button" href="{{ path('advert_list') }}">Annonces</a>
         {% if is_granted('ROLE_USER') %}
-        <a class="return-button" href="{{ path('user_profile' ,{'slug': app.user.slug}) }}">Profil</a>
+        <a class="return-button" href="{{ path('user_profile_2' ,{'slug': app.user.slug}) }}">Profil</a>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
         <a class="return-button" href="{{ path('game_index') }}">Admin</a>
