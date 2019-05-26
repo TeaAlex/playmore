@@ -4,7 +4,7 @@
     <div class="flex">
         <aside class="min-h-screen bg-white p-8" style="width: 300px">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': app.user.imgName, 'username': app.user.username, 'city': app.user.city, 'postal_code': app.user.postalCode } %}
-            <div class="flex flex-col text-playmore-text font-bold text-2xl mt-10 uppercase">
+            <div class="flex flex-col text-playmore-text font-bold text-xl mt-10 uppercase tracking-wide">
                 <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'game'}) }}">Jeux</a>
                 <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'advert'}) }}">Annonces</a>
                 <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'offer'}) }}">Offres</a>
@@ -25,10 +25,10 @@
                         {% for game in games %}
                             <div class="bg-white rounded flex items-center shadow-md mr-6" style="min-width: 414px">
                                 <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  game.img_name  ) }}" alt="">
-                                <div class="text-playmore-text p-4" style="min-width: 284px">
-                                    <p class="font-bold text-xl mb-2">{{ game.name }}</p>
-                                    <p class="mb-1">{{ game.developer }}</p>
-                                    <p class="mb-1">{{ game.release_date | localizeddate('medium', 'none') }}</p>
+                                <div class="p-4" style="min-width: 284px">
+                                    <p class="font-bold text-xl mb-2 text-playmore-text">{{ game.name }}</p>
+                                    <p class="mb-2 text-playmore-purple-500 font-semibold">{{ game.developer }}</p>
+                                    <p class="text-playmore-purple-400">{{ game.release_date | localizeddate('medium', 'none') }}</p>
                                 </div>
                             </div>
                         {% endfor %}
@@ -42,8 +42,32 @@
                     <h1 class="text-playmore-purple-500">Annonces</h1>
                     <a href="{{ path('advert_new') }}" class="bg-playmore-blue font-semibold mx-4 p-3 rounded text-white">Ajouter</a>
                 </div>
-                <div>
+                <div class="flex flex-wrap">
                     {% include 'Front/adverts/_advert.html.twig' with {'adverts': adverts} %}
+                </div>
+            {% endif %}
+            {% if page == 'offer' %}
+                <h1 class="text-playmore-purple-500 mb-10">Offres</h1>
+                <div class="flex flex-wrap">
+                    {% for offer in offers %}
+                        <div class="bg-white rounded p-4 text-playmore-text" style="min-width: 400px;">
+                            <div class="flex justify-between mb-4 text-playmore-purple-400">
+                                <span>{{ offer.start_date | localizeddate('medium', 'none') }} - {{ offer.end_date | localizeddate('medium', 'none') }}</span>
+                                <span>Par {{ offer.username }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                {% if offer.advert_kind == 'Echange' %}
+                                    <div class="flex flex-col justify-center mr-4">
+                                        <span class="font-bold mb-2">{{ offer.game_name }}</span>
+                                        <span class="font-semibold">{{ offer.platform }}</span>
+                                    </div>
+                                    <a href="{{ path('advert_show', {'id': offer.advert_id}) }}">
+                                        <svg style="fill: #484757" xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="external-link"><rect width="24" height="24" opacity="0"/><path d="M20 11a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1z"/><path d="M16 5h1.58l-6.29 6.28a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0L19 6.42V8a1 1 0 0 0 1 1 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-4a1 1 0 0 0 0 2z"/></g></g></svg>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             {% endif %}
         </main>

@@ -121,4 +121,37 @@ DQL;
 
 	}
 
+    public function getByUser($userId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('offer_id', 'offer_id');
+        $rsm->addScalarResult('advert_id', 'advert_id');
+        $rsm->addScalarResult('price', 'price');
+        $rsm->addScalarResult('start_date', 'start_date');
+        $rsm->addScalarResult('end_date', 'end_date');
+        $rsm->addScalarResult('game_name', 'game_name');
+        $rsm->addScalarResult('game_img_name', 'game_img_name');
+        $rsm->addScalarResult('platform', 'platform');
+        $rsm->addScalarResult('username', 'username');
+        $rsm->addScalarResult('advert_kind', 'advert_kind');
+
+        $sql = <<<SQL
+            SELECT o.id offer_id, o.advert_id, o.price, o.start_date, o.end_date,
+                   g.name game_name, g.img_name game_img_name, 
+                   p.name platform,
+                   u.username, 
+                   ak.name advert_kind
+            FROM offer o
+            JOIN advert a on o.advert_id = a.id
+            JOIN advert_kind ak on a.advert_kind_id = ak.id
+            JOIN user u on a.created_by_id = u.id
+            LEFT JOIN game_platform gp on o.game_platform_id = gp.id
+            LEFT JOIN game g on gp.game_id = g.id
+            LEFT JOIN platform p on gp.platform_id = p.id
+            WHERE o.created_by_id = :userId
+SQL;
+        return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['userId' => $userId])->getResult();
+
+    }
+
 }
