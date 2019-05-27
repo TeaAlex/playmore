@@ -47,10 +47,15 @@ class AdvertController extends AbstractController
 	public function show($id, AdvertRepository $advertRepository, OfferRepository $offerRepository)
     {
 		$advert = $advertRepository->findOneId($id);
+        $canOffer = $offerRepository->findByUserAndAdvert($this->getUser()->getId(), $id);
 		if($advert["user_id"] == $this->getUser()->getId()){
 		    $offers = $offerRepository->findOffersByAdvert($id);
         }
-		return $this->render('Front/adverts/show.html.twig', ['advert' => $advert, 'offers' => $offers ?? []]);
+		return $this->render('Front/adverts/show.html.twig', [
+		    'advert' => $advert,
+            'offers' => $offers ?? [],
+            'canOffer' => $canOffer ?? []
+        ]);
     }
 
 

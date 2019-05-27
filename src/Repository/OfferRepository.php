@@ -81,10 +81,11 @@ SQL;
 		$rsm->addScalarResult('game_offer_img_name','game_offer_img_name');
 		$rsm->addScalarResult('game_offer_platform','game_offer_platform');
 		$rsm->addScalarResult('advert_user_slug','advert_user_slug');
+		$rsm->addScalarResult('offer_created_by_img', 'offer_created_by_img');
 
 		$sql = <<<SQL
 			SELECT o.id offer_id, o.created_by_id offer_created_by, o.price, o.start_date, o.end_date,
-			       u2.slug offer_created_by_slug, u2.username offer_created_by_username,
+			       u2.slug offer_created_by_slug, u2.username offer_created_by_username, u2.img_name offer_created_by_img,
 			       os.name offer_status,
 			       a.id advert_id, ak.name advert_name, a.created_by_id advert_created_by,
 			       g.name game_advert_name, g.img_name game_advert_img_name, p.name game_advert_platform,
@@ -152,6 +153,22 @@ DQL;
 SQL;
         return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['userId' => $userId])->getResult();
 
+    }
+
+    public function findByUserAndAdvert($userId, $advertId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+
+        $sql = <<<SQL
+                SELECT o.id
+                FROM offer o
+                WHERE o.advert_id = :advertId AND created_by_id = :userId
+SQL;
+        return $this->getEntityManager()
+            ->createNativeQuery($sql, $rsm)
+            ->setParameters(['advertId' => $advertId, 'userId' => $userId])
+            ->getResult();
     }
 
 }

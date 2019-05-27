@@ -1,20 +1,52 @@
 {% extends 'Front/base.html.twig' %}
 
 {% block content %}
-    
+    <div class="backdrop">
+        <div class="modal">
+            <h1 class="text-playmore-purple-500 text-xl mb-4">Liste des offres</h1>
+            <div class="modal-body">
+                {% if offers is not empty %}
+                    {% for offer in offers %}
+                        <div class="bg-playmore-purple-500 rounded p-4 text-white mb-4" style="min-width: 400px;">
+                            <div class="flex justify-between mb-4">
+                                <span>{{ offer.start_date | localizeddate('medium', 'none') }} - {{ offer.end_date | localizeddate('medium', 'none') }}</span>
+                                <span>Par {{ offer.offer_created_by_username }}</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-4">
+                                {% if offer.advert_name == 'Echange' %}
+                                    <div class="flex flex-col justify-center mr-4">
+                                        <span class="font-bold mb-2">{{ offer.game_offer_name }}</span>
+                                        <span class="font-semibold text-sm tracking-wide">{{ offer.game_offer_platform }}</span>
+                                    </div>
+                                    <img src="{{ asset('images/user/' ~  offer.offer_created_by_img  ) }}" alt="" style="width: 40px; height: 40px;" class="rounded-full">
+                                {% endif %}
+                            </div>
+                            <div class="text-right">
+                                <button class="font-semibold text-green mr-2">Accepter</button>
+                                <button class="font-semibold text-red-lighter">Refuser</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
     <div class="min-h-screen mx-auto my-16" style="width: 700px">
         <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
             <div class="flex">
-                {% if app.user is defined and app.user.id != advert.user_id %}
-                <button class="bg-playmore-blue font-bold p-3 rounded text-white offer-btn" data-advert-id="{{ advert.advert_id }}" >Faire une offre</button>
-                <a class="bg-playmore-purple-400 font-bold p-3 rounded text-white ml-3"
-                   href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : advert.user_id}) }}">
-                    Contacter
-                </a>
-                {% else %}
-                    <a href="{{ path('advert_edit', {'id' : advert.advert_id}) }}" class="bg-playmore-blue font-bold p-3 rounded text-white">Editer</a>
+                {% if app.user is defined and app.user.id == advert.user_id %}
+                    <button class="bg-playmore-purple-500 font-bold p-3 rounded text-white" id="offer-btn" data-offer-id="{{ advert.advert_id }}">Offres</button>
+                    <a href="{{ path('advert_edit', {'id' : advert.advert_id}) }}" class="bg-playmore-blue font-bold p-3 rounded text-white ml-3">Editer</a>
                     {{ include('Front/adverts/_delete_form.html.twig') }}
+                {% elseif canOffer is not empty %}
+                    <a href="">Voir mon offre</a>
+                {% else %}
+                    <button class="bg-playmore-blue font-bold p-3 rounded text-white offer-btn" data-advert-id="{{ advert.advert_id }}" >Faire une offre</button>
+                    <a class="bg-playmore-purple-400 font-bold p-3 rounded text-white ml-3"
+                        href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : advert.user_id}) }}">
+                        Contacter
+                    </a>
                 {% endif %}
             </div>
         </div>
@@ -70,5 +102,16 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('advert') }}
     {{ encore_entry_script_tags('advert_offer') }}
+
+    <script>
+        const offerBtn = document.querySelector('#offer-btn');
+        const backdrop = document.querySelector('.backdrop');
+        const modal = document.querySelector('.modal');
+
+        offerBtn.addEventListener('click', (e) => {
+            backdrop.style.display = 'block';
+            modal.style.display = 'block';
+        });
+    </script>
 {% endblock %}
 
