@@ -50,11 +50,13 @@ class AdvertController extends AbstractController
         $canOffer = $offerRepository->findByUserAndAdvert($this->getUser()->getId(), $id);
 		if($advert["user_id"] == $this->getUser()->getId()){
 		    $offers = $offerRepository->findOffersByAdvert($id);
+		    $cntOffers = count($offers);
         }
 		return $this->render('Front/adverts/show.html.twig', [
 		    'advert' => $advert,
             'offers' => $offers ?? [],
-            'canOffer' => $canOffer ?? []
+            'can_offer' => $canOffer ?? [],
+            'cnt_offers' => $cntOffers ?? 0
         ]);
     }
 

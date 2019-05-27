@@ -143,18 +143,18 @@ class OfferController extends AbstractController {
 			$remainingOffer->setOfferStatus($declined);
 		}
 		$em->flush();
-		return new JsonResponse($remainingOffers);
+		$ids = array_map(function($offer) { return $offer->getId(); }, $remainingOffers);
+		return new JsonResponse($ids);
 	}
 
 	/**
 	 * @Route(path="/decline/{id}", name="decline", methods={"POST"})
 	 */
 	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository) {
-		$slug = $this->getUser()->getSlug();
 		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
 		$offer->setOfferStatus($declined);
 		$em->flush();
-		return $this->redirectToRoute('user_profile', ['slug' => $slug]);
+		return new JsonResponse("declined {$offer->getId()}");
 	}
 
 }
