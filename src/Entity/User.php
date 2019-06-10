@@ -569,7 +569,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return float
      */
-    public function getLat(): float
+    public function getLat(): ?float
     {
         return $this->lat;
     }
@@ -587,7 +587,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return float
      */
-    public function getLon(): float
+    public function getLon(): ?float
     {
         return $this->lon;
     }

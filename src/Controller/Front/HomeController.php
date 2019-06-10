@@ -3,9 +3,11 @@
 namespace App\Controller\Front;
 
 use Algolia\SearchBundle\IndexManagerInterface;
+use App\Entity\User;
 use App\Repository\AdvertRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\PlatformRepository;
+use App\Services\GeoCodingService;
 use Geocoder\Provider\AlgoliaPlaces\AlgoliaPlaces;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Query\ReverseQuery;
@@ -28,18 +30,14 @@ class HomeController extends AbstractController
 	 *
 	 * @return Response
 	 */
-    public function index(Request $request, IndexManagerInterface $indexingManager, PlatformRepository $platformRepository,CategoryRepository $categoryRepository) : Response
+    public function index(Request $request, PlatformRepository $platformRepository,CategoryRepository $categoryRepository, GeoCodingService $geo) : Response
     {
         if($this->getUser()){
+            /** @var $user User  **/
             $user = $this->getUser();
-            $latlong = "{$user->getLat()}, {$user->getLon()}";
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_URL, "https://places-dsn.algolia.net/1/places/reverse?aroundLatLng={$latlong}&hitsPerPage=1&language=fr");
-            curl_setopt($curl, CURLOPT_HEADER, "X-Algolia-Application-Id: {$_ENV['ALGOLIA_APP_ID']}");
-            curl_setopt($curl, CURLOPT_HEADER, "X-Algolia-API-Key: {$_ENV['ALGOLIA_API_KEY']}");
-            $res = json_decode(curl_exec($curl), true);
-            dump($res);
+//            $geo->reverseGeoCoding($user->getLat(), $user->getLon());
+            $geo->search('30 rue blondel');
+                
         }
 
         return $this->render('Front/home/index.html.twig', ['platforms' => $platformRepository->findAll(),
