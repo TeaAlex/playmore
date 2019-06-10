@@ -36,7 +36,7 @@ class HomeController extends AbstractController
             /** @var $user User  **/
             $user = $this->getUser();
 //            $geo->reverseGeoCoding($user->getLat(), $user->getLon());
-            $geo->search('30 rue blondel');
+//            $geo->search('24 rue des hirondelles');
                 
         }
 

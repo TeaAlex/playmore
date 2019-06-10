@@ -18,6 +18,7 @@ use App\Repository\OfferRepository;
 use App\Repository\UserRepository;
 use App\Security\CommentVoter;
 use App\Security\UserVoter;
+use App\Services\GeoCodingService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,11 +85,18 @@ class UserController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
-	public function edit(User $user, Request $request, ObjectManager $em) {
+	public function edit(User $user, Request $request, ObjectManager $em, GeoCodingService $geo) {
 		$this->denyAccessUnlessGranted(UserVoter::OWNER, $user);
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
+		    $address = $geo->search($request->request->get("address"));
+		    if(!empty($address["hits"])){
+                $user->setLat($address["hits"][0]["_geoloc"]["lat"]);
+                $user->setLon($address["hits"][0]["_geoloc"]["lng"]);
+                $user->setCity($address["hits"][0]["city"][0]);
+                $user->setPostalCode($address["hits"][0]["postcode"][0]);
+            }
 			$em->flush();
 			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 		}
