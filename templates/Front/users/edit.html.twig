@@ -1,7 +1,7 @@
 {% extends 'Front/base.html.twig' %}
 
 {% block content %}
-    <div class="w-1/2 h-auto mx-auto px-8 py-16">
+    <div class="w-2/3 h-auto mx-auto px-8 py-16">
         <h1 class="text-primary mb-6">Editer Profil</h1>
         {{ form_start(form) }}
         <div class="bg-white p-8 flex">
@@ -16,8 +16,8 @@
                 {{ form_row(form.imgFile) }}
                 {{ form_row(form.platforms) }}
                 <div>
-                    <label for="" class="font-bold uppercase mb-4">Votre adresse</label>
-                    <input type="search" id="address-input" name="address" placeholder="Votre adresse" />
+                    <label for="" class="font-bold uppercase mb-2 block text-playmore-text">Votre adresse</label>
+                    <input type="search" id="address-input" name="address" placeholder="Votre adresse" value="{{ app.user.address }}" />
                 </div>
             </div>
         </div>
@@ -30,19 +30,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/places.js@1.16.4"></script>
-    <script>
-        const fixedOptions = {
-            appId: 'plJ1BKMLT9RB',
-            apiKey: '79f0b6f794bc131bd0ea06940cea7f36',
-            container: document.querySelector('#address-input'),
-        };
-        const reconfigurableOptions = {
-            language: 'fr',
-            countries: 'fr',
-            aroundLatLngViaIP: true
-        };
-        const placesAutocomplete = places(fixedOptions).configure(reconfigurableOptions);
-    </script>
+    {{ encore_entry_script_tags('geolocate_address') }}
 {% endblock %}
 

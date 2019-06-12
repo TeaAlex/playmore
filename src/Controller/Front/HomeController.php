@@ -49,12 +49,15 @@ class HomeController extends AbstractController
      */
     public function results(Request $request, AdvertRepository $advertrepository) : Response
     {
+        $user = $this->getUser();
         $params = [];
-
         $params['game'] = $request->get('game', null);
         $params['platform'] = $request->get('platform', null);
         $params['category'] = $request->get('category', null);
         $params['userId'] = $this->getUser() ? $this->getUser()->getId() : null;
+        $params['distance'] = $request->get('distance', null);
+        $params['lat'] = $user->getLat();
+        $params['lon'] = $user->getLon();
 
         $annonces = $advertrepository->search($params);
 

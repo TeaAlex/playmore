@@ -135,7 +135,7 @@ SQL;
     public function search($params)
     {
         $conn = $this->getEntityManager()->getConnection();
-		$where = "";
+		$where = $select = $having = "";
 	    $parameters = [
 		    'game' => "%".$params['game']."%",
 	    ];
@@ -151,12 +151,17 @@ SQL;
 	    	$where .= " AND a.created_by_id != :userId";
 	    	$parameters = array_merge($parameters, ['userId' => $params['userId']]);
 	    }
+	    if($params['distance']){
+	        $select .= ", (6378 * acos(cos(radians({$params["lat"]})) * cos(radians(u.lat)) * cos(radians(u.lon) - radians({$params["lon"]})) + sin(radians({$params["lat"]})) * sin(radians(u.lat)))) as distance";
+            $having .= "HAVING distance < {$params["distance"]}";
+	    }
 
         $sql = "
         SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, a.created_at,
 		       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
 		       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
 		       g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
+               $select
 		FROM advert a
 		JOIN advert_status astat ON a.advert_status_id = astat.id
 		JOIN advert_kind ak ON a.advert_kind_id = ak.id
@@ -170,6 +175,7 @@ SQL;
 		JOIN user u ON a.created_by_id = u.id
         WHERE g.name LIKE :game $where
 		GROUP BY a.id
+        $having
         ";
 
         $stmt = $conn->prepare($sql);

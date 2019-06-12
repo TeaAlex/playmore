@@ -138,6 +138,14 @@ class User implements UserInterface, \Serializable
      */
     private $lon;
 
+
+    /**
+     * @var $address string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+
     /**
      * @return mixed
      */
@@ -599,6 +607,24 @@ class User implements UserInterface, \Serializable
     public function setLon(float $lon): User
     {
         $this->lon = $lon;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string|null $address
+     * @return User
+     */
+    public function setAddress(?string $address): User
+    {
+        $this->address = $address;
         return $this;
     }
 

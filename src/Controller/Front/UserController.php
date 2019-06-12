@@ -92,6 +92,7 @@ class UserController extends AbstractController {
 		if($form->isSubmitted() && $form->isValid()){
 		    $address = $geo->search($request->request->get("address"));
 		    if(!empty($address["hits"])){
+		        $user->setAddress($address["query"]);
                 $user->setLat($address["hits"][0]["_geoloc"]["lat"]);
                 $user->setLon($address["hits"][0]["_geoloc"]["lng"]);
                 $user->setCity($address["hits"][0]["city"][0]);
