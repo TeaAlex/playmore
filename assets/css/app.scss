@@ -563,11 +563,7 @@ textarea{
 
 
 
-  .advert-list {
-    width: max-content;
-    margin: 0 auto;
-    max-width: 81%;
-  }
+
 
 
   //MODAL
@@ -667,4 +663,14 @@ button.btn-confirm:active {
   margin-bottom: 16px;
 }
 
+[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: white;
+}
 
+[type="checkbox"] [checked] {
+  background: blue;
+}

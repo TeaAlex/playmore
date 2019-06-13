@@ -1,10 +1,60 @@
 {% extends 'Front/base.html.twig' %}
 
 {% block content %}
-    <div class="advert-list min-h-screen bg-grey-lightest">
-        <h1 class="font-bold text-primary mt-12">Toutes les annonces</h1>
-        <div class="flex flex-wrap justify-start items-start">
-            {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+    <div class="min-h-screen bg-grey-lightest flex">
+        <div class="w-260px px-8 py-12 text-white" style="background:#273268;">
+            <div class="mb-8">
+                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Plateformes</p>
+                <div class="my-4 font-semibold">
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" value="ps4">
+                        <label for="">PS4</label>
+                    </div>
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" value="xbox_one">
+                        <label for="">XBOX ONE</label>
+                    </div>
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" value="switch">
+                        <label for="">SWITCH</label>
+                    </div>
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" value="pc">
+                        <label for="">PC</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-8">
+                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Type d'annonce</p>
+                <div class="my-4 font-semibold ">
+                    <div class="mb-4">
+                        <input type="checkbox" value="ps4">
+                        <label for="">Location</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" value="xbox_one">
+                        <label for="">Echange</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-8">
+                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
+                <div class="my-4 font-semibold">
+                    <select name="" id="">
+                        <option value="">5 km</option>
+                        <option value="">10 km</option>
+                        <option value="">15 km</option>
+                        <option value="">20 km</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="mx-auto">
+            <h1 class="font-bold uppercase text-playmore-purple-500 mt-12 text-2xl">Toutes les annonces</h1>
+            <div class="flex flex-wrap justify-start items-start">
+                {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+            </div>
         </div>
     </div>
 {% endblock %}
