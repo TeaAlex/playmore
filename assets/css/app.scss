@@ -671,6 +671,11 @@ button.btn-confirm:active {
   background: white;
 }
 
-[type="checkbox"] [checked] {
-  background: blue;
+input[type=checkbox]:checked {
+  background: #2a8eff;
+}
+
+input[type=checkbox]:checked + label {
+  color: #2a8eff;
+  font-weight: 700;
 }

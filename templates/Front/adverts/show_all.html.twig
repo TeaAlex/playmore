@@ -6,35 +6,25 @@
             <div class="mb-8">
                 <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Plateformes</p>
                 <div class="my-4 font-semibold">
+                    {% set platforms = ['PS4', 'XBOX ONE', 'SWITCH', 'PC'] %}
+                    {% for platform in platforms %}
                     <div class="mb-4 flex items-center">
-                        <input class="mr-3" type="checkbox" value="ps4">
-                        <label for="">PS4</label>
+                        <input class="mr-3" type="checkbox" value="{{ platform }}" id="{{ platform }}">
+                        <label for="{{ platform }}">{{ platform }}</label>
                     </div>
-                    <div class="mb-4 flex items-center">
-                        <input class="mr-3" type="checkbox" value="xbox_one">
-                        <label for="">XBOX ONE</label>
-                    </div>
-                    <div class="mb-4 flex items-center">
-                        <input class="mr-3" type="checkbox" value="switch">
-                        <label for="">SWITCH</label>
-                    </div>
-                    <div class="mb-4 flex items-center">
-                        <input class="mr-3" type="checkbox" value="pc">
-                        <label for="">PC</label>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="mb-8">
                 <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Type d'annonce</p>
                 <div class="my-4 font-semibold ">
-                    <div class="mb-4">
-                        <input type="checkbox" value="ps4">
-                        <label for="">Location</label>
+                    {% set advertTypes = ['Echange', 'Location'] %}
+                    {% for advertType in advertTypes %}
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" value="{{ advertType }}" id="{{ advertType }}">
+                        <label for="{{ advertType }}">{{ advertType }}</label>
                     </div>
-                    <div class="mb-4">
-                        <input type="checkbox" value="xbox_one">
-                        <label for="">Echange</label>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="mb-8">
