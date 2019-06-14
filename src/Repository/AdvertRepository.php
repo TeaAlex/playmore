@@ -139,9 +139,13 @@ SQL;
 	    $parameters = [
 		    'game' => "%".$params['game']."%",
 	    ];
+	    if($params['advert_kind']){
+            $advertKinds = implode(',', $params['advert_kind']);
+            $where .= "AND ak.id IN ($advertKinds)";
+        }
 	    if($params['platform']){
-		    $where .= " AND p.id = :plt";
-		    $parameters = array_merge($parameters,['plt' => $params['platform']]);
+	        $platforms = implode(',', $params['platform']);
+		    $where .= " AND p.id IN ($platforms)";
 	    }
 	    if($params['category']){
 		    $where .= " AND g.category_id = :cat";

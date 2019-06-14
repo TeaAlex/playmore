@@ -3,42 +3,47 @@
 {% block content %}
     <div class="min-h-screen bg-grey-lightest flex">
         <div class="w-260px px-8 py-12 text-white" style="background:#273268;">
-            <div class="mb-8">
-                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Plateformes</p>
-                <div class="my-4 font-semibold">
-                    {% set platforms = ['PS4', 'XBOX ONE', 'SWITCH', 'PC'] %}
-                    {% for platform in platforms %}
-                    <div class="mb-4 flex items-center">
-                        <input class="mr-3" type="checkbox" value="{{ platform }}" id="{{ platform }}">
-                        <label for="{{ platform }}">{{ platform }}</label>
+            <form action="" method="post">
+                <div class="mb-8">
+                    <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Plateformes</p>
+                    <div class="my-4 font-semibold">
+                        {% for platform in platforms %}
+                        <div class="mb-4 flex items-center">
+                            <input class="mr-3" type="checkbox" name="platform[]" value="{{ platform.id }}" id="{{ platform.name }}">
+                            <label for="{{ platform.name }}">{{ platform.name }}</label>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-            <div class="mb-8">
-                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Type d'annonce</p>
-                <div class="my-4 font-semibold ">
-                    {% set advertTypes = ['Echange', 'Location'] %}
-                    {% for advertType in advertTypes %}
-                    <div class="mb-4 flex items-center">
-                        <input class="mr-3" type="checkbox" value="{{ advertType }}" id="{{ advertType }}">
-                        <label for="{{ advertType }}">{{ advertType }}</label>
+                <div class="mb-8">
+                    <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Type d'annonce</p>
+                    <div class="my-4 font-semibold ">
+                        {% for advertKind in advertKinds %}
+                        <div class="mb-4 flex items-center">
+                            <input class="mr-3" type="checkbox" name="advert_kind[]" value="{{ advertKind.id }}" id="{{ advertKind.name }}">
+                            <label for="{{ advertKind.name }}">{{ advertKind.name }}</label>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-            </div>
-            <div class="mb-8">
-                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
-                <div class="my-4 font-semibold">
-                    <select name="" id="">
-                        <option value="">5 km</option>
-                        <option value="">10 km</option>
-                        <option value="">15 km</option>
-                        <option value="">20 km</option>
-                    </select>
+                {% if app.user.id %}
+                <div class="mb-8">
+                    <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
+                    <div class="my-4 font-semibold">
+                        <select name="distance" id="">
+                            {% for distance in distances %}
+                                <option value="{{ distance }}">{{ distance }} km</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-            </div>
-
+                {% endif %}
+                <div class="mb-8">
+                    <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Jeux</p>
+                    <input type="text" class="mt-4 p-3 rounded w-full" name="game">
+                </div>
+                <button class="bg-playmore-blue font-bold p-4 rounded text-playmore-blue text-playmore-blue-lightest tracking-wide uppercase w-full">Rechercher</button>
+            </form>
         </div>
         <div class="mx-auto">
             <h1 class="font-bold uppercase text-playmore-purple-500 mt-12 text-2xl">Toutes les annonces</h1>
