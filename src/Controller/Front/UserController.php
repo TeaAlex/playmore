@@ -218,7 +218,7 @@ class UserController extends AbstractController {
 	public function addGame(Request $request, ObjectManager $em): Response {
 		$user = $this->getUser();
 		$gamePlatform = new GamePlatform();
-		$form = $this->createForm(UserGameType::class, $gamePlatform);
+		$form = $this->createForm(UserGameType::class, $gamePlatform, ["userId" => $user->getId()]);
 		$req = $request->request;
 		$p = $req->get('user_game')['platform'] ?? false;
 		$form->handleRequest($request);
