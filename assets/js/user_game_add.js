@@ -19,7 +19,6 @@ game.addEventListener('change', function (e) {
       platformWrap.removeChild(existingPlatformForm.parentNode);
     }
     const html = new DOMParser().parseFromString(response.data, "text/html");
-    console.log(html.querySelector('#user_game_platform'));
     const platformForm = html.querySelector('#user_game_platform').parentNode;
     platformWrap.appendChild(platformForm);
   })

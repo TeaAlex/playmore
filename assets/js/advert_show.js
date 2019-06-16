@@ -27,7 +27,6 @@ if(offerBtn !== null){
                 .then(offers => {
                     offers.forEach(declineOffer(id));
                     const card = document.querySelector(`div[data-offer-id="${id}"]`);
-                    console.log(card);
                     const buttons = card.querySelector('.buttons');
                     card.removeChild(buttons);
                     const p = document.createElement('p');

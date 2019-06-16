@@ -151,6 +151,9 @@ class AdvertController extends AbstractController
 		$this->denyAccessUnlessGranted(AdvertVoter::OWNER, $advert);
 		$form = $this->createForm(AdvertType::class, $advert);
 		$form->handleRequest($request);
+        if($request->isXmlHttpRequest()){
+            return $this->render('Front/adverts/edit.html.twig', ['form' => $form->createView()]);
+        }
 		if($form->isSubmitted() && $form->isValid()){
 			$this->saveGamePlatform($em, $form, $advert);
 			$em->flush();

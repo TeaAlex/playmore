@@ -8,7 +8,6 @@ btn.addEventListener('click', (e) => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             const positions = {lat : position.coords.latitude, lon: position.coords.longitude };
-            console.log(positions);
             fetch(Routing.generate('user_geolocate', positions))
             .then(res => res.json())
             .then(address => {

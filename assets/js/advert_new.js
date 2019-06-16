@@ -6,7 +6,6 @@ const advertKindInput = document.querySelector('#advert_advertKind');
 function updateVisibility() {
   const platformForm = document.querySelector('#advert_platform') || false;
   const text = advertKindInput.options[advertKindInput.selectedIndex].innerHTML;
-  console.log(text);
   const priceInput = document.querySelector('.price-input');
   const gameWantedInput = document.querySelector('.game-wanted-input');
   if (text === 'Echange') {
@@ -54,9 +53,7 @@ function addPlatform() {
       .then(response => {
         const formWrap = document.querySelector('.advert-infos');
         const existingPlatformForm = document.querySelector('#advert_platform');
-        console.log(existingPlatformForm);
         if( existingPlatformForm !== null){
-          console.log('alo');
           formWrap.removeChild(existingPlatformForm.parentNode);
         }
         const html = new DOMParser().parseFromString(response.data, "text/html");
