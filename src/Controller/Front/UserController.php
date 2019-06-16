@@ -14,6 +14,7 @@ use App\Form\Front\CommentType;
 use App\Repository\AdvertRepository;
 use App\Repository\CommentRepository;
 use App\Repository\GamePlatformRepository;
+use App\Repository\GameRepository;
 use App\Repository\OfferRepository;
 use App\Repository\UserRepository;
 use App\Security\CommentVoter;

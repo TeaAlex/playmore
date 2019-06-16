@@ -53,6 +53,35 @@ SQL;
 
     }
 
+    public function findGameNotInAdvertByUser($userId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $sql = <<<SQL
+            SELECT g.id
+            FROM game g
+            JOIN game_platform p on g.id = p.game_id
+            JOIN game_platform_user gpu on p.id = gpu.game_platform_id AND gpu.user_id = :userId
+            WHERE g.id NOT IN
+            (
+                SELECT g2.id
+                FROM advert a
+                JOIN game_platform gp on a.game_owned_id = gp.id
+                JOIN game g2 on gp.game_id = g2.id
+                WHERE a.created_by_id = :userId
+            )
+SQL;
+        $ids = implode(',', array_column($this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(["userId" => $userId])->getResult(), 'id'));
+
+        $dql = <<<DQL
+            SELECT g FROM App\Entity\Game g WHERE g.id IN ($ids)
+DQL;
+        return $this->_em->createQuery($dql)->getResult();
+
+    }
+
+
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

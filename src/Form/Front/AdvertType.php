@@ -6,6 +6,8 @@ use App\Entity\Advert;
 use App\Entity\AdvertKind;
 use App\Entity\Game;
 use App\Form\Front\EventListener\AddPlatformSubscriber;
+use App\Repository\GameRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,17 +24,23 @@ class AdvertType extends AbstractType
 	 * @var TokenStorageInterface
 	 */
 	private $tokenStorage;
+    /**
+     * @var GameRepository
+     */
+    private $gameRepository;
 
-	public function __construct(TokenStorageInterface $tokenStorage) {
+    public function __construct(TokenStorageInterface $tokenStorage, GameRepository $gameRepository) {
 
 		$this->tokenStorage = $tokenStorage;
-	}
+        $this->gameRepository = $gameRepository;
+    }
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
     	/** @var $advert Advert  **/
     	$advert = $builder->getData();
     	$user = $this->tokenStorage->getToken()->getUser();
+    	$gameOwned = $this->gameRepository->findGameNotInAdvertByUser($user->getId());
     	if($advert->getGameOwned() !== null){
     		$go = $advert->getGameOwned()->getGame();
 	    }
@@ -62,7 +70,7 @@ class AdvertType extends AbstractType
 	            'choice_label' => 'name',
 	            'label' => 'Jeu possédé',
 	            'placeholder' => '',
-	            'choices' => $user->getGames(),
+	            'choices' => $gameOwned,
 	            'mapped' => false,
 	            'data' => $go ?? null
             ])
@@ -91,6 +99,7 @@ class AdvertType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Advert::class,
+            'gameOwned' => null
         ]);
     }
 }
