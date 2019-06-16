@@ -10,6 +10,13 @@ btn.addEventListener('click', (e) => {
             const positions = {lat : position.coords.latitude, lon: position.coords.longitude };
             console.log(positions);
             fetch(Routing.generate('user_geolocate', positions))
+            .then(res => res.json())
+            .then(address => {
+                const popup = document.querySelector('.geoloc-popup');
+                const p = popup.querySelector('.position');
+                p.innerText = address;
+                popup.style.display = 'block';
+            });
         });
     }
 });

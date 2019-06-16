@@ -21,6 +21,7 @@ use App\Security\UserVoter;
 use App\Services\GeoCodingService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,16 +38,21 @@ class UserController extends AbstractController {
     /**
      * @Route(path="/geolocate", name="geolocate", methods={"GET"})
      */
-    public function getUserLocation(ObjectManager $em, Request $request)
+    public function getUserLocation(ObjectManager $em, Request $request, GeoCodingService $geoCodingService)
     {
         $lat = $request->query->get('lat');
         $lon = $request->query->get('lon');
+        /** @var $user User  **/
         $user = $this->getUser();
+        [$city, $postcode, $address] = $geoCodingService->reverseGeoCoding($lat, $lon);
         $user->setLat($lat);
         $user->setLon($lon);
+        $user->setCity($city);
+        $user->setPostalCode($postcode);
+        $user->setAddress($address);
         $em->persist($user);
         $em->flush();
-        return new Response('ok', 200);
+        return new JsonResponse($address, 200);
     }
 
 	/**

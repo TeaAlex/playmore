@@ -139,23 +139,23 @@ SQL;
 	    $parameters = [
 		    'game' => "%".$params['game']."%",
 	    ];
-	    if($params['advert_kind']){
+	    if(isset($params['advert_kind']) && !empty($params['advert_kind'])){
             $advertKinds = implode(',', $params['advert_kind']);
             $where .= "AND ak.id IN ($advertKinds)";
         }
-	    if($params['platform']){
+	    if(isset($params['platform']) && !empty($params['platform'])){
 	        $platforms = implode(',', $params['platform']);
 		    $where .= " AND p.id IN ($platforms)";
 	    }
-	    if($params['category']){
+	    if(isset($params['category']) && !empty($params['category'])){
 		    $where .= " AND g.category_id = :cat";
 		    $parameters = array_merge($parameters,['cat' => $params['category']]);
 	    }
-	    if($params['userId']){
+	    if(isset($params['userId']) && !empty($params['userId'])){
 	    	$where .= " AND a.created_by_id != :userId";
 	    	$parameters = array_merge($parameters, ['userId' => $params['userId']]);
 	    }
-	    if($params['distance']){
+	    if(isset($params['distance']) && !empty($params['distance'])){
 	        $select .= ", (6378 * acos(cos(radians({$params["lat"]})) * cos(radians(u.lat)) * cos(radians(u.lon) - radians({$params["lon"]})) + sin(radians({$params["lat"]})) * sin(radians(u.lat)))) as distance";
             $having .= "HAVING distance < {$params["distance"]}";
 	    }

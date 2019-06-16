@@ -4,62 +4,71 @@
 {% block title %}PlayMore{% endblock %}
 
 {% block content %}
-    {% if is_granted('ROLE_USER') %}
-        <div class="pmcoins">
-            <div class="mycoins">
-                <a href="{{ path('app_security_payment') }}"><p> Mes PlayMore Coins : {{ app.user.coins }}</p></a>
-            </div>
+    <div class="relative">
+        <div class="bg-white geoloc-popup p-4 rounded" style="width: 400px; position: absolute;left: 50%;top: 30px;transform: TranslateX(-50%); display: none; opacity: 0.8;">
+            <h1 class="text-xl text-playmore-purple-500 mb-2">Votre position :</h1>
+            <p class="position text-playmore-purple-400 mb-2">Rue des hirondelles, Pontault-Combault</p>
+            <a href="{{ path('user_edit', {'slug': app.user.slug}) }}">Cliquez ici pour la modifer</a>
         </div>
-    {% endif %}
-
-
-    <form action="{{ path("app_security_results") }}" method="GET">
-            <div class="home-content">
-                <div class="search-container">
-                    <input type="text" id="search-bar" name="game" placeholder="Quel jeu souhaitez vous échanger?">
-                </div>
-                <div class="filters">
-                   <div class="filter-container">
-                       <select id="filter-select" name="platform">
-                           <option value="" selected>Plateforme</option>
-                           {% for platform in platforms %}
-                           <option value="{{ platform.id }}">{{ platform.name }}</option>
-                           {% endfor %}
-                       </select>
-                   </div>
-                   <div class="filter-container">
-                       <select id="filter-select" name="category">
-                           <option value="" selected>Categories</option>
-                           {% for category in categories %}
-                               <option value="{{ category.id }}">{{ category.name }}</option>
-                           {% endfor %}
-                       </select>
-                   </div>
-                   <div class="filter-container">
-                       <select id="filter-select" name="distance">
-                           <option value="" selected>Distance</option>
-                           <option value="5">5 km</option>
-                           <option value="10">10 km</option>
-                           <option value="15">15 km</option>
-                           <option value="20">20 km</option>
-                       </select>
-                   </div>
-                </div>
-                <a class="geolocate-btn">GEOLOCALISER</a>
-
-                <div class="last-news">
-                    <h1 class="ml-5 mt-3">Découvrez les jeux du moments</h1>
-                    <a href="{{ path("app_security_results", {"game":"Red Dead Redemption 2"}) }}"><img class="homeimages"  name="Red dead redemption 2" src="{{ asset('images/jeux_moment/reddead.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"GTA V"}) }}"><img class="homeimages" name="GTA V" src="{{ asset('images/jeux_moment/gta.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"Battlefield 1"}) }}"><img class="homeimages" name="Battlefield 1" src="{{ asset('images/jeux_moment/only.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"Spiderman"}) }}"> <img class="homeimages" name="Spiderman" src="{{ asset('images/jeux_moment/spiderman.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"The Division"}) }}"> <img class="homeimages" name="The division" src="{{ asset('images/jeux_moment/thedivision.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"Assassin's Creed"}) }}">    <img class="homeimages" name="Assassin's Creed" src="{{ asset('images/jeux_moment/assacin.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"Metro"}) }}">     <img class="homeimages" name="Metro" src="{{ asset('images/jeux_moment/metro.jpg') }}" /></a>
-                    <a href="{{ path("app_security_results", {"game":"Far Cry Primal"}) }}">    <img class="homeimages" name="Far Cry Primal" src="{{ asset('images/jeux_moment/farcry.jpg') }}" /></a>
+        {% if is_granted('ROLE_USER') %}
+            <div class="pmcoins">
+                <div class="mycoins">
+                    <a href="{{ path('app_security_payment') }}"><p> Mes PlayMore Coins : {{ app.user.coins }}</p></a>
                 </div>
             </div>
-        </form>
+        {% endif %}
+
+
+        <form action="{{ path("advert_list") }}" method="POST">
+
+            <div class="home-content">
+                    <div class="search-container flex items-center">
+                        <input type="text" id="search-bar" name="game" placeholder="Quel jeu souhaitez vous échanger?">
+                        <div style="height: 38px; width: 38px" class="bg-white items-center ml-1 p-1 rounded cursor-pointer geolocate-btn">
+                            <svg fill="#4d4d4d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="pin"><rect width="24" height="24" opacity="0"/><path d="M12 2a8 8 0 0 0-8 7.92c0 5.48 7.05 11.58 7.35 11.84a1 1 0 0 0 1.3 0C13 21.5 20 15.4 20 9.92A8 8 0 0 0 12 2zm0 17.65c-1.67-1.59-6-6-6-9.73a6 6 0 0 1 12 0c0 3.7-4.33 8.14-6 9.73z"/><path d="M12 6a3.5 3.5 0 1 0 3.5 3.5A3.5 3.5 0 0 0 12 6zm0 5a1.5 1.5 0 1 1 1.5-1.5A1.5 1.5 0 0 1 12 11z"/></g></g></svg>
+                        </div>
+                    </div>
+                    <div class="filters">
+                       <div class="filter-container">
+                           <select id="filter-select" name="platform[]">
+                               <option value="" selected>Plateformes</option>
+                               {% for platform in platforms %}
+                               <option value="{{ platform.id }}">{{ platform.name }}</option>
+                               {% endfor %}
+                           </select>
+                       </div>
+                       <div class="filter-container">
+                           <select id="filter-select" name="category">
+                               <option value="" selected>Categories</option>
+                               {% for category in categories %}
+                                   <option value="{{ category.id }}">{{ category.name }}</option>
+                               {% endfor %}
+                           </select>
+                       </div>
+                       <div class="filter-container">
+                           <select id="filter-select" name="distance">
+                               <option value="" selected>Distance</option>
+                               {% for distance in distances %}
+                               <option value="{{ distance }}">{{ distance }}</option>
+                               {% endfor %}
+                           </select>
+                       </div>
+                    </div>
+
+                    <div class="last-news">
+                        <h1 class="ml-5 mt-3">Découvrez les jeux du moments</h1>
+                        <a href="{{ path("advert_list", {"game":"Red Dead Redemption 2"}) }}"><img class="homeimages"  name="Red dead redemption 2" src="{{ asset('images/jeux_moment/reddead.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"GTA V"}) }}"><img class="homeimages" name="GTA V" src="{{ asset('images/jeux_moment/gta.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"Battlefield 1"}) }}"><img class="homeimages" name="Battlefield 1" src="{{ asset('images/jeux_moment/only.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"Spiderman"}) }}"> <img class="homeimages" name="Spiderman" src="{{ asset('images/jeux_moment/spiderman.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"The Division"}) }}"> <img class="homeimages" name="The division" src="{{ asset('images/jeux_moment/thedivision.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"Assassin's Creed"}) }}">    <img class="homeimages" name="Assassin's Creed" src="{{ asset('images/jeux_moment/assacin.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"Metro"}) }}">     <img class="homeimages" name="Metro" src="{{ asset('images/jeux_moment/metro.jpg') }}" /></a>
+                        <a href="{{ path("advert_list", {"game":"Far Cry Primal"}) }}">    <img class="homeimages" name="Far Cry Primal" src="{{ asset('images/jeux_moment/farcry.jpg') }}" /></a>
+                    </div>
+                </div>
+            </form>
+    </div>
 
 {% endblock %}
 

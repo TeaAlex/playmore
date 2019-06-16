@@ -35,8 +35,7 @@ class AdvertController extends AbstractController
     public function showAll(Request $request,
                             AdvertRepository $advertRepository,
                             PlatformRepository $platformRepository,
-                            AdvertKindRepository $advertKindRepository
-    ): Response
+                            AdvertKindRepository $advertKindRepository): Response
     {
         $user = $this->getUser() ?? null;
     	if(is_object($user)){
@@ -54,9 +53,11 @@ class AdvertController extends AbstractController
                 'advert_kind' => $req->get('advert_kind', []),
                 'distance' => $req->get('distance'),
                 'category' => null,
-                'lat' => $this->getUser()->getLat(),
-                'lon' => $this->getUser()->getLon(),
             ];
+            if(is_object($user)){
+                $params['lat'] = $this->getUser()->getLat();
+                $params['lon'] = $this->getUser()->getLon();
+            }
             $adverts = $advertRepository->search($params);
             return $this->render('Front/adverts/show_all.html.twig', [
                 'adverts' => $adverts,
