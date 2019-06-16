@@ -84,6 +84,50 @@ class UserController extends AbstractController {
 		]);
 	}
 
+
+	/**
+	 * @Route(path="/profile/{slug}/{page}", name="profile_2")
+	 * @param User $user
+	 * @param AdvertRepository $advertRepository
+	 * @param UserRepository $userRepository
+	 *
+	 * @param CommentRepository $commentRepository
+	 * @param OfferRepository $offerRepository
+	 *
+	 * @return Response
+	 */
+	public function profile2(User $user, $page = 'game', AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
+
+	    switch ($page) {
+            case 'game':
+                $platforms = $userRepository->getGamesByUser($user->getId());
+                break;
+            case 'advert':
+                $adverts = $advertRepository->all($user->getId());
+                break;
+            case 'offer':
+                $offers = $offerRepository->getByUser($user->getId());
+                break;
+        }
+
+		$infos = $userRepository->findInfosByUser($user->getId());
+//		$offers = $offerRepository->findUserOffers($user->getId());
+		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
+		$commentaire = new Comment();
+		$form = $this->createForm(CommentType::class, $commentaire);
+
+		return $this->render('Front/users/profile2.html.twig', [
+			'user' => $user,
+			'adverts' => $adverts ?? [],
+			'infos' => $infos,
+			'offers' => $offers ?? [],
+            'form' => $form->createView(),
+            'commentaires' => $commentaires,
+            'platforms' => $platforms ?? [],
+            'page' => $page
+		]);
+	}
+
 	/**
 	 * @Route(path="/edit/{slug}", name="edit")
 	 * @param Request $request

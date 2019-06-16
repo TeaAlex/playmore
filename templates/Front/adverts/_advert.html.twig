@@ -1,7 +1,7 @@
 
 {% for advert in adverts %}
-    <div class="bg-white p-5 shadow rounded flex flex-col justify-between m-4" style="height: 250px; width: 568px">
-        {% include 'Front/adverts/_profile_name_city.html.twig' with {'advert': advert} %}
+    <div class="bg-white p-5 shadow rounded flex flex-col justify-between mr-6 my-4" style="height: 250px; width: 568px">
+        {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
         <div class="flex justify-between items-center">
             <div class="flex">
                 <img style="width: 65px; height: 82px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">

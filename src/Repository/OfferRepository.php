@@ -81,10 +81,11 @@ SQL;
 		$rsm->addScalarResult('game_offer_img_name','game_offer_img_name');
 		$rsm->addScalarResult('game_offer_platform','game_offer_platform');
 		$rsm->addScalarResult('advert_user_slug','advert_user_slug');
+		$rsm->addScalarResult('offer_created_by_img', 'offer_created_by_img');
 
 		$sql = <<<SQL
 			SELECT o.id offer_id, o.created_by_id offer_created_by, o.price, o.start_date, o.end_date,
-			       u2.slug offer_created_by_slug, u2.username offer_created_by_username,
+			       u2.slug offer_created_by_slug, u2.username offer_created_by_username, u2.img_name offer_created_by_img,
 			       os.name offer_status,
 			       a.id advert_id, ak.name advert_name, a.created_by_id advert_created_by,
 			       g.name game_advert_name, g.img_name game_advert_img_name, p.name game_advert_platform,
@@ -120,5 +121,54 @@ DQL;
 		])->getResult();
 
 	}
+
+    public function getByUser($userId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('offer_id', 'offer_id');
+        $rsm->addScalarResult('advert_id', 'advert_id');
+        $rsm->addScalarResult('price', 'price');
+        $rsm->addScalarResult('start_date', 'start_date');
+        $rsm->addScalarResult('end_date', 'end_date');
+        $rsm->addScalarResult('game_name', 'game_name');
+        $rsm->addScalarResult('game_img_name', 'game_img_name');
+        $rsm->addScalarResult('platform', 'platform');
+        $rsm->addScalarResult('username', 'username');
+        $rsm->addScalarResult('advert_kind', 'advert_kind');
+
+        $sql = <<<SQL
+            SELECT o.id offer_id, o.advert_id, o.price, o.start_date, o.end_date,
+                   g.name game_name, g.img_name game_img_name, 
+                   p.name platform,
+                   u.username, 
+                   ak.name advert_kind
+            FROM offer o
+            JOIN advert a on o.advert_id = a.id
+            JOIN advert_kind ak on a.advert_kind_id = ak.id
+            JOIN user u on a.created_by_id = u.id
+            LEFT JOIN game_platform gp on o.game_platform_id = gp.id
+            LEFT JOIN game g on gp.game_id = g.id
+            LEFT JOIN platform p on gp.platform_id = p.id
+            WHERE o.created_by_id = :userId
+SQL;
+        return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters(['userId' => $userId])->getResult();
+
+    }
+
+    public function findByUserAndAdvert($userId, $advertId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+
+        $sql = <<<SQL
+                SELECT o.id
+                FROM offer o
+                WHERE o.advert_id = :advertId AND created_by_id = :userId
+SQL;
+        return $this->getEntityManager()
+            ->createNativeQuery($sql, $rsm)
+            ->setParameters(['advertId' => $advertId, 'userId' => $userId])
+            ->getResult();
+    }
 
 }

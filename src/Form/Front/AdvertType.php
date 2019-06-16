@@ -73,7 +73,7 @@ class AdvertType extends AbstractType
             ->add('gameWanted', EntityType::class, [
             	'class' => Game::class,
 	            'choice_label' => 'name',
-	            'label' => 'Jeu voulu',
+	            'label' => 'Jeu recherché',
 	            'placeholder' => '',
 	            'required' => false,
 	            'mapped' => false,
