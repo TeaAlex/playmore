@@ -143,7 +143,7 @@ SQL;
             $advertKinds = implode(',', $params['advert_kind']);
             $where .= "AND ak.id IN ($advertKinds)";
         }
-	    if(isset($params['platform']) && !empty($params['platform'])){
+	    if(isset($params['platform']) && !empty($params['platform'][0])){
 	        $platforms = implode(',', $params['platform']);
 		    $where .= " AND p.id IN ($platforms)";
 	    }
