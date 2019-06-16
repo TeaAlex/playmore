@@ -45,10 +45,12 @@
                 <button class="bg-playmore-blue font-bold p-4 rounded text-playmore-blue text-playmore-blue-lightest tracking-wide uppercase w-full">Rechercher</button>
             </form>
         </div>
-        <div class="mx-auto">
-            <h1 class="font-bold uppercase text-playmore-purple-500 mt-12 text-2xl">Annonces</h1>
-            <div class="flex flex-wrap justify-start items-start">
-                {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+        <div class="mx-auto w-2/3">
+            <div class="flex flex-col">
+                <h1 class="font-bold uppercase text-playmore-purple-500 mt-12 text-2xl ml-12">Annonces</h1>
+                <div class="flex flex-wrap justify-center items-center">
+                    {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+                </div>
             </div>
         </div>
     </div>

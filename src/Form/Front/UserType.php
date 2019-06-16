@@ -23,8 +23,6 @@ class UserType extends AbstractType
 				"label" => "Photo de profil",
 				"required" => false
 			])
-			->add('city', TextType::class, ['label' => 'Ville'])
-			->add('postalCode', IntegerType::class, ['label' => 'Code Postal'])
 			// TODO : add event to check if user is admin then add roles
 //			->add('roles', ChoiceType::class, [
 //				'choices'  => [

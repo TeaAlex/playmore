@@ -8,17 +8,15 @@
             <div class="w-1/2 p-4">
                 {{ form_row(form.username) }}
                 {{ form_row(form.email) }}
-                {{ form_row(form.city) }}
-                {{ form_row(form.postalCode) }}
                 {#{{ form_row(form.roles) }}#}
-            </div>
-            <div class="w-1/2 p-4">
-                {{ form_row(form.imgFile) }}
-                {{ form_row(form.platforms) }}
                 <div>
                     <label for="" class="font-bold uppercase mb-2 block text-playmore-text">Votre adresse</label>
                     <input type="search" id="address-input" name="address" placeholder="Votre adresse" value="{{ app.user.address }}" />
                 </div>
+            </div>
+            <div class="w-1/2 p-4">
+                {{ form_row(form.imgFile) }}
+                {{ form_row(form.platforms) }}
             </div>
         </div>
         <div class="bg-grey-lighter flex p-4 rounded-b justify-end">

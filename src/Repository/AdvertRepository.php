@@ -77,6 +77,7 @@ class AdvertRepository extends ServiceEntityRepository
 			JOIN user u ON a.created_by_id = u.id
 			$where
 			GROUP BY a.id
+			ORDER BY a.created_at DESC
 SQL;
 		return $this->getEntityManager()->createNativeQuery($sql, $rsm)->setParameters($params)->getResult();
     }
@@ -183,6 +184,7 @@ SQL;
         WHERE g.name LIKE :game $where
 		GROUP BY a.id
         $having
+        ORDER BY a.created_at DESC
         ";
 
         $stmt = $conn->prepare($sql);
