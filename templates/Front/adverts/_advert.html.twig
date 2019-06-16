@@ -7,7 +7,7 @@
                 <img style="width: 65px; height: 82px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                 <div class="flex flex-col justify-center ml-3">
                     <p class="font-bold text-playmore-text pb-1">{{ advert.game_owned_name }}</p>
-                    <p class="text-playmore-purple-400">{{ advert.game_owned_platform }}</p>
+                    <p class="text-playmore-purple-400" style="color: {{ advert.color }}">{{ advert.game_owned_platform }}</p>
                 </div>
             </div>
             <a href="{{ path('advert_show', {'id': advert.advert_id}) }}">

@@ -44,6 +44,7 @@ class AdvertRepository extends ServiceEntityRepository
     	$rsm->addScalarResult('created_at','created_at');
     	$rsm->addScalarResult('city','city');
     	$rsm->addScalarResult('postal_code','postal_code');
+    	$rsm->addScalarResult('color', 'color');
 
 		$params = [];
 		if($userId === null && $all === true){
@@ -61,7 +62,7 @@ class AdvertRepository extends ServiceEntityRepository
 			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, created_at,
 			       IFNULL(COUNT(o.id), 0) offer_cnt,
 			       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
-			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
+			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform, p.color,
        			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
 			FROM advert a
 		  	JOIN advert_status astat ON a.advert_status_id = astat.id
@@ -105,13 +106,15 @@ SQL;
 		$rsm->addScalarResult('city','city');
 		$rsm->addScalarResult('postal_code','postal_code');
 		$rsm->addScalarResult('description', 'description');
+		$rsm->addScalarResult('game_owned_plat_color', 'game_owned_plat_color');
+		$rsm->addScalarResult('game_wanted_plat_color', 'game_wanted_plat_color');
 
 		$sql = <<<SQL
 			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, a.created_at, a.description,
 			       IFNULL(COUNT(o.id), 0) offer_cnt,
 			       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
-			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
-       			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
+			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform, p.color game_owned_plat_color,
+       			   g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform, p2.color game_wanted_plat_color
 			FROM advert a
 		  	JOIN advert_status astat ON a.advert_status_id = astat.id
 		  	JOIN advert_kind ak ON a.advert_kind_id = ak.id
@@ -163,7 +166,7 @@ SQL;
         $sql = "
         SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, a.created_at,
 		       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
-		       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform,
+		       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform, p.color,
 		       g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform
                $select
 		FROM advert a
