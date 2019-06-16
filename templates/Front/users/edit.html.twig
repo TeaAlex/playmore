@@ -1,7 +1,7 @@
 {% extends 'Front/base.html.twig' %}
 
 {% block content %}
-    <div class="w-1/2 h-auto mx-auto px-8 py-16">
+    <div class="w-2/3 h-auto mx-auto px-8 py-16">
         <h1 class="text-primary mb-6">Editer Profil</h1>
         {{ form_start(form) }}
         <div class="bg-white p-8 flex">
@@ -15,6 +15,10 @@
             <div class="w-1/2 p-4">
                 {{ form_row(form.imgFile) }}
                 {{ form_row(form.platforms) }}
+                <div>
+                    <label for="" class="font-bold uppercase mb-2 block text-playmore-text">Votre adresse</label>
+                    <input type="search" id="address-input" name="address" placeholder="Votre adresse" value="{{ app.user.address }}" />
+                </div>
             </div>
         </div>
         <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
@@ -23,5 +27,9 @@
         </div>
         {{ form_end(form)}}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('geolocate_address') }}
 {% endblock %}
 

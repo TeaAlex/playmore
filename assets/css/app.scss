@@ -205,9 +205,6 @@ header{
           opacity: 0;
         }
       }
-      option {
-        font-style: italic;
-      }
     }
   }
 
@@ -563,11 +560,7 @@ textarea{
 
 
 
-  .advert-list {
-    width: max-content;
-    margin: 0 auto;
-    max-width: 81%;
-  }
+
 
 
   //MODAL
@@ -667,4 +660,19 @@ button.btn-confirm:active {
   margin-bottom: 16px;
 }
 
+[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: white;
+}
 
+input[type=checkbox]:checked {
+  background: #2a8eff;
+}
+
+input[type=checkbox]:checked + label {
+  color: #2a8eff;
+  font-weight: 700;
+}

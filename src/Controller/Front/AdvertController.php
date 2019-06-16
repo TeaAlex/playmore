@@ -6,9 +6,11 @@ namespace App\Controller\Front;
 use App\Entity\Advert;
 use App\Entity\GamePlatform;
 use App\Form\Front\AdvertType;
+use App\Repository\AdvertKindRepository;
 use App\Repository\AdvertRepository;
 use App\Repository\AdvertStatusRepository;
 use App\Repository\OfferRepository;
+use App\Repository\PlatformRepository;
 use App\Security\AdvertVoter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -30,15 +32,48 @@ class AdvertController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function showAll(): Response
+    public function showAll(Request $request,
+                            AdvertRepository $advertRepository,
+                            PlatformRepository $platformRepository,
+                            AdvertKindRepository $advertKindRepository): Response
     {
-
-    	if(is_object($this->getUser())){
+        $user = $this->getUser() ?? null;
+    	if(is_object($user)){
 		    $userId = $this->getUser()->getId();
 	    }
-    	$em = $this->getDoctrine()->getManager();
-    	$adverts = $em->getRepository(Advert::class)->all($userId ?? null, true);
-        return $this->render('Front/adverts/show_all.html.twig', ['adverts' => $adverts]);
+        $platforms = $platformRepository->findAll();
+        $advertKinds = $advertKindRepository->findAll();
+        $distances = [5,10,15,20];
+        if($request->getMethod() == 'POST'){
+            $req = $request->request;
+            $params = [
+                'game' => $req->get('game', null),
+                'userId' => $userId ?? null,
+                'platform' => $req->get('platform', []),
+                'advert_kind' => $req->get('advert_kind', []),
+                'distance' => $req->get('distance'),
+                'category' => null,
+            ];
+            if(is_object($user)){
+                $params['lat'] = $this->getUser()->getLat();
+                $params['lon'] = $this->getUser()->getLon();
+            }
+            $adverts = $advertRepository->search($params);
+            return $this->render('Front/adverts/show_all.html.twig', [
+                'adverts' => $adverts,
+                'platforms' => $platforms,
+                'advertKinds' => $advertKinds,
+                'distances' => $distances
+            ]);
+        }
+
+    	$adverts = $advertRepository->all($userId ?? null, true);
+        return $this->render('Front/adverts/show_all.html.twig', [
+            'adverts' => $adverts,
+            'platforms' => $platforms,
+            'advertKinds' => $advertKinds,
+            'distances' => $distances
+        ]);
     }
 
 	/**

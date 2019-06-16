@@ -18,8 +18,10 @@ use App\Repository\OfferRepository;
 use App\Repository\UserRepository;
 use App\Security\CommentVoter;
 use App\Security\UserVoter;
+use App\Services\GeoCodingService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +35,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserController extends AbstractController {
 
+    /**
+     * @Route(path="/geolocate", name="geolocate", methods={"GET"})
+     */
+    public function getUserLocation(ObjectManager $em, Request $request, GeoCodingService $geoCodingService)
+    {
+        $lat = $request->query->get('lat');
+        $lon = $request->query->get('lon');
+        /** @var $user User  **/
+        $user = $this->getUser();
+        [$city, $postcode, $address] = $geoCodingService->reverseGeoCoding($lat, $lon);
+        $user->setLat($lat);
+        $user->setLon($lon);
+        $user->setCity($city);
+        $user->setPostalCode($postcode);
+        $user->setAddress($address);
+        $em->persist($user);
+        $em->flush();
+        return new JsonResponse($address, 200);
+    }
 
 	/**
 	 * @Route(path="/{slug}", name="profile")
@@ -70,11 +91,19 @@ class UserController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
 	 */
-	public function edit(User $user, Request $request, ObjectManager $em) {
+	public function edit(User $user, Request $request, ObjectManager $em, GeoCodingService $geo) {
 		$this->denyAccessUnlessGranted(UserVoter::OWNER, $user);
 		$form = $this->createForm(UserType::class, $user);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
+		    $address = $geo->search($request->request->get("address"));
+		    if(!empty($address["hits"])){
+		        $user->setAddress($address["query"]);
+                $user->setLat($address["hits"][0]["_geoloc"]["lat"]);
+                $user->setLon($address["hits"][0]["_geoloc"]["lng"]);
+                $user->setCity($address["hits"][0]["city"][0]);
+                $user->setPostalCode($address["hits"][0]["postcode"][0]);
+            }
 			$em->flush();
 			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 		}
@@ -206,6 +235,8 @@ class UserController extends AbstractController {
 		}
 		return $this->render('Front/users/edit_game.html.twig', ['form' => $form->createView()]);
 	}
+
+
 
 
 
