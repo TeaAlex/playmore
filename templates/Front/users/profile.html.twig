@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="px-2 flex flex-col justify-center" style="width: 56%">
-                            <p class="text-primary font-bold">{{ user.username }}</p>
+                            <p class="text-playmore-purple-500 font-bold">{{ user.username }}</p>
                             {#<p class="text-sm pt-2">Pontault-Combault</p>#}
                             <div class="flex pt-2 platform-icons-wrap">
                             {% for platform in user.platforms %}
@@ -127,7 +127,7 @@
                                             {% endfor %}
                                         {% endif %}
                                     </div>
-                                    <p class="text-primary font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>
+                                    <p class="text-playmore-purple-500 font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>
                                     <p class="text-sm pt-2">{{ comment.content }}</p>
                                 </div>
 
@@ -172,7 +172,7 @@
                                              {% endfor %}
                                          {% endif %}
                                      </div>
-                                     <p class="text-primary font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>
+                                     <p class="text-playmore-purple-500 font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>
                                      <p class="text-sm pt-2">{{ comment.content }}</p>
                                  </div>
 
@@ -232,7 +232,7 @@
                 <div class="flex flex-wrap justify-between">
                 {% if adverts is empty and app.user.id is same as (user.id) %}
                     <p class="text-darker font-semibold text-xl">Tu n'as pas encore d'annonces, afin de commencer à en créer rend toi
-                        <a href="{{ path('advert_new') }}" class="text-primary font-bold">ici</a></p>
+                        <a href="{{ path('advert_new') }}" class="text-playmore-purple-500 font-bold">ici</a></p>
                 {% elseif adverts is not empty%}
                     {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
                 {% else %}

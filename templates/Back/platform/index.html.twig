@@ -5,7 +5,7 @@
 {% block body %}
 <div class="w-5/6 h-auto mx-auto px-8 py-16 bg-grey-lighter">
     <div class="flex justify-between items-center">
-        <h1 class="text-4xl text-primary font-bold inline-block">Liste des Plateformes</h1>
+        <h1 class="text-4xl text-playmore-purple-500 font-bold inline-block">Liste des Plateformes</h1>
         <a class="btn btn-secondary" href="{{ path('platform_new') }}">Ajouter</a>
     </div>
     <table class="table-auto border-collapse w-full mt-12 rounded bg-white" cellpadding="0" cellspacing="0">
@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ platform.id }}</td>
                 <td>{{ platform.name }}</td>
-                <td><a href="{{ path('platform_edit', {'slug': platform.slug}) }}" class="font-bold text-primary">Editer</a></td>
+                <td><a href="{{ path('platform_edit', {'slug': platform.slug}) }}" class="font-bold text-playmore-purple-500">Editer</a></td>
                 <td>{{ include('Back/platform/_delete_form.html.twig') }}</td>
             </tr>
         {% else %}

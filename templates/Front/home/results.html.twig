@@ -6,11 +6,11 @@
 {% block content %}
 
     <div class="h-full w-2/3 mx-auto mt-4">
-        <h1 class="font-bold text-primary mt-12">Annonces pour la recherche "{{ query }}"</h1>
+        <h1 class="font-bold text-playmore-purple-500 mt-12">Annonces pour la recherche "{{ query }}"</h1>
         <div class="flex flex-wrap justify-between">
             {% if adverts is empty %}
                 <p class="text-darker font-semibold text-xl">{{ "Il n'y a pas d'annonce répondant à votre demande" }}
-                    <a href="{{ path('app_security_home') }}" class="text-primary font-bold">Retour à l'accueil</a></p>
+                    <a href="{{ path('app_security_home') }}" class="text-playmore-purple-500 font-bold">Retour à l'accueil</a></p>
             {% else %}
                 {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
             {% endif %}

@@ -54,17 +54,6 @@ class AdvertType extends AbstractType
 	            'label' => 'Type d\'annonce',
 	            'placeholder' => ''
             ])
-            ->add('startDate', DateType::class, [
-            	'widget' => 'single_text',
-	            'label' => 'Date de début',
-	            'data' => new \DateTime('now'),
-	            'attr' => ["class" => ""]
-            ])
-            ->add('endDate', DateType::class, [
-	            'widget' => 'single_text',
-	            'label' => 'Date de fin',
-	            'data' => new \DateTime('now')
-            ])
             ->add('gameOwned', EntityType::class, [
             	'class' => Game::class,
 	            'choice_label' => 'name',

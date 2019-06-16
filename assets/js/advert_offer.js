@@ -9,7 +9,7 @@ backdrop.classList.add('backdrop');
 const modal = document.createElement('div');
 modal.classList.add('modal');
 const modalTitle = document.createElement('h1');
-modalTitle.classList.add('text-primary');
+modalTitle.classList.add('text-playmore-purple-500');
 modalTitle.classList.add('font-bold');
 modalTitle.innerText = 'Faire une offre';
 const modalContent = document.createElement('div');
