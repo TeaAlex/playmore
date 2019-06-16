@@ -127,6 +127,26 @@ class User implements UserInterface, \Serializable
     protected $resetToken;
 
     /**
+     * @var $lat float
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @var $lon float
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $lon;
+
+
+    /**
+     * @var $address string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+
+    /**
      * @return mixed
      */
     public function getSlug()
@@ -553,6 +573,62 @@ class User implements UserInterface, \Serializable
 
 		return $this;
 	}
+
+    /**
+     * @return float
+     */
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    /**
+     * @param float $lat
+     * @return User
+     */
+    public function setLat(float $lat): User
+    {
+        $this->lat = $lat;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLon(): ?float
+    {
+        return $this->lon;
+    }
+
+    /**
+     * @param float $lon
+     * @return User
+     */
+    public function setLon(float $lon): User
+    {
+        $this->lon = $lon;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string|null $address
+     * @return User
+     */
+    public function setAddress(?string $address): User
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+
 
 
 }

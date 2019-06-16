@@ -75,7 +75,7 @@
                     <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                     <div class="flex flex-col justify-center ml-6">
                         <p class="font-bold text-2xl text-playmore-text pb-1">{{ advert.game_owned_name }}</p>
-                        <p class="text-playmore-purple-400 text-xl">{{ advert.game_owned_platform }}</p>
+                        <p class="text-xl" style="color: {{ advert.game_owned_plat_color }}">{{ advert.game_owned_platform }}</p>
                     </div>
                 </div>
                 {% if advert.price is not null %}
@@ -89,7 +89,7 @@
                     <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  advert.game_wanted_img_name  ) }}" alt="">
                     <div class="flex flex-col justify-center ml-6">
                         <p class="font-bold text-2xl text-playmore-text pb-1">{{ advert.game_wanted_name }}</p>
-                        <p class="text-playmore-purple-400 text-xl">{{ advert.game_wanted_platform }}</p>
+                        <p class="text-xl" style="color: {{ advert.game_wanted_plat_color }}">{{ advert.game_wanted_platform }}</p>
                     </div>
                 </div>
             </div>

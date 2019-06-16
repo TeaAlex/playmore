@@ -83,7 +83,6 @@ header{
 
   .mycoins {
     background-color: white;
-    opacity: 0.4;
     width: 90%;
     height: 60px;
     border-radius: 30px;
@@ -94,6 +93,7 @@ header{
     text-transform: uppercase;
     font-size: 0.9em;
     font-weight: bold;
+    border:1px solid $secondary;
   }
 
   .mycoins:hover {
@@ -204,9 +204,6 @@ header{
           transition: opacity 0.45s ease;
           opacity: 0;
         }
-      }
-      option {
-        font-style: italic;
       }
     }
   }
@@ -563,11 +560,7 @@ textarea{
 
 
 
-  .advert-list {
-    width: max-content;
-    margin: 0 auto;
-    max-width: 81%;
-  }
+
 
 
   //MODAL
@@ -662,4 +655,19 @@ button.btn-confirm:active {
   margin-bottom: 16px;
 }
 
+[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: white;
+}
 
+input[type=checkbox]:checked {
+  background: #2a8eff;
+}
+
+input[type=checkbox]:checked + label {
+  color: #2a8eff;
+  font-weight: 700;
+}

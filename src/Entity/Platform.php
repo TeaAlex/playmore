@@ -38,6 +38,12 @@ class Platform
     private $slug;
 
     /**
+     * @var string|null
+     * @ORM\Column(name="color", type="string")
+     */
+    private $color;
+
+    /**
      * @return mixed
      */
     public function getSlug()
@@ -96,6 +102,27 @@ class Platform
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string|null $color
+     * @return Platform
+     */
+    public function setColor(?string $color): Platform
+    {
+        $this->color = $color;
+        return $this;
+    }
+
+
+
 
 
 
