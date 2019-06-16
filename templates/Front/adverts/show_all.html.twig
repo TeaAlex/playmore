@@ -8,10 +8,10 @@
                     <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Plateformes</p>
                     <div class="my-4 font-semibold">
                         {% for platform in platforms %}
-                        <div class="mb-4 flex items-center">
-                            <input class="mr-3" type="checkbox" name="platform[]" value="{{ platform.id }}" id="{{ platform.name }}">
-                            <label for="{{ platform.name }}">{{ platform.name }}</label>
-                        </div>
+                            <div class="mb-4 flex items-center">
+                                <input class="mr-3" type="checkbox" name="platform[]" value="{{ platform.id }}" id="{{ platform.name }}">
+                                <label for="{{ platform.name }}">{{ platform.name }}</label>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -19,24 +19,24 @@
                     <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Type d'annonce</p>
                     <div class="my-4 font-semibold ">
                         {% for advertKind in advertKinds %}
-                        <div class="mb-4 flex items-center">
-                            <input class="mr-3" type="checkbox" name="advert_kind[]" value="{{ advertKind.id }}" id="{{ advertKind.name }}">
-                            <label for="{{ advertKind.name }}">{{ advertKind.name }}</label>
-                        </div>
+                            <div class="mb-4 flex items-center">
+                                <input class="mr-3" type="checkbox" name="advert_kind[]" value="{{ advertKind.id }}" id="{{ advertKind.name }}">
+                                <label for="{{ advertKind.name }}">{{ advertKind.name }}</label>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
-                {% if app.user.id %}
-                <div class="mb-8">
-                    <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
-                    <div class="my-4 font-semibold">
-                        <select name="distance" id="">
-                            {% for distance in distances %}
-                                <option value="{{ distance }}">{{ distance }} km</option>
-                            {% endfor %}
-                        </select>
+                {% if app.user is not null %}
+                    <div class="mb-8">
+                        <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
+                        <div class="my-4 font-semibold">
+                            <select name="distance" id="">
+                                {% for distance in distances %}
+                                    <option value="{{ distance }}">{{ distance }} km</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                </div>
                 {% endif %}
                 <div class="mb-8">
                     <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Jeux</p>
