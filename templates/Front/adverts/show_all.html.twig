@@ -9,7 +9,9 @@
                     <div class="my-4 font-semibold">
                         {% for platform in platforms %}
                             <div class="mb-4 flex items-center">
-                                <input class="mr-3" type="checkbox" name="platform[]" value="{{ platform.id }}" id="{{ platform.name }}">
+                                <input class="mr-3" type="checkbox" name="platform[]" value="{{ platform.id }}" id="{{ platform.name }}"
+                                    {% if platform.id in filters.platform %} checked="checked" {% endif %}
+                                >
                                 <label for="{{ platform.name }}">{{ platform.name }}</label>
                             </div>
                         {% endfor %}
@@ -20,7 +22,9 @@
                     <div class="my-4 font-semibold ">
                         {% for advertKind in advertKinds %}
                             <div class="mb-4 flex items-center">
-                                <input class="mr-3" type="checkbox" name="advert_kind[]" value="{{ advertKind.id }}" id="{{ advertKind.name }}">
+                                <input class="mr-3" type="checkbox" name="advert_kind[]" value="{{ advertKind.id }}" id="{{ advertKind.name }}"
+                                    {% if advertKind.id in filters.advert_kind %} checked="checked" {% endif %}
+                                >
                                 <label for="{{ advertKind.name }}">{{ advertKind.name }}</label>
                             </div>
                         {% endfor %}
@@ -31,8 +35,11 @@
                         <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
                         <div class="my-4 font-semibold">
                             <select name="distance" id="">
+                                <option value="">Distance</option>
                                 {% for distance in distances %}
-                                    <option value="{{ distance }}">{{ distance }} km</option>
+                                    <option value="{{ distance }}"
+                                    {% if distance in filters.distance %} selected="selected" {% endif %}
+                                    >{{ distance }} km</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -40,7 +47,7 @@
                 {% endif %}
                 <div class="mb-8">
                     <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Jeux</p>
-                    <input type="text" class="mt-4 p-3 rounded w-full" name="game">
+                    <input type="text" class="mt-4 p-3 rounded w-full" name="game" {% if filters.game is not null %} value="{{ filters.game }}" {% endif %}>
                 </div>
                 <button class="bg-playmore-blue font-bold p-4 rounded text-playmore-blue text-playmore-blue-lightest tracking-wide uppercase w-full">Rechercher</button>
             </form>

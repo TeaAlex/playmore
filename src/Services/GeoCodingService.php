@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use App\Entity\User;
+
 class GeoCodingService
 {
 
@@ -21,13 +23,7 @@ class GeoCodingService
         ]);
         $res = json_decode(curl_exec($curl), true);
         curl_close($curl);
-        $city = $res["hits"][0]["city"][0];
-        $postcode = $res["hits"][0]["postcode"][0];
-        $street = $res["hits"][0]["locale_names"][0];
-        $administrative = $res["hits"][0]["administrative"][0];
-        $address = "{$street}, {$city}, {$administrative}, {$postcode}";
-
-        return [$city, $postcode, $address];
+        return $res;
     }
 
     public function search($query)
@@ -48,6 +44,35 @@ class GeoCodingService
         $res = json_decode(curl_exec($curl), true);
         curl_close ($curl);
         return $res;
+    }
+
+    public function setUserGeo($res, User &$user)
+    {
+        if(empty($res["hits"])){
+            return;
+        }
+        $res = $res["hits"][0];
+        $street = "";
+        $postcode = $res["postcode"][0];
+        if($res["is_city"] == true){
+            $city = $res["locale_names"][0];
+        } else {
+            $city = $res["city"][0];
+            $street = $res["locale_names"][0];
+        }
+        $lon = $res["_geoloc"]["lng"];
+        $lat = $res["_geoloc"]["lat"];
+        $administrative = $res["administrative"][0];
+        if(isset($res["query"])){
+            $address = $user->setAddress($res["query"]);
+        } else {
+            $address = "{$street} {$city}, {$administrative}, {$postcode}";
+        }
+        $user->setAddress($address);
+        $user->setLon($lon);
+        $user->setLat($lat);
+        $user->setPostalCode($postcode);
+        $user->setCity($city);
     }
 
 }

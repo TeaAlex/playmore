@@ -44,15 +44,11 @@ class UserController extends AbstractController {
         $lon = $request->query->get('lon');
         /** @var $user User  **/
         $user = $this->getUser();
-        [$city, $postcode, $address] = $geoCodingService->reverseGeoCoding($lat, $lon);
-        $user->setLat($lat);
-        $user->setLon($lon);
-        $user->setCity($city);
-        $user->setPostalCode($postcode);
-        $user->setAddress($address);
+        $infos = $geoCodingService->reverseGeoCoding($lat, $lon);
+        $geoCodingService->setUserGeo($infos, $user);
         $em->persist($user);
         $em->flush();
-        return new JsonResponse($address, 200);
+        return new JsonResponse($user->getAddress(), 200);
     }
 
 	/**
@@ -67,7 +63,7 @@ class UserController extends AbstractController {
 	 * @return Response
 	 */
 	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
-		$adverts = $advertRepository->all($user->getId());
+		$adverts = $advertRepository->all($user->getId(), $user->getLat(), $user->getLon());
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$offers = $offerRepository->findUserOffers($user->getId());
 		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
@@ -103,7 +99,7 @@ class UserController extends AbstractController {
                 $platforms = $userRepository->getGamesByUser($user->getId());
                 break;
             case 'advert':
-                $adverts = $advertRepository->all($user->getId());
+                $adverts = $advertRepository->all($user->getId(), false, $user->getLat(), $user->getLon());
                 break;
             case 'offer':
                 $offers = $offerRepository->getByUser($user->getId());
@@ -141,13 +137,7 @@ class UserController extends AbstractController {
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
 		    $address = $geo->search($request->request->get("address"));
-		    if(!empty($address["hits"])){
-		        $user->setAddress($address["query"]);
-                $user->setLat($address["hits"][0]["_geoloc"]["lat"]);
-                $user->setLon($address["hits"][0]["_geoloc"]["lng"]);
-                $user->setCity($address["hits"][0]["city"][0]);
-                $user->setPostalCode($address["hits"][0]["postcode"][0]);
-            }
+		    $geo->setUserGeo($address, $user);
 			$em->flush();
 			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
 		}

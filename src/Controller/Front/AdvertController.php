@@ -40,6 +40,8 @@ class AdvertController extends AbstractController
         $user = $this->getUser() ?? null;
     	if(is_object($user)){
 		    $userId = $this->getUser()->getId();
+		    $lat = $user->getLat();
+		    $lon = $user->getLon();
 	    }
         $platforms = $platformRepository->findAll();
         $advertKinds = $advertKindRepository->findAll();
@@ -63,16 +65,26 @@ class AdvertController extends AbstractController
                 'adverts' => $adverts,
                 'platforms' => $platforms,
                 'advertKinds' => $advertKinds,
-                'distances' => $distances
+                'distances' => $distances,
+                'filters' => $params
             ]);
         }
 
-    	$adverts = $advertRepository->all($userId ?? null, true);
+    	$adverts = $advertRepository->all($userId ?? null, true, $lat ?? null, $lon ?? null );
+        $filters = [
+            'game' => null,
+            'userId' => null,
+            'platform' => null,
+            'advert_kind' => null,
+            'distance' => null,
+            'category' => null,
+        ];
         return $this->render('Front/adverts/show_all.html.twig', [
             'adverts' => $adverts,
             'platforms' => $platforms,
             'advertKinds' => $advertKinds,
-            'distances' => $distances
+            'distances' => $distances,
+            "filters" => $filters
         ]);
     }
 
