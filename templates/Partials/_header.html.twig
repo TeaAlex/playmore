@@ -1,7 +1,11 @@
 <header style="border-bottom: 4px solid #2a8eff;" class="px-16 flex items-center justify-between">
-    <a href="{{ path('app_security_home') }}">
-        <img src="{{ asset('images/playmoreheader.png') }}">
-    </a>
+    <div class="flex items-center">
+        <a href="{{ path('app_security_home') }}" class="mr-8">
+            <img src="{{ asset('images/playmoreheader.png') }}">
+        </a>
+        <input type="text" placeholder="Rechercher" class="border-2 border-playmore-blue font-bold p-3 rounded" style="width: 300px">
+    </div>
+
     <div class="flex items-center relative">
         <div class="text-playmore-text font-bold text-xl flex items-center mr-3">
             {% if app.user is not null %}
