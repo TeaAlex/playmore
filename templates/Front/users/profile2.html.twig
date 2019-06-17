@@ -4,6 +4,7 @@
     <div class="flex">
         <aside class="min-h-screen bg-white p-8" style="width: 300px">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': user.imgName, 'username': user.username, 'city': user.city, 'postal_code': user.postalCode } %}
+            <a href="{{ path('user_edit', { 'slug': user.slug }) }}" class="bg-playmore-purple-500 font-bold mt-2 p-2 inline-block rounded text-playmore-purple-500 text-white">Editer</a>
             <div class="flex flex-col text-playmore-text font-bold text-xl mt-10 uppercase tracking-wide">
                 <a class="mb-6" href="{{ path('user_profile_2', {'slug': user.slug, 'page': 'game'}) }}">Jeux</a>
                 <a class="mb-6" href="{{ path('user_profile_2', {'slug': user.slug, 'page': 'advert'}) }}">Annonces</a>
