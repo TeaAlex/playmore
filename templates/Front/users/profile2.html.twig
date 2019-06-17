@@ -3,12 +3,12 @@
 {% block content %}
     <div class="flex">
         <aside class="min-h-screen bg-white p-8" style="width: 300px">
-            {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': app.user.imgName, 'username': app.user.username, 'city': app.user.city, 'postal_code': app.user.postalCode } %}
+            {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': user.imgName, 'username': user.username, 'city': user.city, 'postal_code': user.postalCode } %}
             <div class="flex flex-col text-playmore-text font-bold text-xl mt-10 uppercase tracking-wide">
-                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'game'}) }}">Jeux</a>
-                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'advert'}) }}">Annonces</a>
-                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'offer'}) }}">Offres</a>
-                <a class="mb-6" href="{{ path('user_profile_2', {'slug': app.user.slug, 'page': 'comment'}) }}">Avis</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': user.slug, 'page': 'game'}) }}">Jeux</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': user.slug, 'page': 'advert'}) }}">Annonces</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': user.slug, 'page': 'offer'}) }}">Offres</a>
+                <a class="mb-6" href="{{ path('user_profile_2', {'slug': user.slug, 'page': 'comment'}) }}">Avis</a>
             </div>
         </aside>
         <main class="w-full h-screen p-10">

@@ -20,6 +20,7 @@
             {% endif %}
         </div>
         {% if app.user is defined and app.user is not null %}
+        <a class="bg-playmore-purple-500 font-bold mr-2 p-2 rounded text-playmore-purple-500 text-white" href="{{ path('app_security_payment') }}">{{ app.user.coins }} PMC</a>
         <a class="flex items-center" href="{{ path('user_profile_2', {'slug': app.user.slug }) }}">
            <img src="{{ asset('images/user/' ~  app.user.imgName  ) }}" alt="{{ app.user.username }}" class="rounded-full message-user-icon">
            <p class="text-playmore-purple-500 font-bold text-lg">{{ app.user.username }}</p>
