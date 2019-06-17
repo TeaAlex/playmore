@@ -1,24 +1,50 @@
-<header style="border-bottom: 4px solid #2a8eff;">
+<header style="border-bottom: 4px solid #2a8eff;" class="px-16 flex items-center justify-between">
     <a href="{{ path('app_security_home') }}">
-        <img src="{{ asset('images/playmoreheader.png') }}" class="logo-size">
+        <img src="{{ asset('images/playmoreheader.png') }}">
     </a>
-    <div>
-
-        {% if is_granted('ROLE_USER') %}
-            <a class="return-button" href="{{ path('app_security_payment') }}">Recharger</a>
-        {% endif %}
-        <a class="return-button" href="{{ path('advert_list') }}">Annonces</a>
-        {% if is_granted('ROLE_USER') %}
-        <a class="return-button" href="{{ path('user_profile_2' ,{'slug': app.user.slug}) }}">Profil</a>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-        <a class="return-button" href="{{ path('game_index') }}">Admin</a>
-        {% endif %}
-        {% if is_granted('ROLE_USER') %}
-        <a class="return-button" href="{{ path('app_security_logout') }}">Se déconnecter</a>
-        {% else %}
-        <a class="return-button" href="{{ path('app_security_login') }}">Se connecter</a>
-        <a class="return-button" href="{{ path('app_security_registration') }}">Créer un compte</a>
+    <div class="flex items-center relative">
+        <div class="text-playmore-text font-bold text-xl flex items-center mr-3">
+            {% if app.user is not null %}
+            <a href="{{ path('advert_new') }}" class="bg-playmore-blue flex items-center p-2 rounded text-sm text-white mx-2">
+                <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" fill="white" height="24" width="24" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="plus-square"><rect width="24" height="24" opacity="0"/><path d="M18 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm1 15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1z"/><path d="M15 11h-2V9a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2z"/></g></g></svg>
+                Ajouter une annonce
+            </a>
+            {% endif %}
+            <a href="{{ path('advert_list') }}" class="header-links">Annonces</a>
+            {% if app.user is null %}
+            <a href="{{ path('app_security_registration') }}" class="header-links">Créer un compte</a>
+            <a href="{{ path('app_security_login') }}" class="header-links">Connexion</a>
+            {% endif %}
+            {% if app.user is not null %}
+            <a href="{{ path('logout') }}" class="header-links">Deconnexion</a>
+            {% endif %}
+        </div>
+        {% if app.user is defined and app.user is not null %}
+        <a class="flex items-center" href="{{ path('user_profile_2', {'slug': app.user.slug }) }}">
+           <img src="{{ asset('images/user/' ~  app.user.imgName  ) }}" alt="{{ app.user.username }}" class="rounded-full message-user-icon">
+           <p class="text-playmore-purple-500 font-bold text-lg">{{ app.user.username }}</p>
+           <svg xmlns="http://www.w3.org/2000/svg" fill="#2a8eff" height="26" width="26" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="arrow-down"><rect width="24" height="24" transform="rotate(-90 12 12)" opacity="0"/><path d="M12 17a1.72 1.72 0 0 1-1.33-.64l-4.21-5.1a2.1 2.1 0 0 1-.26-2.21A1.76 1.76 0 0 1 7.79 8h8.42a1.76 1.76 0 0 1 1.59 1.05 2.1 2.1 0 0 1-.26 2.21l-4.21 5.1A1.72 1.72 0 0 1 12 17zm-3.91-7L12 14.82 16 10z"/></g></g></svg>
+        </a>
         {% endif %}
     </div>
+
+{#    <div>#}
+
+{#        {% if is_granted('ROLE_USER') %}#}
+{#            <a class="return-button" href="{{ path('app_security_payment') }}">Recharger</a>#}
+{#        {% endif %}#}
+{#        <a class="return-button" href="{{ path('advert_list') }}">Annonces</a>#}
+{#        {% if is_granted('ROLE_USER') %}#}
+{#        <a class="return-button" href="{{ path('user_profile_2' ,{'slug': app.user.slug}) }}">Profil</a>#}
+{#        {% endif %}#}
+{#        {% if is_granted('ROLE_ADMIN') %}#}
+{#        <a class="return-button" href="{{ path('game_index') }}">Admin</a>#}
+{#        {% endif %}#}
+{#        {% if is_granted('ROLE_USER') %}#}
+{#        <a class="return-button" href="{{ path('app_security_logout') }}">Se déconnecter</a>#}
+{#        {% else %}#}
+{#        <a class="return-button" href="{{ path('app_security_login') }}">Se connecter</a>#}
+{#        <a class="return-button" href="{{ path('app_security_registration') }}">Créer un compte</a>#}
+{#        {% endif %}#}
+{#    </div>#}
 </header>

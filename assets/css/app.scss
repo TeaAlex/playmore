@@ -32,10 +32,9 @@ header{
   display: flex;
   align-items: center;
   background-color: #fff;
-  height: 70px;
+  height: 80px;
   justify-content: space-between;
   img{
-    margin-left: 33px;
     height: 46px;
     object-fit: cover;
     width: initial;
@@ -73,6 +72,14 @@ header{
     opacity:1;
   }
 
+}
+
+.header-links {
+  @apply mx-2;
+  transition: all 0.2s ease-in;
+}
+.header-links:hover{
+  @apply text-playmore-blue;
 }
 
 .pmcoins {
