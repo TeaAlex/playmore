@@ -43,6 +43,7 @@ class AdvertType extends AbstractType
     	$gameOwned = $this->gameRepository->findGameNotInAdvertByUser($user->getId());
     	if($advert->getGameOwned() !== null){
     		$go = $advert->getGameOwned()->getGame();
+    		$gameOwned[] = $go;
 	    }
     	if( $advert->getGameWanted() !== null ){
     	    $gw = $advert->getGameWanted()->getGame();

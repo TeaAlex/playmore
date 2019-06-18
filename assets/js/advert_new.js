@@ -33,8 +33,8 @@ function triggerSelect() {
 
 // add platform if advertKind is exchange based on gameWanted choice
 function addPlatform() {
-  const form = document.querySelector('form');
-  const game = form.querySelector('#advert_gameWanted');
+  const form = document.querySelector('form[name="advert"]');
+  const game = document.querySelector('#advert_gameWanted');
   const axios = require('axios');
   axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   if(game !== null){
