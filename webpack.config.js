@@ -27,6 +27,7 @@ Encore
     .addEntry('advert_show','./assets/js/advert_show.js')
     .addEntry('geolocate','./assets/js/geolocate.js')
     .addEntry('geolocate_address','./assets/js/geolocate_address.js')
+    .addEntry('toggle_filter','./assets/js/toggle_filter.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

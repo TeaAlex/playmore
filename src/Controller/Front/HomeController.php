@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Repository\AdvertKindRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\PlatformRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +27,31 @@ class HomeController extends AbstractController
             'platforms' => $platformRepository->findAll(),
             'categories' => $categoryRepository->findAll(),
             'distances' => [5,10,15,20]
+        ]);
+    }
+
+
+    /**
+     * @Route("/filters", name="filters", methods={"GET"})
+     * @param PlatformRepository $platformRepository
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
+    public function renderFilters(PlatformRepository $platformRepository, CategoryRepository $categoryRepository, AdvertKindRepository $advertKindRepository)
+    {
+        return $this->render('Partials/_filters.html.twig', [
+            'platforms' => $platformRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
+            'distances' => [5,10,15,20],
+            'advertKinds' => $advertKindRepository->findAll(),
+            'filters' => [
+                'game' => null,
+                'userId' => null,
+                'platform' => null,
+                'advert_kind' => null,
+                'distance' => null,
+                'category' => null,
+            ]
         ]);
     }
 
