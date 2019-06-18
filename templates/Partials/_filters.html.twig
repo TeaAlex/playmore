@@ -1,0 +1,47 @@
+<div class="absolute w-full bg-white search-filters" style="left: 0; top: 80px; z-index: 2; padding: 2rem 18rem;">
+    <div class="flex">
+        <div class="mr-8">
+            <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Plateformes</p>
+            <div class="my-4 font-semibold">
+                {% for platform in platforms %}
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" name="platform[]" value="{{ platform.id }}" id="{{ platform.name }}"
+                                {% if platform.id in filters.platform %} checked="checked" {% endif %}
+                        >
+                        <label for="{{ platform.name }}">{{ platform.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mr-8">
+            <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Type d'annonce</p>
+            <div class="my-4 font-semibold ">
+                {% for advertKind in advertKinds %}
+                    <div class="mb-4 flex items-center">
+                        <input class="mr-3" type="checkbox" name="advert_kind[]" value="{{ advertKind.id }}" id="{{ advertKind.name }}"
+                                {% if advertKind.id in filters.advert_kind %} checked="checked" {% endif %}
+                        >
+                        <label for="{{ advertKind.name }}">{{ advertKind.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% if app.user is not null %}
+            <div class="mr-8">
+                <p class="text-lg tracking-wide uppercase font-bold text-playmore-purple-400">Distance < </p>
+                <div class="my-4 font-semibold">
+                    <select name="distance" id="">
+                        <option value="">Distance</option>
+                        {% for distance in distances %}
+                            <option value="{{ distance }}"
+                                    {% if distance in filters.distance %} selected="selected" {% endif %}
+                            >{{ distance }} km</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <button type="submit" class="bg-playmore-purple-500 font-bold p-2 rounded text-white">Valider</button>
+</div>
