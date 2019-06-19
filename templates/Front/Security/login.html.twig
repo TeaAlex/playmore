@@ -15,20 +15,21 @@
     </div>
     <div class="right-part">
         <form class="login" action="{{ path('app_security_login') }}" method="post">
-            <h1 class="login-title">Connexion</h1>
+            <h1 class="border-l-4 border-playmore-purple-500 font-bold mb-4 pl-2 text-2xl text-playmore-purple-500">Connexion</h1>
             <div class="flex flex-col">
-                <label>Email</label>
+                <label class="text-playmore-purple-500 font-semibold">Email</label>
                 <input type="text" class="login-input" autofocus id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}">
             </div>
             <div class="flex flex-col">
-                <label>Mot de passe</label>
+                <label class="text-playmore-purple-500 font-semibold">Mot de passe</label>
                 <input type="password" id="password" name="_password" class="login-input" >
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-            <p class="login-lost">Vous n'avez pas de compte ? <a href="{{ path('app_security_registration') }}">S'inscrire</a></p>
-            <p class="login-lost">Problème de mot de passe ? <a href="{{ path('app_security_forgot') }}">Mot de passe oublié</a></p>
-            <input type="submit" value="Se connecter" class="login-button">
-
+            <p class="mb-5 text-center">Vous n'avez pas de compte ? <a class="text-playmore-purple-500 font-bold" href="{{ path('app_security_registration') }}">S'inscrire</a></p>
+            <p class="mb-5 text-center">Problème de mot de passe ? <a  class="text-playmore-purple-500 font-bold" href="{{ path('app_security_forgot') }}">Mot de passe oublié</a></p>
+            <div class="flex items-center justify-center">
+                <input type="submit" value="Se connecter" class="p-2 bg-playmore-purple-500 rounded text-white font-bold">
+            </div>
         </form>
     </div>
 {% endblock %}

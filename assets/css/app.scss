@@ -376,23 +376,6 @@ textarea{
 
     }
 
-    h1.login-title {
-      line-height: 30px;
-      font-size: 25px;
-      color: black;
-      text-align:center;
-      background: #fff;
-      font-weight: 700;
-      border-left:3px solid #1f7777;
-      padding: 0;
-      width: 80%;
-      margin-left: 10px;
-      margin-top: 1px;
-      margin-bottom: 20px;
-      padding-left: 7px;
-
-    }
-
     .login-input {
       height: 50px;
       margin-bottom: 25px;
@@ -408,47 +391,6 @@ textarea{
       outline: none;
 
     }
-
-    label {
-
-      color:#1f7777;
-      font-weight: 700;
-    }
-    .login-button {
-      width: 55%;
-      height: 43px;
-      padding: 0;
-      font-size: 20px;
-      color: #fff;
-      text-align: center;
-      background: #1f7777;
-      border: 0;
-      border-radius: 5px;
-      cursor: pointer;
-      outline: 0;
-      margin-left: 20%;
-      border-radius: 30px;
-    }
-
-    .login-lost
-    {
-      text-align:center;
-      margin-bottom:0px;
-    }
-
-    .login-lost a
-    {
-      color:#1f7777;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .login-lost{
-      float:left;
-      margin-bottom: 15px;
-    }
-
-
 
   }
 
