@@ -8,7 +8,7 @@ const header = document.querySelector('header');
 btn.addEventListener('click', function (e) {
   const filtersContainer = document.querySelector('.search-filters');
   if(filtersContainer){
-    filtersContainer.style.display = 'none';
+    filtersContainer.parentNode.removeChild(filtersContainer);
     return;
   }
   console.log('clicked');
