@@ -31,12 +31,12 @@ class OfferType extends AbstractType
             ->add('startDate', DateType::class, [
 	            'widget' => 'single_text',
 	            'label' => 'Date de début',
-	            'data' => $offer->getAdvert()->getStartDate()
+	            'data' => new \DateTime('now')
             ])
             ->add('endDate', DateType::class, [
 	            'widget' => 'single_text',
 	            'label' => 'Date de fin',
-	            'data' => $offer->getAdvert()->getEndDate()
+	            'data' => new \DateTime('tomorrow')
             ])
         ;
 

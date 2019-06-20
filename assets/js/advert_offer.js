@@ -11,6 +11,7 @@ modal.classList.add('modal');
 const modalTitle = document.createElement('h1');
 modalTitle.classList.add('text-playmore-purple-500');
 modalTitle.classList.add('font-bold');
+modalTitle.classList.add('mb-3');
 modalTitle.innerText = 'Faire une offre';
 const modalContent = document.createElement('div');
 modalContent.classList.add('modal-content');

@@ -31,6 +31,9 @@
             <a href="{{ path('app_security_registration') }}" class="header-links">Créer un compte</a>
             <a href="{{ path('app_security_login') }}" class="header-links">Connexion</a>
             {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('game_index') }}">Admin</a>
+            {% endif %}
             {% if app.user is not null %}
             <a href="{{ path('logout') }}" class="header-links">Deconnexion</a>
             {% endif %}

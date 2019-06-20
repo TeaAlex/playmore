@@ -80,6 +80,35 @@ DQL;
 
     }
 
+    public function findGameNotOwned($userId)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $sql = <<<SQL
+            SELECT g.id
+            FROM game g
+            WHERE g.id NOT IN
+            (
+                SELECT g2.id
+                FROM game g2
+                JOIN game_platform gp on g2.id = gp.game_id
+                JOIN game_platform_user gpu on gp.id = gpu.game_platform_id
+                WHERE gpu.user_id = :userId
+            );
+SQL;
+        $rows = $this->_em->createNativeQuery($sql, $rsm)->setParameters(['userId' => $userId])->getResult();
+        if(empty($rows)) {
+            return $rows;
+        }
+        $ids = implode(',', array_column($rows, 'id'));
+
+        $dql = <<<DQL
+            SELECT g FROM App\Entity\Game g WHERE g.id IN ($ids)
+DQL;
+        return $this->_em->createQuery($dql)->getResult();
+
+    }
+
 
 
     // /**

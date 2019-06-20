@@ -12,27 +12,32 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class UserGameType extends AbstractType {
 
-	public function buildForm( FormBuilderInterface $builder, array $options ) {
+    /**
+     * @var GameRepository
+     */
+    private $gameRepository;
+
+    public function __construct(GameRepository $gameRepository)
+    {
+        $this->gameRepository = $gameRepository;
+    }
+
+    public function buildForm( FormBuilderInterface $builder, array $options ) {
 		/** @var $gamePlatform GamePlatform  **/
 		$userId = $options["userId"];
 		$gamePlatform = $builder->getData();
+		$choices = $this->gameRepository->findGameNotOwned($userId);
 		$builder->add('game', EntityType::class, [
 			'class' => Game::class,
 			'choice_label' => 'name',
 			'mapped' => false,
 			'required' => false,
 			'data' => $gamePlatform->getGame(),
-            'query_builder' => function(EntityRepository $repository) use ($userId) {
-		        return $repository->createQueryBuilder('g')
-                    ->join('g.gamePlatforms', 'gp' )
-                    ->join('gp.user', 'gpu')
-                    ->where('gpu != :userId')
-                    ->setParameter('userId', $userId)
-                ;
-            }
+            'choices' => $choices
 		]);
 
 		$builder->get('game')->addEventSubscriber(new AddPlatformSubscriber());

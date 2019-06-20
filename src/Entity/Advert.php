@@ -35,16 +35,6 @@ class Advert
      */
     private $price;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $startDate;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $endDate;
-
 	/**
 	 * @var $createdAt \DateTime
 	 * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
@@ -121,30 +111,6 @@ class Advert
     public function setPrice(?int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getStartDate(): ?\DateTimeInterface
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(\DateTimeInterface $startDate): self
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(\DateTimeInterface $endDate): self
-    {
-        $this->endDate = $endDate;
 
         return $this;
     }

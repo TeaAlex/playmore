@@ -108,7 +108,6 @@ class UserController extends AbstractController {
         }
 
 		$infos = $userRepository->findInfosByUser($user->getId());
-//		$offers = $offerRepository->findUserOffers($user->getId());
 		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
 		$commentaire = new Comment();
 		$form = $this->createForm(CommentType::class, $commentaire);

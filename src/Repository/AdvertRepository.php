@@ -68,7 +68,7 @@ class AdvertRepository extends ServiceEntityRepository
 
 
 		$sql = <<<SQL
-			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, created_at,
+			SELECT a.id advert_id, ak.name advert_kind_name, a.price, astat.name advert_status, created_at,
 			       IFNULL(COUNT(o.id), 0) offer_cnt,
 			       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform, p.color,
@@ -121,7 +121,7 @@ SQL;
 		$rsm->addScalarResult('game_wanted_plat_color', 'game_wanted_plat_color');
 
 		$sql = <<<SQL
-			SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, a.created_at, a.description,
+			SELECT a.id advert_id, ak.name advert_kind_name, a.price, astat.name advert_status, a.created_at, a.description,
 			       IFNULL(COUNT(o.id), 0) offer_cnt,
 			       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
 			       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform, p.color game_owned_plat_color,
@@ -175,7 +175,7 @@ SQL;
 	    }
 
         $sql = "
-        SELECT a.id advert_id, ak.name advert_kind_name , a.start_date, a.end_date, a.price, astat.name advert_status, a.created_at,
+        SELECT a.id advert_id, ak.name advert_kind_name , a.price, astat.name advert_status, a.created_at,
 		       u.username, u.id user_id, u.img_name user_img_name, u.slug user_slug, u.city, u.postal_code,
 		       g.id game_owned_id, g.name game_owned_name, g.img_name game_owned_img_name, p.name game_owned_platform, p.color,
 		       g2.id game_wanted_id, g2.name game_wanted_name, g2.img_name game_wanted_img_name, p2.name game_wanted_platform

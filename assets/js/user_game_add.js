@@ -2,7 +2,7 @@ const axios = require('axios');
 const game = document.querySelector('#user_game_game');
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 game.addEventListener('change', function (e) {
-  const form = document.querySelector('form');
+  const form = document.querySelector('form[name="user_game"]');
   const data = {};
   data[game.getAttribute('name')] = e.target.value;
   const formData = new FormData(form);
