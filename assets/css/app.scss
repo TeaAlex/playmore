@@ -74,6 +74,11 @@ header{
 
 }
 
+.geoloc-popup {
+  width: 400px; position: absolute;left: 50%; top: 115px; transform: TranslateX(-50%); opacity: 0.8; z-index: 500;
+  @apply p-4 rounded bg-white;
+}
+
 .header-links {
   @apply mx-4;
   transition: all 0.2s ease-in;
