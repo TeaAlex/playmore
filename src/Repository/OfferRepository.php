@@ -135,14 +135,18 @@ DQL;
         $rsm->addScalarResult('platform', 'platform');
         $rsm->addScalarResult('username', 'username');
         $rsm->addScalarResult('advert_kind', 'advert_kind');
+        $rsm->addScalarResult('offer_status', 'offer_status');
+        $rsm->addScalarResult('offer_status_color', 'offer_status_color');
 
         $sql = <<<SQL
             SELECT o.id offer_id, o.advert_id, o.price, o.start_date, o.end_date,
+                   os.name offer_status, os.color offer_status_color,
                    g.name game_name, g.img_name game_img_name, 
                    p.name platform,
                    u.username, 
                    ak.name advert_kind
             FROM offer o
+            JOIN offer_status os on o.offer_status_id = os.id
             JOIN advert a on o.advert_id = a.id
             JOIN advert_kind ak on a.advert_kind_id = ak.id
             JOIN user u on a.created_by_id = u.id

@@ -42,7 +42,14 @@ class OfferController extends AbstractController {
 			'action' => $this->generateUrl('offer_new', ['id' => $advert->getId()])
 		]);
 		$form->handleRequest($request);
-		if($form->isSubmitted() && $form->isValid()){
+		$errors = [];
+        foreach ($form->getErrors(true) as $k => $error) {
+            $errors[] = $error->getMessage();
+		}
+        if(!empty($errors)){
+            return new JsonResponse($errors, 400);
+        }
+        if($form->isSubmitted() && $form->isValid()){
 			$user = $this->getUser();
 			$offer->setCreatedBy($user);
 			$status = $offerStatusRepository->findOneBy(['name' => 'En cours de validation']);

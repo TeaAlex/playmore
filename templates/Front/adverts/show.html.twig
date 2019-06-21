@@ -7,7 +7,7 @@
         <div class="modal-body">
             {% if offers is not empty %}
                 {% for offer in offers %}
-                    <div class="bg-playmore-purple-500 rounded p-4 text-white mb-4" data-offer-id="{{ offer.offer_id }}"
+                    <div class="text-playmore-text border-2 rounded p-4 mb-4" data-offer-id="{{ offer.offer_id }}"
                          style="min-width: 400px;
                                 {% if offer.offer_status == 'Refusé' %}
                                  opacity: 0.5;
@@ -26,11 +26,14 @@
                                 </div>
                                 <img src="{{ asset('images/user/' ~  offer.offer_created_by_img  ) }}" alt="" style="width: 40px; height: 40px;" class="rounded-full">
                             {% endif %}
+                            {% if offer.advert_name == 'Location' %}
+                                <p class="text-lg font-bold">{{ offer.price }} PMC</p>
+                            {% endif %}
                         </div>
                         {% if offer.offer_status == 'En cours de validation' %}
                             <div class="text-right buttons">
-                                <button class="font-semibold text-green mr-2 accept-btn" data-offer-id="{{ offer.offer_id }}">Accepter</button>
-                                <button class="font-semibold text-red-lighter decline-btn" data-offer-id="{{ offer.offer_id }}">Refuser</button>
+                                <button class="font-semibold text-green-light mr-2 accept-btn" data-offer-id="{{ offer.offer_id }}">Accepter</button>
+                                <button class="font-semibold text-red decline-btn" data-offer-id="{{ offer.offer_id }}">Refuser</button>
                             </div>
                         {% elseif offer.offer_status == 'Accepté' %}
                             <p class="text-right font-bold text-green-light uppercase">offre accepté</p>

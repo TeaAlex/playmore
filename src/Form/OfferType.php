@@ -25,8 +25,6 @@ class OfferType extends AbstractType
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	/** @var $offer Offer  **/
-    	$offer = $builder->getData();
         $builder
             ->add('startDate', DateType::class, [
 	            'widget' => 'single_text',

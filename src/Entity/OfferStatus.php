@@ -21,6 +21,13 @@ class OfferStatus
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,4 +44,23 @@ class OfferStatus
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param mixed $color
+     * @return OfferStatus
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+        return $this;
+    }
+
 }

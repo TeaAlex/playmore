@@ -29,12 +29,34 @@ function triggerModal(e) {
     method: 'get',
     url: Routing.generate('offer_new', {id: advertId}),
   }).then(response => {
+    console.log(response);
     const html = new DOMParser().parseFromString(response.data, "text/html");
     const form = html.querySelector('form');
     modalContent.appendChild(form);
     backdrop.style.display = 'block';
     modal.style.display = 'block';
-  });
+    
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      axios({
+        method: 'post',
+        data: new FormData(form),
+        url: Routing.generate('offer_new', {id: advertId})
+      })
+      .then(response => console.log(response))
+      .catch(err => {
+        const errorMessage = document.querySelector('.form-errors');
+        err.response.data.forEach(err => {
+          const p = document.createElement('p');
+          p.innerText = err;
+          p.style.color = 'red';
+          errorMessage.appendChild(p);
+        });
+      });
+    })
+    
+  })
+  .catch(err => console.log(err));
 }
 
 function acceptOffer(){

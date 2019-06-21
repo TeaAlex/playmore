@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OfferRepository")
+ *
  */
 class Offer
 {
@@ -149,4 +152,21 @@ class Offer
 
         return $this;
     }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validateDates(ExecutionContextInterface $context, $payload)
+    {
+        if($this->startDate > $this->endDate){
+            $context->buildViolation('La date de début doit être inferieure à la date de fin')
+                ->atPath('startDate')
+                ->addViolation();
+        }
+    }
+
+
+
+
+
 }

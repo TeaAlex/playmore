@@ -3,6 +3,7 @@
 namespace App\Form\Front\EventListener;
 
 use App\Entity\Game;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -28,7 +29,9 @@ class OfferSubscriber implements EventSubscriberInterface {
 	}
 
 	public function preSetData(FormEvent $event) {
+	    /** @var $user User  **/
 		$user = $this->tokenStorage->getToken()->getUser();
+		$pmc = $user->getCoins();
 		$games = $user->getGames();
 		$form = $event->getForm();
 		$advertKindName = $event->getData()->getAdvert()->getAdvertKind()->getName();
@@ -44,7 +47,8 @@ class OfferSubscriber implements EventSubscriberInterface {
 				break;
 			case 'Location':
 				$form->add('price', IntegerType::class, [
-					'label' => 'Prix'
+					'label' => 'Prix',
+                    'attr' => ["min" => 0, "max" => $pmc]
 				]);
 				break;
 		}
