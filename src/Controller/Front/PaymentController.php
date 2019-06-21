@@ -35,8 +35,7 @@ class PaymentController extends AbstractController
         $token = $_POST['stripeToken'];
 
         $user = $this->getUser();
-        $amount = $request->request->get('_radio');
-
+        $amount = $request->request->get('value') * 100;
 
         try {
             $charge = \Stripe\Charge::create([
@@ -46,7 +45,7 @@ class PaymentController extends AbstractController
                 'description' => "Achat de Playmore Coins par ".$user->getUsername().".",
             ]);
             $oldCoins = $user->getCoins();
-            $totalCoins = ($amount / 100 )+ $oldCoins;
+            $totalCoins = $amount/100 + $oldCoins;
             $user->setCoins($totalCoins);
 
             $em = $this->getDoctrine()->getManager();

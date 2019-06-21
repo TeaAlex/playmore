@@ -2,60 +2,41 @@
 
 {% block content %}
 
-    {% if is_granted('ROLE_USER') %}
-    <div class="pmcoins">
-        <div class="mycoins">
-            <p> Mes PlayMore Coins : {{ app.user.coins }}</p>
-        </div>
-    </div>
-    {% endif %}
     <div class="w-full min-h-screen bg-grey-lightest">
         <div class="w-1/3 h-auto mx-auto px-8 py-16 pb-4">
             <h1 class="text-playmore-purple-500 mb-6">Acheter des Playmore Coins</h1>
-            <div class="flex-col rounded bg-white shadow-md">
-                <form action="{{  path('app_security_done')}}" method="post" id="payment-form">
-                    <div class="form-row">
-                        <div class="flex-col m-6 p-3 mb-0 pb-0">
-                            <label class="label">
-                                Nombre de PMC: <span class="infopayment">(1€ correspond a 1PMC)</span>
-                            </label>
-                            <div class="flex-col m-6 p-3">
-                                <input type="radio" checked id="one_pmc" name="_radio"  value="100"/><span class="mr-6"> <abbr title="1€">1 PMC</abbr></span>
-                                <input type="radio" id="two_pmc" name="_radio"  value="200"/><span class="mr-6"><abbr title="2€">2 PMC</abbr></span>
-                                <input type="radio" id="five_pmc" name="_radio"  value="500"/><span class="mr-6"><abbr title="5€">5 PMC</abbr></span>
-                                <input type="radio" id="ten_pmc" name="_radio"  value="1000"/><span class="mr-6"><abbr title="10€">10 PMC</abbr></span>
-                            </div>
-                        </div>
+            <div class="flex flex-col w-full h-auto">
+                <form action="{{ path('app_security_done') }}" method="post" id="payment-form">
+                    <div class="flex flex-col mb-6">
+                        <label for="" class="font-bold text-playmore-text text-lg mb-2 uppercase">Valeur (max: 20)</label>
+                        <input type="number" min="0" max="20" name="value" class="rounded p-4">
                     </div>
-                    <div class="form-row">
-                        <div class="flex-col m-6 p-3">
-                        <label for="card-element" class="label">
+                    <div class="mb-4">
+                        <label for="card-element" class="font-bold text-playmore-text text-lg uppercase">
                             Carte de crédit :
                         </label>
-                        <div id="card-element" class="cardelement">
-                            <!-- A Stripe Element will be inserted here. -->
-                        </div>
+                        <div class="flex-col p-4 rounded bg-white mt-2">
+                            <div id="card-element" class="cardelement">
+                                <!-- A Stripe Element will be inserted here. -->
+                            </div>
 
-                        <!-- Used to display form errors. -->
-                        <div id="card-errors" role="alert"></div>
+                            <!-- Used to display form errors. -->
+                            <div id="card-errors" role="alert"></div>
                         </div>
                     </div>
-
-                    <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
-                        <button id="button_done" class="btn btn-edit mr-2">{{ button_label|default('Envoyer') }}</button>
-                        <a class="btn btn-secondary" href="{{ path('app_security_home') }}">Retour</a>
+                    <div class="flex justify-end">
+                        <button type="submit" id="button_done" class="rounded bg-playmore-purple-500 p-4 text-white font-bold">Envoyer</button>
                     </div>
                 </form>
+                <p class="mt-4 text-playmore-purple-500 font-semibold"> Vous n'avez pas de carte de crédit ? Le paiement par Paypal sera bientot disponible.</p>
             </div>
         </div>
-    <p class="info-msg"> Vous n'avez pas de carte de crédit? Le paiement par Paypal sera bientot disponible.</p>
     </div>
 
 
 {% endblock %}
 
 {% block javascripts %}
-
     <script src="https://js.stripe.com/v3/"></script>
     {{ encore_entry_script_tags('payment') }}
 {% endblock %}
