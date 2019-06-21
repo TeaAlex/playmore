@@ -17,11 +17,11 @@
         <form class="login" action="{{ path('app_security_login') }}" method="post">
             <h1 class="border-l-4 border-playmore-purple-500 font-bold mb-4 pl-2 text-2xl text-playmore-purple-500">Connexion</h1>
             <div class="flex flex-col">
-                <label class="text-playmore-purple-500 font-semibold">Email</label>
+                <label class="uppercase font-semibold">Email</label>
                 <input type="text" class="login-input" autofocus id="email" name="_username" value="{% if error %}{{ error.token.user }}{% endif %}">
             </div>
             <div class="flex flex-col">
-                <label class="text-playmore-purple-500 font-semibold">Mot de passe</label>
+                <label class="uppercase font-semibold">Mot de passe</label>
                 <input type="password" id="password" name="_password" class="login-input" >
             </div>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>

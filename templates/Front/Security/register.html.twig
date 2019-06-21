@@ -10,16 +10,17 @@
     <div class="right-part">
 
         <div class="login">
-            <h1 class="login-title">Inscription</h1>
+            <h1 class="border-l-4 border-playmore-purple-500 font-bold mb-4 pl-2 text-2xl text-playmore-purple-500">Inscription</h1>
                 {{ form_start(form) }}
                 {{ form_row(form.username) }}
                 {{ form_row(form.email) }}
                 {{ form_row(form.password.first) }}
                 {{ form_row(form.password.second) }}
-            <p class="login-lost">Déjà inscrit ? <a href="{{ path('app_security_login') }}">Connecte toi !</a></p>
-    <button type="submit" class="login-button">S'inscrire </button>
-
-    {{ form_end(form) }}
+            <div class="flex flex-col items-center">
+                <p class="mb-5 text-center">Déjà inscrit ? <a class="text-playmore-purple-500 font-bold" href="{{ path('app_security_login') }}">Connecte toi !</a></p>
+                <button type="submit" class="p-4 bg-playmore-purple-500 rounded text-white font-bold">S'inscrire </button>
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
 
