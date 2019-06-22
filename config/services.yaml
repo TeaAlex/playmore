@@ -6,6 +6,7 @@
 parameters:
     locale: 'fr'
     admin_email: mail@adefinir.com
+    mercure_jwt_key: '%env(mercure_jwt_key)%'
 
 services:
     # default configuration for services in *this* file
@@ -36,6 +37,10 @@ services:
     App\Command\CreateUserCommand:
         public: false
         tags: ['console.command']
+
+    App\Services\MercureCookieGenerator:
+        arguments:
+            $secret: '%env(MERCURE_JWT_KEY)%'
 
 
     # add more service definitions when explicit configuration is needed

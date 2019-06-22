@@ -2,12 +2,17 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\User;
 use App\Repository\AdvertKindRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\PlatformRepository;
+use App\Services\MercureCookieGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
 * @Route(name="app_security_")
@@ -21,13 +26,18 @@ class HomeController extends AbstractController
 	 *
 	 * @return Response
 	 */
-    public function index(PlatformRepository $platformRepository,CategoryRepository $categoryRepository) : Response
+    public function index(PlatformRepository $platformRepository,CategoryRepository $categoryRepository, MercureCookieGenerator $generator) : Response
     {
-        return $this->render('Front/home/index.html.twig', [
+        $response = $this->render('Front/home/index.html.twig', [
             'platforms' => $platformRepository->findAll(),
             'categories' => $categoryRepository->findAll(),
             'distances' => [5,10,15,20]
         ]);
+
+        if(is_object($this->getUser())){
+            $response->headers->set('set-cookie', $generator->generate($this->getUser()));
+        }
+        return $response;
     }
 
 
@@ -53,6 +63,20 @@ class HomeController extends AbstractController
                 'category' => null,
             ]
         ]);
+    }
+
+    /**
+     * @Route("/ping/{user}", name="ping", methods={"POST"})
+     */
+    public function ping(MessageBusInterface $bus, User $user, SerializerInterface $serializer)
+    {
+        $target = [];
+        if($user !== null){
+           $target = ["http://monsite.com/user/{$user->getId()}"];
+        }
+        $update = new Update("http://monsite.com/ping", $serializer->serialize($this->getUser(), 'json', ["groups" => "public"]), $target);
+        $bus->dispatch($update);
+        return $this->redirectToRoute('index');
     }
 
 
