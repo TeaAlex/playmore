@@ -13,7 +13,7 @@ use App\Repository\OfferRepository;
 use App\Repository\PlatformRepository;
 use App\Security\AdvertVoter;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,9 @@ class AdvertController extends AbstractController
     public function showAll(Request $request,
                             AdvertRepository $advertRepository,
                             PlatformRepository $platformRepository,
-                            AdvertKindRepository $advertKindRepository): Response
+                            AdvertKindRepository $advertKindRepository,
+                            PaginatorInterface $paginator
+    ): Response
     {
         $user = $this->getUser() ?? null;
     	if(is_object($user)){
@@ -61,6 +63,7 @@ class AdvertController extends AbstractController
                 $params['lon'] = $this->getUser()->getLon();
             }
             $adverts = $advertRepository->search($params);
+            $adverts = $paginator->paginate($adverts, $request->query->get('page', 1), 4);
             return $this->render('Front/adverts/show_all.html.twig', [
                 'adverts' => $adverts,
                 'platforms' => $platforms,
@@ -71,6 +74,7 @@ class AdvertController extends AbstractController
         }
 
     	$adverts = $advertRepository->all($userId ?? null, true, $lat ?? null, $lon ?? null );
+        $adverts = $paginator->paginate($adverts, $request->query->get('page', 1), 4);
         $filters = [
             'game' => null,
             'userId' => null,

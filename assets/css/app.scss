@@ -322,7 +322,7 @@ tbody{
   tr {
     @apply w-full;
     &:nth-child(even) {
-      @apply bg-grey-lightest;
+      background: #deedff;
     }
     &:nth-child(odd) {
       @apply bg-white;

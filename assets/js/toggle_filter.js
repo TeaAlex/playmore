@@ -11,7 +11,6 @@ btn.addEventListener('click', function (e) {
     filtersContainer.parentNode.removeChild(filtersContainer);
     return;
   }
-  console.log('clicked');
   fetch(Routing.generate('app_security_filters'))
   .then(res => res.text())
   .then(html => {
