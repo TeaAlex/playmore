@@ -76,7 +76,7 @@ class HomeController extends AbstractController
         }
         $update = new Update("http://monsite.com/ping", $serializer->serialize($this->getUser(), 'json', ["groups" => "public"]), $target);
         $bus->dispatch($update);
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('advert_show', ["id" => 2]);
     }
 
 

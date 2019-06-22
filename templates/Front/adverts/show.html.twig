@@ -44,6 +44,9 @@
         </div>
     </div>
     <div class="min-h-screen mx-auto my-16" style="width: 700px">
+{#        <form action="{{ path('app_security_ping', {'user': advert.user_id}) }}" method="post">#}
+{#            <button class="">PING {{ advert.user_id }}</button>#}
+{#        </form>#}
         <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
             <div class="flex">
@@ -115,5 +118,50 @@
     {{ encore_entry_script_tags('advert') }}
     {{ encore_entry_script_tags('advert_offer') }}
     {{ encore_entry_script_tags('advert_show') }}
+    <script>
+      // The subscriber subscribes to updates for the https://example.com/users/dunglas topic
+      // and to any topic matching https://example.com/books/{id}
+      const url = new URL('http://localhost:3000/hub');
+      url.searchParams.append('topic', 'http://monsite.com/ping');
+
+      const eventSource = new EventSource(url, { withCredentials: true });
+
+      // The callback will be called every time an update is published
+      eventSource.onmessage = e => {
+        const data = JSON.parse(e.data);
+        let message = 'ping';
+        if(data.username){
+          message = `${data.username} a fait une offre`;
+        }
+        const notifNb = document.querySelector('.notif-number');
+        if(notifNb.innerText === ""){
+          nb = 0;
+        } else {
+          nb = parseInt(notifNb.innerText);
+        }
+
+        notifNb.innerText = 1;
+        notifNb.style.display = 'flex';
+        const notifs = document.querySelector('.notifs');
+        const p = document.createElement('p');
+        p.classList.add('text-sm');
+        p.classList.add('my-2');
+        p.innerText = message;
+        notifs.appendChild(p);
+
+        const notifIcon = document.querySelector('.notif-icon');
+        notifIcon.addEventListener('click', function(e){
+          e.preventDefault();
+          notifNb.style.display = 'none';
+          if (notifs.style.display === 'flex') {
+            notifs.style.display = 'none';
+          } else {
+            notifs.style.display = 'flex';
+          }
+        })
+
+      }
+    </script>
+
 {% endblock %}
 

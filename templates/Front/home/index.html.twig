@@ -41,14 +41,8 @@
         if(data.username){
           message = `Ping par ${data.username}`;
         }
-        const toto = document.createElement('div');
-        toto.classList.add('alert');
-        toto.innerText = message;
-        document.querySelector('.header').insertAdjacentElement('afterend', toto);
-        window.setTimeout( () => {
-          const alert = document.querySelector('.alert');
-          alert.parentNode.removeChild(alert);
-        }, 3000)
-      } // do something with the payload
+        const notifs = document.querySelector('.notifs');
+        notifs.innerHTML = message;
+      }
     </script>
 {% endblock %}

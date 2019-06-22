@@ -11,6 +11,7 @@ use App\Repository\OfferRepository;
 use App\Repository\OfferStatusRepository;
 use App\Security\OfferVoter;
 use App\Services\MailServices;
+use App\Services\NotificationService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,8 @@ class OfferController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository, OfferStatusRepository $offerStatusRepository, MailServices $mailservices) {
+	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository,
+                        OfferStatusRepository $offerStatusRepository, MailServices $mailservices, NotificationService $notif) {
 		$offer = new Offer();
 		$offer->setAdvert($advert);
 		$form = $this->createForm(OfferType::class, $offer, [
@@ -64,7 +66,8 @@ class OfferController extends AbstractController {
             }
 			$em->persist($offer);
 			$em->flush();
-			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
+			$notif->notify($this->getUser(), $advert->getCreatedBy());
+			return $this->redirectToRoute('advert_show', ['id' => $advert->getId()]);
 		}
 		return $this->render('Front/offer/_form.html.twig', ['form' => $form->createView()]);
 	}
