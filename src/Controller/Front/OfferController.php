@@ -66,7 +66,7 @@ class OfferController extends AbstractController {
             }
 			$em->persist($offer);
 			$em->flush();
-			$notif->notifyNewOffer($this->getUser(), $advert->getCreatedBy(), $advert->getId());
+			$notif->notifyAdvert($this->getUser(), $advert->getCreatedBy(), $advert->getId(), "new_offer");
 			return $this->redirectToRoute('advert_show', ['id' => $advert->getId()]);
 		}
 		return $this->render('Front/offer/_form.html.twig', ['form' => $form->createView()]);
@@ -164,7 +164,7 @@ class OfferController extends AbstractController {
 		    $em->persist($u);
         }
 		$em->flush();
-		$notif->notifyAcceptedOffer($advert->getCreatedBy(), $offer->getCreatedBy());
+		$notif->notifyAdvert($advert->getCreatedBy(), $offer->getCreatedBy(), $advert->getId(), "accepted_offer");
 		$ids = array_map(function($offer) { return $offer->getId(); }, $remainingOffers);
 		return new JsonResponse($ids);
 	}
@@ -176,7 +176,7 @@ class OfferController extends AbstractController {
 		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
 		$offer->setOfferStatus($declined);
 		$em->flush();
-		$notif->notifyDeclinedOffer($offer->getAdvert()->getCreatedBy(), $offer->getCreatedBy());
+		$notif->notifyAdvert($offer->getAdvert()->getCreatedBy(), $offer->getCreatedBy(), $offer->getAdvert()->getId(), "declined_offer");
 		return new JsonResponse("declined {$offer->getId()}");
 	}
 

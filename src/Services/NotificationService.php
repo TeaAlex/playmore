@@ -33,48 +33,25 @@ class NotificationService
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function notifyNewOffer(User $from, User $to, $advertId)
+    public function notifyAdvert(User $from, User $to, $advertId, $type)
     {
+        if(!$type){
+            return "ERROR";
+        }
         $target = $data = [];
         $url = $this->urlGenerator->generate('advert_show', ['id' => $advertId]);
         if($to !== null){
             $target = ["http://monsite.com/user/{$to->getId()}"];
             $data = json_encode([
                 "user" => $this->serializer->serialize($from, 'json', ["groups" => "public"]),
-                "type" => "new_offer",
+                "type" => $type,
                 "url" => $url
             ]);
         }
-        $update = new Update("http://monsite.com/offer", $data, $target);
+        $update = new Update("http://monsite.com/{$type}", $data, $target);
         $this->bus->dispatch($update);
     }
 
-    public function notifyAcceptedOffer(User $from, User $to)
-    {
-        $target = $data = [];
-        if($to !== null){
-            $target = ["http://monsite.com/user/{$to->getId()}"];
-            $data = json_encode([
-              "user" => $this->serializer->serialize($from, 'json', ["groups" => "public"]),
-              "type" => 'accepted_offer'
-            ]);
-        }
-        $update = new Update("http://monsite.com/accepted_offer", $data, $target);
-        $this->bus->dispatch($update);
-    }
 
-    public function notifyDeclinedOffer(User $from, User $to)
-    {
-        $target = $data = [];
-        if($to !== null){
-            $target = ["http://monsite.com/user/{$to->getId()}"];
-            $data = json_encode([
-              "user" => $this->serializer->serialize($from, 'json', ["groups" => "public"]),
-              "type" => "declined_offer"
-            ]);
-        }
-        $update = new Update("http://monsite.com/declined_offer", $data, $target);
-        $this->bus->dispatch($update);
-    }
 
 }

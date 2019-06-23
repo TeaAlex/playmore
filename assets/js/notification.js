@@ -1,7 +1,7 @@
 import createElemWithClasses from './helper'
 
 const url = new URL('http://localhost:3000/hub');
-url.searchParams.append('topic', 'http://monsite.com/offer');
+url.searchParams.append('topic', 'http://monsite.com/new_offer');
 url.searchParams.append('topic', 'http://monsite.com/accepted_offer');
 url.searchParams.append('topic', 'http://monsite.com/declined_offer');
 
@@ -20,7 +20,10 @@ function notify (data) {
           message = `${user.username} vous a <a class="text-playmore-purple-500 font-bold" href="${data.url}">fait une offre</a>`;
           break;
     case "accepted_offer":
-          message = "toto";
+          message = `${user.username} a accepté <a class="text-playmore-purple-500 font-bold" href="${data.url}">votre offre</a>`;
+          break;
+    case "declined_offer":
+          message = `${user.username} a decliné <a class="text-playmore-purple-500 font-bold" href="${data.url}">votre offre</a>`;
           break;
     default:
           message = "";
