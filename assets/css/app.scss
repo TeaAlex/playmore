@@ -636,6 +636,9 @@ input[type=checkbox]:checked + label {
   min-width: 200px;
   display: none;
   color: #5c5c5c;
+  z-index: 9000;
+  min-height: 100px;
+  flex-direction: column;
   @apply shadow p-4;
 
 }

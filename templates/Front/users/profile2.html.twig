@@ -98,6 +98,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     {% if page == 'advert' %}
         {{ encore_entry_script_tags('advert') }}
     {% endif %}

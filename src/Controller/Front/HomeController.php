@@ -65,19 +65,5 @@ class HomeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/ping/{user}", name="ping", methods={"POST"})
-     */
-    public function ping(MessageBusInterface $bus, User $user, SerializerInterface $serializer)
-    {
-        $target = [];
-        if($user !== null){
-           $target = ["http://monsite.com/user/{$user->getId()}"];
-        }
-        $update = new Update("http://monsite.com/ping", $serializer->serialize($this->getUser(), 'json', ["groups" => "public"]), $target);
-        $bus->dispatch($update);
-        return $this->redirectToRoute('advert_show', ["id" => 2]);
-    }
-
 
 }

@@ -1,4 +1,4 @@
-{% extends 'Front/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block content %}
     <div class="backdrop"></div>
@@ -115,53 +115,10 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     {{ encore_entry_script_tags('advert') }}
     {{ encore_entry_script_tags('advert_offer') }}
     {{ encore_entry_script_tags('advert_show') }}
-    <script>
-      // The subscriber subscribes to updates for the https://example.com/users/dunglas topic
-      // and to any topic matching https://example.com/books/{id}
-      const url = new URL('http://localhost:3000/hub');
-      url.searchParams.append('topic', 'http://monsite.com/ping');
-
-      const eventSource = new EventSource(url, { withCredentials: true });
-
-      // The callback will be called every time an update is published
-      eventSource.onmessage = e => {
-        const data = JSON.parse(e.data);
-        let message = 'ping';
-        if(data.username){
-          message = `${data.username} a fait une offre`;
-        }
-        const notifNb = document.querySelector('.notif-number');
-        if(notifNb.innerText === ""){
-          nb = 0;
-        } else {
-          nb = parseInt(notifNb.innerText);
-        }
-
-        notifNb.innerText = 1;
-        notifNb.style.display = 'flex';
-        const notifs = document.querySelector('.notifs');
-        const p = document.createElement('p');
-        p.classList.add('text-sm');
-        p.classList.add('my-2');
-        p.innerText = message;
-        notifs.appendChild(p);
-
-        const notifIcon = document.querySelector('.notif-icon');
-        notifIcon.addEventListener('click', function(e){
-          e.preventDefault();
-          notifNb.style.display = 'none';
-          if (notifs.style.display === 'flex') {
-            notifs.style.display = 'none';
-          } else {
-            notifs.style.display = 'flex';
-          }
-        })
-
-      }
-    </script>
 
 {% endblock %}
 

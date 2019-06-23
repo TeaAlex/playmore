@@ -29,7 +29,6 @@ function triggerModal(e) {
     method: 'get',
     url: Routing.generate('offer_new', {id: advertId}),
   }).then(response => {
-    console.log(response);
     const html = new DOMParser().parseFromString(response.data, "text/html");
     const form = html.querySelector('form');
     modalContent.appendChild(form);
@@ -43,7 +42,7 @@ function triggerModal(e) {
         data: new FormData(form),
         url: Routing.generate('offer_new', {id: advertId})
       })
-      .then(response => console.log(response))
+      .then(response => location.reload())
       .catch(err => {
         const errorMessage = document.querySelector('.form-errors');
         err.response.data.forEach(err => {
