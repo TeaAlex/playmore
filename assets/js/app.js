@@ -10,3 +10,7 @@ require('../css/app.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // var $ = require('jquery');
+require('./geolocate.js');
+require('./toggle_filter.js');
+require('./toggle_notifs.js');
+require('./notification.js');

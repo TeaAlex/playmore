@@ -11,6 +11,7 @@ use App\Repository\OfferRepository;
 use App\Repository\OfferStatusRepository;
 use App\Security\OfferVoter;
 use App\Services\MailServices;
+use App\Services\NotificationService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,8 @@ class OfferController extends AbstractController {
 	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository, OfferStatusRepository $offerStatusRepository, MailServices $mailservices) {
+	public function new(Request $request, Advert $advert, ObjectManager $em, GamePlatformRepository $gamePlatformRepository,
+                        OfferStatusRepository $offerStatusRepository, MailServices $mailservices, NotificationService $notif) {
 		$offer = new Offer();
 		$offer->setAdvert($advert);
 		$form = $this->createForm(OfferType::class, $offer, [
@@ -64,7 +66,8 @@ class OfferController extends AbstractController {
             }
 			$em->persist($offer);
 			$em->flush();
-			return $this->redirectToRoute('user_profile', ['slug' => $user->getSlug()]);
+			$notif->notifyAdvert($this->getUser(), $advert->getCreatedBy(), $advert->getId(), "new_offer");
+			return $this->redirectToRoute('advert_show', ['id' => $advert->getId()]);
 		}
 		return $this->render('Front/offer/_form.html.twig', ['form' => $form->createView()]);
 	}
@@ -140,7 +143,9 @@ class OfferController extends AbstractController {
 	 * @return JsonResponse
 	 */
 	public function acceptOffer(Offer $offer, EntityManagerInterface $em, OfferRepository $offerRepository,
-								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository)
+								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository,
+                                NotificationService $notif
+    )
 	{
 		$accepted = $offerStatusRepository->findOneBy(['name' => 'Accepté']);
 		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
@@ -153,7 +158,13 @@ class OfferController extends AbstractController {
 		foreach ($remainingOffers as $remainingOffer) {
 			$remainingOffer->setOfferStatus($declined);
 		}
+		if($advert->getAdvertKind()->getName() === 'Location'){
+		    $u = $offer->getCreatedBy();
+		    $u->setCoins($u->getCoins() - $offer->getPrice());
+		    $em->persist($u);
+        }
 		$em->flush();
+		$notif->notifyAdvert($advert->getCreatedBy(), $offer->getCreatedBy(), $advert->getId(), "accepted_offer");
 		$ids = array_map(function($offer) { return $offer->getId(); }, $remainingOffers);
 		return new JsonResponse($ids);
 	}
@@ -161,10 +172,11 @@ class OfferController extends AbstractController {
 	/**
 	 * @Route(path="/decline/{id}", name="decline", methods={"POST"})
 	 */
-	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository) {
+	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository, NotificationService $notif) {
 		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
 		$offer->setOfferStatus($declined);
 		$em->flush();
+		$notif->notifyAdvert($offer->getAdvert()->getCreatedBy(), $offer->getCreatedBy(), $offer->getAdvert()->getId(), "declined_offer");
 		return new JsonResponse("declined {$offer->getId()}");
 	}
 

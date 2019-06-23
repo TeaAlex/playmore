@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>{% block title %}PlayMore{% endblock %}</title>
     {% block stylesheets %}
@@ -17,7 +18,6 @@
 {% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-    <script src="https://js.stripe.com/v3/"></script>
 {% endblock %}
 </body>
 </html>

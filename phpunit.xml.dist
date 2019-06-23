@@ -18,6 +18,15 @@
         <env name="ALGOLIA_APP_ID" value="..."/>
         <env name="ALGOLIA_API_KEY" value="..."/>
         <!-- ###- algolia/search-bundle ### -->
+
+        <!-- ###+ symfony/mercure-bundle ### -->
+        <env name="MERCURE_PUBLISH_URL" value="https://demo.mercure.rocks/hub"/>
+        <env name="MERCURE_JWT_SECRET" value="#see https://mercure.rocks"/>
+        <!-- ###- symfony/mercure-bundle ### -->
+
+        <!-- ###+ symfony/messenger ### -->
+        <!-- MESSENGER_TRANSPORT_DSN=amqp://guest:guest@localhost:5672/%2f/messages -->
+        <!-- ###- symfony/messenger ### -->
     </php>
 
     <testsuites>

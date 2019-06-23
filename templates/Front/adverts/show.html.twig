@@ -1,4 +1,4 @@
-{% extends 'Front/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block content %}
     <div class="backdrop"></div>
@@ -44,6 +44,9 @@
         </div>
     </div>
     <div class="min-h-screen mx-auto my-16" style="width: 700px">
+{#        <form action="{{ path('app_security_ping', {'user': advert.user_id}) }}" method="post">#}
+{#            <button class="">PING {{ advert.user_id }}</button>#}
+{#        </form>#}
         <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
             <div class="flex">
@@ -112,8 +115,10 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     {{ encore_entry_script_tags('advert') }}
     {{ encore_entry_script_tags('advert_offer') }}
     {{ encore_entry_script_tags('advert_show') }}
+
 {% endblock %}
 
