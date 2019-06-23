@@ -66,7 +66,7 @@ class OfferController extends AbstractController {
             }
 			$em->persist($offer);
 			$em->flush();
-			$notif->notify($this->getUser(), $advert->getCreatedBy());
+			$notif->notifyNewOffer($this->getUser(), $advert->getCreatedBy(), $advert->getId());
 			return $this->redirectToRoute('advert_show', ['id' => $advert->getId()]);
 		}
 		return $this->render('Front/offer/_form.html.twig', ['form' => $form->createView()]);
@@ -143,7 +143,9 @@ class OfferController extends AbstractController {
 	 * @return JsonResponse
 	 */
 	public function acceptOffer(Offer $offer, EntityManagerInterface $em, OfferRepository $offerRepository,
-								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository)
+								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository,
+                                NotificationService $notif
+    )
 	{
 		$accepted = $offerStatusRepository->findOneBy(['name' => 'Accepté']);
 		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
@@ -156,7 +158,13 @@ class OfferController extends AbstractController {
 		foreach ($remainingOffers as $remainingOffer) {
 			$remainingOffer->setOfferStatus($declined);
 		}
+		if($advert->getAdvertKind()->getName() === 'Location'){
+		    $u = $offer->getCreatedBy();
+		    $u->setCoins($u->getCoins() - $offer->getPrice());
+		    $em->persist($u);
+        }
 		$em->flush();
+		$notif->notifyAcceptedOffer($advert->getCreatedBy(), $offer->getCreatedBy());
 		$ids = array_map(function($offer) { return $offer->getId(); }, $remainingOffers);
 		return new JsonResponse($ids);
 	}
@@ -164,10 +172,11 @@ class OfferController extends AbstractController {
 	/**
 	 * @Route(path="/decline/{id}", name="decline", methods={"POST"})
 	 */
-	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository) {
+	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository, NotificationService $notif) {
 		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
 		$offer->setOfferStatus($declined);
 		$em->flush();
+		$notif->notifyDeclinedOffer($offer->getAdvert()->getCreatedBy(), $offer->getCreatedBy());
 		return new JsonResponse("declined {$offer->getId()}");
 	}
 

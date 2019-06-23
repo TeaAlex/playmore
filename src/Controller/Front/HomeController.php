@@ -2,17 +2,13 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\User;
 use App\Repository\AdvertKindRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\PlatformRepository;
 use App\Services\MercureCookieGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mercure\Update;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
 * @Route(name="app_security_")

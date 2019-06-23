@@ -13,3 +13,4 @@ require('../css/app.scss');
 require('./geolocate.js');
 require('./toggle_filter.js');
 require('./toggle_notifs.js');
+require('./notification.js');
