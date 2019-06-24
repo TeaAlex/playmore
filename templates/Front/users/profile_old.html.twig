@@ -1,0 +1,257 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block content %}
+    <div class="w-full min-h-screen bg-grey-lightest">
+        <div class="w-78% m-auto flex justify-between text-grey-darkest pt-12">
+            <div class="h-full">
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mon {% endif %}Profil</h1>
+                    {% if app.user.id == user.id %}
+                    <a href="{{ path('message_show', {'id': app.user.id}) }}" class="btn btn-add">Messages</a>
+                    {% endif %}
+                    {% if app.user is defined and app.user.id != user.id %}
+                        <a href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : user.id}) }}" class="btn btn-secondary">Contacter</a>
+                    {% endif %}
+                </div>
+                <div class="bg-white flex flex-col shadow rounded relative mb-12 profile-card">
+                    {% if user.id == app.user.id %}
+                    <div class="profile-edit-btn bg-playmore-blue">
+                        <a href="{{ path('user_edit', {'slug' : user.slug}) }}">
+                            <i class="fas fa-edit text-white"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                    <div class="flex flex-grow">
+                        <div class="flex flex-col justify-center items-center px-2">
+                            <img src="{{ vich_uploader_asset(user, 'imgFile') }}" alt="" style="width: 55px; height: 55px;" class="rounded-full bg-grey">
+                            <div class="flex mt-2">
+                               {% if user.rating > 0 %}
+                                   {% for i in 1..user.rating %}
+                                       <i class="fas fa-star text-orange-light"></i>
+                                   {% endfor %}
+                                   {% for i in user.rating..4 %}
+                                       <i class="fas fa-star text-grey-light"></i>
+                                   {% endfor %}
+                               {%  else %}
+                                {% for i in user.rating..4 %}
+                                    <i class="fas fa-star text-grey-light"></i>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="px-2 flex flex-col justify-center" style="width: 56%">
+                            <p class="text-playmore-purple-500 font-bold">{{ user.username }}</p>
+                            {#<p class="text-sm pt-2">Pontault-Combault</p>#}
+                            <div class="flex pt-2 platform-icons-wrap">
+                            {% for platform in user.platforms %}
+                                {% include 'Partials/game_icon.html.twig' with {'name' : platform.name } %}
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-primary flex justify-around items-center text-white rounded-b" style="height: 52px;">
+                        <p class="w-1/3 text-center">{{ infos.cnt_games }} jeux</p>
+                        <p class="w-1/3 text-center">{{ infos.cnt_echange }} échanges</p>
+                        <p class="w-1/3 text-center">{{ infos.cnt_location }} locations</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Jeux</h1>
+                    {% if user.id == app.user.id %}
+                        <a class="btn btn-add" href="{{ path('user_game_add') }}">Ajouter</a>
+                    {% endif %}
+                </div>
+                {% for gamePlatform in user.gamePlatforms %}
+                    <div class="flex profile-game-card">
+                        <div class="w-1/3 flex justify-center items-center">
+                            <img src="{{ vich_uploader_asset(gamePlatform.game, 'imgFile') }}" alt="" width="50px" height="60px">
+                        </div>
+                        <div class="w-2/3 flex items-center">
+                            <div class="flex flex-col">
+                                <div class="pb-1 "><a class="font-bold" href="{{ path('user_game_edit', {'gamePlatform' : gamePlatform.id}) }}">{{ gamePlatform.game.name }}</a></div>
+                                <div class="pb-1 text-sm  font-semibold text-grey-darker">{{ gamePlatform.game.editor.name }}</div>
+                                <div class="pb-1 text-sm  font-semibold text-grey-dark">{{ gamePlatform.game.releaseDate | localizeddate('medium', 'none') }}</div>
+                                {% include 'Partials/game_icon.html.twig' with { 'name' : gamePlatform.platform.name } %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <br>
+                <div class="flex items-center">
+                    <h1 class="title-border">Derniers avis</h1>
+                    {% if user.id != app.user.id %}
+                        <button id="create_comment" class="btn btn-add ml-4">Ajouter</button>
+                    {% endif %}
+                </div>
+                <div class="bg-white flex flex-col shadow rounded relative mb-5 pt-5" style="width:360px;">
+                 {% if commentaires is empty %}
+                    <div class="flex flex-grow mb-5">
+                        <p class="text-darker font-semibold text-xl pl-5">Pas encore d'avis ! Laisse ton commentaire :)</p>
+                    </div>
+                 {% else %}
+                     <div id="showless">
+                        {% for comment in commentaires|slice(0, 2) %}
+
+                            <div class="comment-card flex flex-grow mb-5">
+                                {% if comment.createdBy.getId() == app.user.id %}
+                                <div class="bg-yellow-dark profile-edit-btn">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="yo">
+                                        <a href="{{ path('user_edit_comment', {'id' : comment.id}) }}" class="fas fa-pencil-alt text-white cursor-pointer"></a>
+
+                                </div>
+                                {% endif %}
+                                <div class="flex flex-col justify-center items-center px-2" style="width: 150px;">
+                                    <img src="{{ vich_uploader_asset(comment.createdBy, 'imgFile') }}" alt="" style="width: 55px; height: 55px;" class="rounded-full bg-grey">
+
+                                </div>
+
+                                <div class="px-2 flex w-full flex-col justify-center" >
+                                    <div class="flex mb-2">
+                                        {% if comment.rating > 0 %}
+                                            {% if comment.rating != 5 %}
+                                                {% for i in 1..comment.rating %}
+                                                    <i class="fas fa-star text-orange-light"></i>
+                                                {% endfor %}
+                                                {% for i in comment.rating..4 %}
+                                                    <i class="fas fa-star text-grey-light"></i>
+                                                {% endfor %}
+                                            {%  else %}
+                                                {% for i in 1..comment.rating %}
+                                                    <i class="fas fa-star text-orange-light"></i>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {%  else %}
+                                            {% for i in comment.rating..4 %}
+                                                <i class="fas fa-star text-grey-light"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <p class="text-playmore-purple-500 font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>
+                                    <p class="text-sm pt-2">{{ comment.content }}</p>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                     </div>
+                     <div id="showmore">
+                         {% for comment in commentaires %}
+
+                             <div class="comment-card flex flex-grow mb-5">
+                                 {% if comment.createdBy.getId() == app.user.id %}
+                                     <div class="bg-yellow-dark profile-edit-btn">
+                                         <input type="hidden" name="_method" value="DELETE">
+                                         <input type="hidden" name="_token" value="yo">
+                                         <a href="{{ path('user_edit_comment', {'id' : comment.id}) }}" class="fas fa-pencil-alt text-white cursor-pointer"></a>
+
+                                     </div>
+                                 {% endif %}
+                                 <div class="flex flex-col justify-center items-center px-2" style="width: 150px;">
+                                     <img src="{{ vich_uploader_asset(comment.createdBy, 'imgFile') }}" alt="" style="width: 55px; height: 55px;" class="rounded-full bg-grey">
+
+                                 </div>
+
+                                 <div class="px-2 flex w-full flex-col justify-center" >
+                                     <div class="flex mb-2">
+                                         {% if comment.rating > 0 %}
+                                             {% if comment.rating != 5 %}
+                                                 {% for i in 1..comment.rating %}
+                                                     <i class="fas fa-star text-orange-light"></i>
+                                                 {% endfor %}
+                                                 {% for i in comment.rating..4 %}
+                                                     <i class="fas fa-star text-grey-light"></i>
+                                                 {% endfor %}
+                                             {%  else %}
+                                                 {% for i in 1..comment.rating %}
+                                                     <i class="fas fa-star text-orange-light"></i>
+                                                 {% endfor %}
+                                             {% endif %}
+                                         {%  else %}
+                                             {% for i in comment.rating..4 %}
+                                                 <i class="fas fa-star text-grey-light"></i>
+                                             {% endfor %}
+                                         {% endif %}
+                                     </div>
+                                     <p class="text-playmore-purple-500 font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>
+                                     <p class="text-sm pt-2">{{ comment.content }}</p>
+                                 </div>
+
+                             </div>
+                         {% endfor %}
+                     </div>
+                     <button id="voir_plus" class="show_coms">Voir plus</button>
+                     <button id="voir_moins" class="show_coms">Voir moins</button>
+                 {% endif %}
+    {% if user.id != app.user.id %}
+        <div id="comments" >
+            <div>
+                {{ form_start(form, {'action':path('user_comment'),'method':'POST'}) }}
+
+                <div class="flex w-full">
+                    <div class="w-full p-8">
+                        <div class="flex flex-col mb-6">
+                            <label for="comment_rating" class="label">Votre note</label>
+                            <select id="comment_rating" name="_rating" required="required">
+                                <option value="" selected="selected"></option>
+                                <option value="1">1 étoile</option>
+                                <option value="2">2 étoile</option>
+                                <option value="3">3 étoile</option>
+                                <option value="4">4 étoile</option>
+                                <option value="5">5 étoile</option>
+                            </select>
+                        </div>
+                        {{ form_row(form.content) }}
+
+                        {{ form_rest(form) }}
+                    </div>
+                </div>
+                <input type="hidden" value="{{ user.id }}" name="destinataire"/>
+
+
+
+            </div>
+            <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
+                <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
+                <button id="annuler" class="btn btn-delete mr-2">{{ button_label|default('Annuler') }}</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    {% endif %}
+
+
+            </div>
+            </div>
+            <div class="h-full w-70%">
+                <div class="flex items-center">
+                    <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Annonces</h1>
+                    {% if adverts is not empty and app.user.id is same as (user.id) %}
+                        <a href="{{ path('advert_new') }}" class="btn btn-add">Ajouter</a>
+                    {% endif %}
+                </div>
+                <div class="flex flex-wrap justify-between">
+                {% if adverts is empty and app.user.id is same as (user.id) %}
+                    <p class="text-darker font-semibold text-xl">Tu n'as pas encore d'annonces, afin de commencer à en créer rend toi
+                        <a href="{{ path('advert_new') }}" class="text-playmore-purple-500 font-bold">ici</a></p>
+                {% elseif adverts is not empty%}
+                    {% include 'Front/adverts/_advert.html.twig' with { 'adverts': adverts }%}
+                {% else %}
+                    <p class="text-darker font-semibold text-xl">Cet utilisateur n'a publié aucune annonce. :(</p>
+                {% endif %}
+                </div>
+                <h1 class="title-border mr-4">{% if app.user.id is same as (user.id) %}Mes {% endif %}Offres</h1>
+                <div class="flex flex-wrap">
+                    {% for offer in offers %}
+                        {{ include('Front/offer/_offer.html.twig') }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('advert_offer') }}
+    {{ encore_entry_script_tags('comment') }}
+    {{ encore_entry_script_tags('advert') }}
+{% endblock %}

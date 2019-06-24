@@ -52,8 +52,38 @@ class UserController extends AbstractController {
         return new JsonResponse($user->getAddress(), 200);
     }
 
+//	/**
+//	 * @Route(path="/{slug}", name="profile")
+//	 * @param User $user
+//	 * @param AdvertRepository $advertRepository
+//	 * @param UserRepository $userRepository
+//	 *
+//	 * @param CommentRepository $commentRepository
+//	 * @param OfferRepository $offerRepository
+//	 *
+//	 * @return Response
+//	 */
+//	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
+//		$adverts = $advertRepository->all($user->getId(), $user->getLat(), $user->getLon());
+//		$infos = $userRepository->findInfosByUser($user->getId());
+//		$offers = $offerRepository->findUserOffers($user->getId());
+//		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
+//		$commentaire = new Comment();
+//		$form = $this->createForm(CommentType::class, $commentaire);
+//
+//		return $this->render('Front/users/profile.html.twig', [
+//			'user' => $user,
+//			'adverts' => $adverts,
+//			'infos' => $infos,
+//			'offers' => $offers,
+//            'form' => $form->createView(),
+//            'commentaires' => $commentaires
+//		]);
+//	}
+
+
 	/**
-	 * @Route(path="/{slug}", name="profile")
+	 * @Route(path="/profile/{slug}/{page}", name="profile")
 	 * @param User $user
 	 * @param AdvertRepository $advertRepository
 	 * @param UserRepository $userRepository
@@ -63,37 +93,7 @@ class UserController extends AbstractController {
 	 *
 	 * @return Response
 	 */
-	public function profile(User $user, AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
-		$adverts = $advertRepository->all($user->getId(), $user->getLat(), $user->getLon());
-		$infos = $userRepository->findInfosByUser($user->getId());
-		$offers = $offerRepository->findUserOffers($user->getId());
-		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
-		$commentaire = new Comment();
-		$form = $this->createForm(CommentType::class, $commentaire);
-
-		return $this->render('Front/users/profile.html.twig', [
-			'user' => $user,
-			'adverts' => $adverts,
-			'infos' => $infos,
-			'offers' => $offers,
-            'form' => $form->createView(),
-            'commentaires' => $commentaires
-		]);
-	}
-
-
-	/**
-	 * @Route(path="/profile/{slug}/{page}", name="profile_2")
-	 * @param User $user
-	 * @param AdvertRepository $advertRepository
-	 * @param UserRepository $userRepository
-	 *
-	 * @param CommentRepository $commentRepository
-	 * @param OfferRepository $offerRepository
-	 *
-	 * @return Response
-	 */
-	public function profile2(User $user, $page = 'game', AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
+	public function profile(User $user, $page = 'game', AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
 
 	    switch ($page) {
             case 'game':
@@ -112,7 +112,7 @@ class UserController extends AbstractController {
 		$commentaire = new Comment();
 		$form = $this->createForm(CommentType::class, $commentaire);
 
-		return $this->render('Front/users/profile2.html.twig', [
+		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
 			'adverts' => $adverts ?? [],
 			'infos' => $infos,
