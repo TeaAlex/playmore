@@ -105,10 +105,12 @@ class UserController extends AbstractController {
             case 'offer':
                 $offers = $offerRepository->getByUser($user->getId());
                 break;
+            case 'comment':
+                $commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
+                break;
         }
 
 		$infos = $userRepository->findInfosByUser($user->getId());
-		$commentaires = $commentRepository->findBy(['createdTo' => $user->getId()]);
 		$commentaire = new Comment();
 		$form = $this->createForm(CommentType::class, $commentaire);
 
@@ -118,7 +120,7 @@ class UserController extends AbstractController {
 			'infos' => $infos,
 			'offers' => $offers ?? [],
             'form' => $form->createView(),
-            'commentaires' => $commentaires,
+            'commentaires' => $commentaires ?? [],
             'platforms' => $platforms ?? [],
             'page' => $page
 		]);

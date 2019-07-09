@@ -159,9 +159,12 @@ class OfferController extends AbstractController {
 			$remainingOffer->setOfferStatus($declined);
 		}
 		if($advert->getAdvertKind()->getName() === 'Location'){
-		    $u = $offer->getCreatedBy();
-		    $u->setCoins($u->getCoins() - $offer->getPrice());
-		    $em->persist($u);
+		    $from = $offer->getCreatedBy();
+		    $from->setCoins($from->getCoins() - $offer->getPrice());
+		    $to = $advert->getCreatedBy();
+		    $to->setCoins($to->getCoins() + $offer->getPrice());
+		    $em->persist($from);
+		    $em->persist($to);
         }
 		$em->flush();
 		$notif->notifyAdvert($advert->getCreatedBy(), $offer->getCreatedBy(), $advert->getId(), "accepted_offer");

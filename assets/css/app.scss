@@ -645,6 +645,8 @@ input[type=checkbox]:checked + label {
 
 .notif-icon {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .notif-number {
