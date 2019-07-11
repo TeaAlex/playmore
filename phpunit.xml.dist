@@ -22,6 +22,8 @@
         <!-- ###+ symfony/mercure-bundle ### -->
         <env name="MERCURE_PUBLISH_URL" value="https://demo.mercure.rocks/hub"/>
         <env name="MERCURE_JWT_SECRET" value="#see https://mercure.rocks"/>
+        <server name="KERNEL_CLASS" value="App\Kernel" />
+
         <!-- ###- symfony/mercure-bundle ### -->
 
         <!-- ###+ symfony/messenger ### -->

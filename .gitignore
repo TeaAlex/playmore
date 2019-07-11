@@ -29,7 +29,6 @@ yarn-error.log
 /public/images/user
 /public/images/developper
 /public/images/editor
-/tests
 /src/Util
 ###> liip/imagine-bundle ###
 /public/media/cache/
