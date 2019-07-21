@@ -34,3 +34,7 @@ yarn-error.log
 /public/media/cache/
 ###< liip/imagine-bundle ###
 /assets/js/algolia_keys.js
+
+/tests/NightWatch/screens
+/tests_output
+chromedriver.log

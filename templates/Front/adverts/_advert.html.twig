@@ -11,10 +11,10 @@
                 <img style="{{ imgStyle }}" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                 <div class="flex flex-col justify-center ml-3">
                     <p class="font-bold text-playmore-text pb-1">{{ advert.game_owned_name }}</p>
-                    <p class="text-playmore-purple-400" style="color: {{ advert.color }}">{{ advert.game_owned_platform }}</p>
+                    <p class="text-playmore-purple-400 platform" style="color: {{ advert.color }}">{{ advert.game_owned_platform }}</p>
                 </div>
             </div>
-            <a href="{{ path('advert_show', {'id': advert.advert_id}) }}">
+            <a href="{{ path('advert_show', {'id': advert.advert_id}) }}" class="show-link">
                 <svg style="fill: #484757" xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="external-link"><rect width="24" height="24" opacity="0"/><path d="M20 11a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1z"/><path d="M16 5h1.58l-6.29 6.28a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0L19 6.42V8a1 1 0 0 0 1 1 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-4a1 1 0 0 0 0 2z"/></g></g></svg>
             </a>
         </div>
