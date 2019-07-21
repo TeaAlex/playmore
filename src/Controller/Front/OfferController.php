@@ -12,6 +12,7 @@ use App\Repository\OfferStatusRepository;
 use App\Security\OfferVoter;
 use App\Services\MailServices;
 use App\Services\NotificationService;
+use App\Services\OfferService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -144,25 +145,21 @@ class OfferController extends AbstractController {
 	 */
 	public function acceptOffer(Offer $offer, EntityManagerInterface $em, OfferRepository $offerRepository,
 								OfferStatusRepository $offerStatusRepository, AdvertStatusRepository $advertStatusRepository,
-                                NotificationService $notif
+                                NotificationService $notif, OfferService $offerService
     )
 	{
-		$accepted = $offerStatusRepository->findOneBy(['name' => 'Accepté']);
-		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
-		$closed = $advertStatusRepository->findOneBy(['name' => 'Fermé']);
-		$offer->setOfferStatus($accepted);
 		$advert = $offer->getAdvert();
-		$advert->setAdvertStatus($closed);
+		$offerService->acceptOffer($offer);
+		$offerService->closeAdvert($advert);
 		/** @var $remainingOffers Offer[] **/
 		$remainingOffers = $offerRepository->exludeByAdvert($offer->getId(), $offer->getAdvert()->getId());
 		foreach ($remainingOffers as $remainingOffer) {
-			$remainingOffer->setOfferStatus($declined);
+		    $offerService->declineOffer($offer);
 		}
 		if($advert->getAdvertKind()->getName() === 'Location'){
 		    $from = $offer->getCreatedBy();
-		    $from->setCoins($from->getCoins() - $offer->getPrice());
 		    $to = $advert->getCreatedBy();
-		    $to->setCoins($to->getCoins() + $offer->getPrice());
+		    $offerService->transaction($from, $to, $offer);
 		    $em->persist($from);
 		    $em->persist($to);
         }
@@ -175,9 +172,14 @@ class OfferController extends AbstractController {
 	/**
 	 * @Route(path="/decline/{id}", name="decline", methods={"POST"})
 	 */
-	public function declineOffer(Offer $offer, EntityManagerInterface $em, OfferStatusRepository $offerStatusRepository, NotificationService $notif) {
-		$declined = $offerStatusRepository->findOneBy(['name' => 'Refusé']);
-		$offer->setOfferStatus($declined);
+	public function declineOffer(
+	        Offer $offer,
+            EntityManagerInterface $em,
+            OfferStatusRepository $offerStatusRepository,
+            NotificationService $notif,
+            OfferService $offerService
+    ) {
+	    $offerService->declineOffer($offer);
 		$em->flush();
 		$notif->notifyAdvert($offer->getAdvert()->getCreatedBy(), $offer->getCreatedBy(), $offer->getAdvert()->getId(), "declined_offer");
 		return new JsonResponse("declined {$offer->getId()}");
