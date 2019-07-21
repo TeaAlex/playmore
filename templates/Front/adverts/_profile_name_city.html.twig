@@ -4,7 +4,7 @@
             <img class="rounded-full border-playmore-purple-500" src="{{ asset('/images/user/' ~ img_name) }}" alt="" style="width: 45px; height: 45px;">
         {% else %}
             <p class="rounded-full mx-1 bg-grey h-8 w-8 flex justify-center items-center font-bold">
-                {{ app.user.username|first }}
+                {{ username|first }}
             </p>
         {% endif %}
         <div class="flex flex-col ml-3">
