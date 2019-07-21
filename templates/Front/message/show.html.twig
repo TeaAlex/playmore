@@ -8,7 +8,7 @@
                 <div class="flex items-center flex items-center my-3 p-3 rounded
                     {% if user_to is defined and user_to == user.id %}bg-grey-lighter{% endif %}
                 ">
-                    <img src="{{ asset('images/user/' ~  user.img_name  ) }}" alt="{{ user.username }}" class="rounded-full message-user-icon">
+                    <img src="{{ asset('images/user/' ~  user.img_name  ) }}" alt="{{ user.username }}" class="rounded-full mr-2     message-user-icon">
                     <a href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : user.id}) }}">{{ user.username }}</a>
                 </div>
             {% endfor %}
@@ -24,7 +24,7 @@
                     {% for message in messages %}
                         <div class="py-4">
                             <div class="flex items-center">
-                                <img src="{{ asset('images/user/' ~  message.user_from_img  ) }}" alt="{{ message.user_from_username }}" class="rounded-full message-user-icon">
+                                <img src="{{ asset('images/user/' ~  message.user_from_img  ) }}" alt="{{ message.user_from_username }}" class="rounded-full mr-2 message-user-icon">
                                 <a href="" class="font-semibold text-playmore-blue-darkest">{{ message.user_from_username }}</a>
                                 <span class="text-xs ml-2 text-grey-dark"> le {{ message.created_at | date('d/m/Y h:i') }}</span>
                             </div>

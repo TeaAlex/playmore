@@ -175,4 +175,24 @@ SQL;
             ->getResult();
     }
 
+    public function findOfferBetweenUsers($user1, $user2)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $sql = <<<SQL
+            SELECT o.id
+            FROM offer o
+            JOIN advert a on o.advert_id = a.id
+            WHERE ((o.created_by_id = :user1 OR o.created_by_id = :user2)
+                OR (a.created_by_id = :user1 OR a.created_by_id = :user2))
+                AND o.offer_status_id = 2
+
+SQL;
+        return $this->getEntityManager()
+                    ->createNativeQuery($sql, $rsm)
+                    ->setParameters(["user1" => $user1, "user2" => $user2])
+                    ->getResult();
+    }
+
+
 }

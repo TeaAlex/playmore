@@ -93,7 +93,11 @@ class UserController extends AbstractController {
 	 *
 	 * @return Response
 	 */
-	public function profile(User $user, $page = 'game', AdvertRepository $advertRepository, UserRepository $userRepository, CommentRepository $commentRepository, OfferRepository $offerRepository): Response {
+	public function profile(User $user, $page = 'game',
+                            AdvertRepository $advertRepository,
+                            UserRepository $userRepository,
+                            CommentRepository $commentRepository,
+                            OfferRepository $offerRepository): Response {
 
 	    switch ($page) {
             case 'game':
@@ -113,6 +117,7 @@ class UserController extends AbstractController {
 		$infos = $userRepository->findInfosByUser($user->getId());
 		$commentaire = new Comment();
 		$form = $this->createForm(CommentType::class, $commentaire);
+		$canComment = $offerRepository->findOfferBetweenUsers($this->getUser()->getId(), $user->getId());
 
 		return $this->render('Front/users/profile.html.twig', [
 			'user' => $user,
@@ -122,7 +127,8 @@ class UserController extends AbstractController {
             'form' => $form->createView(),
             'commentaires' => $commentaires ?? [],
             'platforms' => $platforms ?? [],
-            'page' => $page
+            'page' => $page,
+            'canComment' => $canComment
 		]);
 	}
 

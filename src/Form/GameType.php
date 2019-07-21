@@ -42,6 +42,7 @@ class GameType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
 	            "label" => "Description",
+                "required" => false,
             ])
             ->add('platforms', EntityType::class, [
             	"label" => "Plateforme(s)",

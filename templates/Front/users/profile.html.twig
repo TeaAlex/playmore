@@ -10,7 +10,9 @@
             <div class="flex flex-col text-playmore-text font-bold text-xl mt-10 uppercase tracking-wide">
                 <a class="mb-6" href="{{ path('user_profile', {'slug': user.slug, 'page': 'game'}) }}">Jeux</a>
                 <a class="mb-6" href="{{ path('user_profile', {'slug': user.slug, 'page': 'advert'}) }}">Annonces</a>
+                {% if app.user is not null and app.user.id == user.id %}
                 <a class="mb-6" href="{{ path('user_profile', {'slug': user.slug, 'page': 'offer'}) }}">Offres</a>
+                {% endif %}
                 <a class="mb-6" href="{{ path('user_profile', {'slug': user.slug, 'page': 'comment'}) }}">Avis</a>
             </div>
         </aside>
@@ -24,9 +26,9 @@
                 {% for platform, games in platforms %}
                     <div class="mt-10">
                         <p class="text-2xl font-semibold text-playmore-text mb-4">{{ platform }}</p>
-                        <div class="flex">
+                        <div class="flex flex-wrap">
                         {% for game in games %}
-                            <div class="bg-white rounded flex items-center shadow-md mr-6" style="min-width: 414px">
+                            <div class="bg-white rounded flex items-center shadow-md mr-6 mb-6" style="min-width: 414px">
                                 {% set imgStyle = "width: 130px; height: 167px;" %}
                                 {% if platform in ["GAMEBOY", "GBA"] %}
                                     {% set imgStyle = "width: 178px; height: 167px;" %}
@@ -53,7 +55,7 @@
                     {% include 'Front/adverts/_advert.html.twig' with {'adverts': adverts} %}
                 </div>
             {% endif %}
-            {% if page == 'offer' %}
+            {% if page == 'offer' and app.user is not null and app.user.id == user.id %}
                 <h1 class="text-playmore-purple-500 mb-10">Offres</h1>
                 <div class="flex flex-wrap">
                     <table>
@@ -103,9 +105,6 @@
             <div>
                 <div class="flex items-center">
                     <h1 class="title-border">Derniers avis</h1>
-                    {% if user.id != app.user.id %}
-                        <button id="create_comment" class="btn btn-add ml-4">Ajouter</button>
-                    {% endif %}
                 </div>
                 <div class="bg-white flex flex-col shadow rounded relative mb-5 pt-5" style="width:360px;">
                     {% if commentaires is empty %}
@@ -154,86 +153,43 @@
                                 </div>
                             {% endfor %}
                         </div>
-{#                        <div id="showmore">#}
-{#                            {% for comment in commentaires %}#}
-{#                                <div class="comment-card flex flex-grow mb-5">#}
-{#                                    {% if comment.createdBy.getId() == app.user.id %}#}
-{#                                        <div class="bg-yellow-dark profile-edit-btn">#}
-{#                                            <input type="hidden" name="_method" value="DELETE">#}
-{#                                            <input type="hidden" name="_token" value="yo">#}
-{#                                            <a href="{{ path('user_edit_comment', {'id' : comment.id}) }}" class="fas fa-pencil-alt text-white cursor-pointer"></a>#}
-{#                                        </div>#}
-{#                                    {% endif %}#}
-{#                                    <div class="flex flex-col justify-center items-center px-2" style="width: 150px;">#}
-{#                                        <img src="{{ vich_uploader_asset(comment.createdBy, 'imgFile') }}" alt="" style="width: 55px; height: 55px;" class="rounded-full bg-grey">#}
-{#                                    </div>#}
-
-{#                                    <div class="px-2 flex w-full flex-col justify-center" >#}
-{#                                        <div class="flex mb-2">#}
-{#                                            {% if comment.rating > 0 %}#}
-{#                                                {% if comment.rating != 5 %}#}
-{#                                                    {% for i in 1..comment.rating %}#}
-{#                                                        <i class="fas fa-star text-orange-light"></i>#}
-{#                                                    {% endfor %}#}
-{#                                                    {% for i in comment.rating..4 %}#}
-{#                                                        <i class="fas fa-star text-grey-light"></i>#}
-{#                                                    {% endfor %}#}
-{#                                                {%  else %}#}
-{#                                                    {% for i in 1..comment.rating %}#}
-{#                                                        <i class="fas fa-star text-orange-light"></i>#}
-{#                                                    {% endfor %}#}
-{#                                                {% endif %}#}
-{#                                            {%  else %}#}
-{#                                                {% for i in comment.rating..4 %}#}
-{#                                                    <i class="fas fa-star text-grey-light"></i>#}
-{#                                                {% endfor %}#}
-{#                                            {% endif %}#}
-{#                                        </div>#}
-{#                                        <p class="text-playmore-purple-500 font-bold"> Le {{ comment.createdAt|date('d/m/Y') }} par {{ comment.createdBy.getUsername() }}</p>#}
-{#                                        <p class="text-sm pt-2">{{ comment.content }}</p>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            {% endfor %}#}
-{#                        </div>#}
-{#                        <button id="voir_plus" class="show_coms">Voir plus</button>#}
-{#                        <button id="voir_moins" class="show_coms">Voir moins</button>#}
-                    {% endif %}
-                    {% if user.id != app.user.id %}
-                        <div id="comments" >
-                            <div>
-                                {{ form_start(form, {'action':path('user_comment'),'method':'POST'}) }}
-
-                                <div class="flex w-full">
-                                    <div class="w-full p-8">
-                                        <div class="flex flex-col mb-6">
-                                            <label for="comment_rating" class="label">Votre note</label>
-                                            <select id="comment_rating" name="_rating" required="required">
-                                                <option value="" selected="selected"></option>
-                                                <option value="1">1 étoile</option>
-                                                <option value="2">2 étoile</option>
-                                                <option value="3">3 étoile</option>
-                                                <option value="4">4 étoile</option>
-                                                <option value="5">5 étoile</option>
-                                            </select>
-                                        </div>
-                                        {{ form_row(form.content) }}
-
-                                        {{ form_rest(form) }}
-                                    </div>
-                                </div>
-                                <input type="hidden" value="{{ user.id }}" name="destinataire"/>
-                            </div>
-                            <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
-                                <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
-                                <button id="annuler" class="btn btn-delete mr-2">{{ button_label|default('Annuler') }}</button>
-                            </div>
-
-                            {{ form_end(form) }}
-                        </div>
                     {% endif %}
             {% endif %}
             </div>
     </div>
+            {% if user.id != app.user.id %}
+                {% if canComment is empty %}
+                    <p>Vous devez d'abord effectuer une transaction avec cette personne afin de pouvoir commenter</p>
+                {% else %}
+                    <div id="comments" class="bg-white" style="width: 23rem;">
+                        <div>
+                            {{ form_start(form, {'action':path('user_comment'),'method':'POST'}) }}
+                            <div class="flex">
+                                <div class="p-8 w-full">
+                                    <div class="flex flex-col mb-6">
+                                        <label for="comment_rating" class="label">Votre note</label>
+                                        <select id="comment_rating" name="_rating" required="required">
+                                            <option value="" selected="selected"></option>
+                                            <option value="1">1 étoile</option>
+                                            <option value="2">2 étoile</option>
+                                            <option value="3">3 étoile</option>
+                                            <option value="4">4 étoile</option>
+                                            <option value="5">5 étoile</option>
+                                        </select>
+                                    </div>
+                                    {{ form_row(form.content) }}
+                                </div>
+                            </div>
+                            <input type="hidden" value="{{ user.id }}" name="destinataire"/>
+                            <div class="bg-grey-lighter flex p-4 rounded-b justify-end">
+                                <button class="btn btn-edit mr-2">{{ button_label|default('Enregistrer') }}</button>
+                                <button id="annuler" class="btn btn-delete mr-2">{{ button_label|default('Annuler') }}</button>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
 {% endblock %}
 
 {% block javascripts %}
