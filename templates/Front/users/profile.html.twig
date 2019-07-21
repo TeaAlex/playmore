@@ -27,7 +27,11 @@
                         <div class="flex">
                         {% for game in games %}
                             <div class="bg-white rounded flex items-center shadow-md mr-6" style="min-width: 414px">
-                                <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  game.img_name  ) }}" alt="">
+                                {% set imgStyle = "width: 130px; height: 167px;" %}
+                                {% if platform in ["GAMEBOY", "GBA"] %}
+                                    {% set imgStyle = "width: 178px; height: 167px;" %}
+                                {% endif %}
+                                <img style="{{ imgStyle }}" src="{{ asset('images/games/' ~  game.img_name  ) }}" alt="">
                                 <div class="p-4" style="min-width: 284px">
                                     <p class="font-bold text-xl mb-2 text-playmore-text">{{ game.name }}</p>
                                     <p class="mb-2 text-playmore-purple-500 font-semibold">{{ game.developer }}</p>

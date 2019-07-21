@@ -73,6 +73,7 @@ class AdvertController extends AbstractController
             ]);
         }
 
+//        $adverts = $advertRepository->findAll();
     	$adverts = $advertRepository->all($userId ?? null, true, $lat ?? null, $lon ?? null );
         $adverts = $paginator->paginate($adverts, $request->query->get('page', 1), 4);
         $filters = [

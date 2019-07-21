@@ -1,29 +1,25 @@
 
 {% for advert in adverts %}
     <div class="bg-white p-5 shadow rounded flex flex-col justify-between mx-6 my-4" style="height: 250px; width: 568px">
-        {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code, 'distance': (advert.distance is defined ? advert.distance : null)   } %}
+        {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.createdBy.imgName, 'username': advert.createdBy.username, 'city': advert.createdBy.city, 'postal_code': advert.createdBy.postalCode, 'distance': null } %}
         <div class="flex justify-between items-center">
             <div class="flex">
-                {% set imgStyle = "width: 65px; height: 82px;" %}
-                {% if advert.game_owned_platform in ["GAMEBOY", "GBA"] %}
-                    {% set imgStyle = "width: 82px; height: 82px;" %}
-                {% endif %}
-                <img style="{{ imgStyle }}" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
+                <img style="width: 65px; height: 82px;" src="{{ asset('images/games/' ~  advert.gameOwned.game.imgName  ) }}" alt="">
                 <div class="flex flex-col justify-center ml-3">
-                    <p class="font-bold text-playmore-text pb-1">{{ advert.game_owned_name }}</p>
-                    <p class="text-playmore-purple-400" style="color: {{ advert.color }}">{{ advert.game_owned_platform }}</p>
+                    <p class="font-bold text-playmore-text pb-1">{{ advert.gameOwned.game.name }}</p>
+                    <p class="text-playmore-purple-400" style="color: {{ advert.gameOwned.platform.color }}">{{ advert.gameOwned.platform.name }}</p>
                 </div>
             </div>
-            <a href="{{ path('advert_show', {'id': advert.advert_id}) }}">
+            <a href="{{ path('advert_show', {'id': advert.id}) }}">
                 <svg style="fill: #484757" xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="external-link"><rect width="24" height="24" opacity="0"/><path d="M20 11a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1z"/><path d="M16 5h1.58l-6.29 6.28a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0L19 6.42V8a1 1 0 0 0 1 1 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-4a1 1 0 0 0 0 2z"/></g></g></svg>
             </a>
         </div>
         <div class="flex justify-between text-playmore-purple-500">
             <div class="flex items-center">
                 <svg style="fill: currentColor" xmlns="http://www.w3.org/2000/svg" height="25px" width="25px" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="clock"><rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M16 11h-3V8a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1h4a1 1 0 0 0 0-2z"/></g></g></svg>
-                <p class="ml-2 created_at" datetime="{{ advert.created_at }}"></p>
+                <p class="ml-2 created_at" datetime="{{ advert.createdAt|date("m/d/Y") }}"></p>
             </div>
-            <p class="flex font-bold font-bold items-center px-4 py-2 rounded-full text-white bg-playmore-purple-500">{{ advert.advert_kind_name }}</p>
+            <p class="flex font-bold font-bold items-center px-4 py-2 rounded-full text-white bg-playmore-purple-500">{{ advert.advertKind.name }}</p>
         </div>
     </div>
 {% endfor %}

@@ -8,11 +8,10 @@ class AdvertControllerTest extends WebTestCase {
 
     private function login($isAdmin = true)
     {
-        if($isAdmin === true){
-            $username = 'playmore@playmore.com';
-        } else {
+        if(!$isAdmin){
             $username = 'toto@toto.com';
         }
+        $username = 'playmore@playmore.com';
 //        $client = static::createPantherClient()
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');

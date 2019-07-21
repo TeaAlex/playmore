@@ -44,9 +44,6 @@
         </div>
     </div>
     <div class="min-h-screen mx-auto my-16" style="width: 700px">
-{#        <form action="{{ path('app_security_ping', {'user': advert.user_id}) }}" method="post">#}
-{#            <button class="">PING {{ advert.user_id }}</button>#}
-{#        </form>#}
         <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
             <div class="flex">
@@ -78,7 +75,11 @@
             <div class="p-5 bg-white rounded">
                 <p class="font-bold text-playmore-purple-500 mb-3 tracking-wide uppercase">possède</p>
                 <div class="flex">
-                    <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
+                    {% set imgStyle = "width: 130px; height: 167px;" %}
+                    {% if advert.game_owned_platform in ["GAMEBOY", "GBA"] %}
+                        {% set imgStyle = "width: 150px; height: 150px;" %}
+                    {% endif %}
+                    <img style="{{ imgStyle }}" src="{{ asset('images/games/' ~  advert.game_owned_img_name  ) }}" alt="">
                     <div class="flex flex-col justify-center ml-6">
                         <p class="font-bold text-2xl text-playmore-text pb-1">{{ advert.game_owned_name }}</p>
                         <p class="text-xl" style="color: {{ advert.game_owned_plat_color }}">{{ advert.game_owned_platform }}</p>
@@ -92,7 +93,11 @@
             <div class="mt-3 p-5 bg-white rounded">
                 <p class="font-bold text-playmore-purple-500 mb-3 tracking-wide uppercase">recherche</p>
                 <div class="flex">
-                    <img style="width: 130px; height: 167px;" src="{{ asset('images/games/' ~  advert.game_wanted_img_name  ) }}" alt="">
+                    {% set imgStyle = "width: 130px; height: 167px;" %}
+                    {% if advert.game_owned_platform in ["GAMEBOY", "GBA"] %}
+                        {% set imgStyle = "width: 150px; height: 150px;" %}
+                    {% endif %}
+                    <img style="{{ imgStyle }}" src="{{ asset('images/games/' ~  advert.game_wanted_img_name  ) }}" alt="">
                     <div class="flex flex-col justify-center ml-6">
                         <p class="font-bold text-2xl text-playmore-text pb-1">{{ advert.game_wanted_name }}</p>
                         <p class="text-xl" style="color: {{ advert.game_wanted_plat_color }}">{{ advert.game_wanted_platform }}</p>
@@ -105,7 +110,7 @@
         {% if advert.description is defined and advert.description is not null %}
         <div class="mt-10">
             <h1 class="text-playmore-text mb-4">Description</h1>
-            <div class="w-full h-210px bg-white rounded p-5 text-playmore-text">
+            <div class="w-full h-210px bg-white rounded p-5 text-playmore-text leading-normal">
                 {{ advert.description }}
             </div>
         </div>

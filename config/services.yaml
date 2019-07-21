@@ -38,6 +38,10 @@ services:
         public: false
         tags: ['console.command']
 
+    App\Command\FetchGameCommand:
+        public: false
+        tags: ['console.command']
+
     App\Services\MercureCookieGenerator:
         arguments:
             $secret: '%env(MERCURE_JWT_KEY)%'

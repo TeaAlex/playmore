@@ -1,6 +1,5 @@
 import places from 'places.js';
-import { appId } from './algolia_keys';
-import { apiKey } from './algolia_keys';
+import { appId, apiKey } from './algolia_keys';
 
 const fixedOptions = {
   appId,

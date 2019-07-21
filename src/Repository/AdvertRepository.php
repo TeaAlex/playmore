@@ -60,7 +60,7 @@ class AdvertRepository extends ServiceEntityRepository
     		$params = ["userId" => $userId];
 	    }
 
-		if($userId){
+		if($userId && $lat && $lon){
 		    $rsm->addScalarResult('distance', 'distance');
             $select .= ", (6378 * acos(cos(radians({$lat})) * cos(radians(u.lat)) * cos(radians(u.lon) - radians({$lon})) + sin(radians({$lat})) * sin(radians(u.lat)))) as distance";
         }

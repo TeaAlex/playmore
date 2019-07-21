@@ -6,7 +6,9 @@ use App\Form\ResetType;
 use App\Form\ForgotType;
 use App\Entity\User;
 use App\Services\MailServices;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,18 +36,18 @@ class SecurityController extends AbstractController
     }
     /**
      * @Route("/logout", name="logout")
-     * @throws \Exception
+     * @throws Exception
      */
     public function logout(): void
     {
-        throw new \Exception('This should never be reached!');
+        throw new Exception('This should never be reached!');
     }
     /**
      * @Route("/register", name="registration")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailServices $mailservices)
     {
@@ -60,7 +62,6 @@ class SecurityController extends AbstractController
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
             $user->setRoles(['ROLE_USER']);
-            $user->setImgName('default.svg');
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -80,7 +81,7 @@ class SecurityController extends AbstractController
      * @Route("/reset", name="reset")
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailServices $mailservices): Response
     {
@@ -122,7 +123,7 @@ class SecurityController extends AbstractController
      * @Route("/forgot", name="forgot")
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function forgot(Request $request, MailServices $mailservices, TokenGeneratorInterface $tokenGenerator): Response
     {
