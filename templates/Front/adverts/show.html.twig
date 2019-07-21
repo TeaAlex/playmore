@@ -47,18 +47,24 @@
         <div class="bg-white flex items-center justify-between mb-8 p-6 rounded">
             {% include 'Front/adverts/_profile_name_city.html.twig' with { 'img_name': advert.user_img_name, 'username': advert.username, 'city': advert.city, 'postal_code': advert.postal_code } %}
             <div class="flex">
-                {% if app.user is defined and app.user.id == advert.user_id %}
-                    <button class="bg-playmore-purple-500 font-bold p-3 rounded text-white" id="offer-btn" data-offer-id="{{ advert.advert_id }}">Offres ({{ cnt_offers }})</button>
-                    <a href="{{ path('advert_edit', {'id' : advert.advert_id}) }}" class="bg-playmore-blue font-bold p-3 rounded text-white ml-3">Editer</a>
-                    {{ include('Front/adverts/_delete_form.html.twig') }}
-                {% elseif can_offer is not empty %}
-                    <a href="">Voir mon offre</a>
-                {% else %}
-                    <button class="bg-playmore-blue font-bold p-3 rounded text-white offer-btn" data-advert-id="{{ advert.advert_id }}" >Faire une offre</button>
-                    <a class="bg-playmore-purple-400 font-bold p-3 rounded text-white ml-3"
-                        href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : advert.user_id}) }}">
-                        Contacter
-                    </a>
+                {% if app.user is not null %}
+                    {% if app.user.id == advert.user_id %}
+                        <button class="bg-playmore-purple-500 font-bold p-3 rounded text-white" id="offer-btn" data-offer-id="{{ advert.advert_id }}">
+                            Offres ({{ cnt_offers }})
+                        </button>
+                        <a href="{{ path('advert_edit', {'id' : advert.advert_id}) }}" class="bg-playmore-blue font-bold p-3 rounded text-white ml-3">
+                            Editer
+                        </a>
+                        {{ include('Front/adverts/_delete_form.html.twig') }}
+                    {% elseif can_offer is not empty %}
+                        <a href="">Voir mon offre</a>
+                    {% else %}
+                        <button class="bg-playmore-blue font-bold p-3 rounded text-white offer-btn" data-advert-id="{{ advert.advert_id }}" >Faire une offre</button>
+                        <a class="bg-playmore-purple-400 font-bold p-3 rounded text-white ml-3"
+                            href="{{ path('message_conversation', {'user_from': app.user.id, 'user_to' : advert.user_id}) }}">
+                            Contacter
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
